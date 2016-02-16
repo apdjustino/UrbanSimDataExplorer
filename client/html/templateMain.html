@@ -1,0 +1,107 @@
+<template name="main">
+    <head lang="en">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="Justin Lewis" >
+        <title>UrbanSim Data Explorer</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <!-- Core CSS -->
+        <link href="css/map-styles.css" rel="stylesheet" type="text/css"/>
+
+        <!--[if lte IE 8]>
+    <link href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.ie.css" rel="stylesheet" type="text/css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome-ie7.min.css" rel="stylesheet">
+
+    <![endif]-->
+        <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.2.0/respond.js"></script>
+
+    <![endif]-->
+
+
+    </head>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand" id="logo"><img src="/images/drcoglogowhitenew.png" height="50px" width="111px" /></div>
+            <a class="navbar-brand" href="#">Urban Sim Data Explorer</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="#" data-toggle="modal" data-target="#aboutModal"><span class="glyphicon glyphicon-question-sign" style="color:white;"></span>&nbsp;&nbsp;About</a></li>
+                <li class="dropdown">
+                    <a id="toolsDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-globe" style="color:white;"></span>&nbsp;&nbsp;Tools <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="no-mobile" id="zoomToFullExtent"><a href="#"><span class="glyphicon glyphicon-fullscreen"></span>&nbsp;&nbsp;Zoom To Full Extent</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!--<form class="navbar-form navbar-right">-->
+            <!--<div class="input-group search-container">-->
+            <!--<input id="searchbox" type="text" class="form-control" placeholder="Search for facilities...">-->
+            <!--<span class="input-group-addon" id="search-button">-->
+            <!--<i class="icon-search"></i>-->
+            <!--</span>-->
+            <!--</div>-->
+            <!--</form>-->
+        </div><!--/.navbar-collapse -->
+    </div>
+
+    {{>yield}}
+    <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><i class="icon-chevron-left"></i></a>
+
+    <div class="modal fade" id="aboutModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Application Info and Metadata</h4>
+                </div>
+
+                <div class="modal-body">
+                    <ul id="aboutTabs" class="nav nav-tabs">
+                        <li class="active"><a href="#about" data-toggle="tab"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;About this map</a></li>
+                        <li><a href="#disclaimer" data-toggle="tab"><span class="glyphicon glyphicon-exclamation-sign"></span>&nbsp;Disclaimer</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-globe"></span>&nbsp;Metadata <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#placeholder-tab" data-toggle="tab">Placeholder for Metadata</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <div id="aboutTabsContent" class="tab-content" style="padding-top: 10px;">
+                        <div class="tab-pane fade active in" id="about">
+                            <p>
+                                TODO: Fill this with description
+                            </p>
+                        </div>
+                        <div class="tab-pane fade text-danger" id="disclaimer">
+                            <p>This data is intended for informational purposes only. DRCOG provides this information on an "as is" basis and makes no guarantee, representation or warranty, either express or implied, that the data will be error free. DRCOG further makes no guarantees, representations or warranties, either express or implied, as to the completeness, accuracy or correctness of the data, or as to merchantability or fitness of the data for a particular use or purpose. DRCOG is not responsible to any user for any costs, expenses, liabilities or damages arising from inconsistencies in its data or from any use of the information.</p>
+                            <p>The detailed disclaimer can be found <a href="http://drcog.org/index.cfm?page=Disclaimer" target="_blank">here.</a></p>
+
+                        </div>
+                        <div class="tab-pane fade" id="placeholder-tab">
+                            <ul>
+                                <li>Demographics data is not currently available for download.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+</template>
