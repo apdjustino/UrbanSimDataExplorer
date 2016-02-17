@@ -280,3 +280,9 @@ label{
 .church{
     fill:#E95D22;
 }
+
+.map-container {
+    position:relative;
+    height:875px;
+    width:900px;
+}
