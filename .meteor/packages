@@ -20,4 +20,4 @@ d3js:d3
 twbs:bootstrap
 iron:router
 fortawesome:fontawesome
-dburles:google-maps
+bevanhunt:leaflet

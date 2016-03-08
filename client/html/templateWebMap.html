@@ -1,4 +1,6 @@
 <template name="webMap">
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+
     <div class="col-sm-3 col-lg-3" id="sidebar" style="padding: 10px; overflow: auto;">
         <ul class="nav nav-tabs" id="myTab">
             <li class="active" id="zone-tab"><a href="#layers" data-toggle="tab"><i class="icon-check"></i>&nbsp;Zone</a></li>
@@ -101,7 +103,6 @@
     </div>
     <div class="col-sm-9 col-lg-9">
         <div class="map-container" id="mapContainer">
-            {{>googleMap name="testMap" options=testOptions}}
         </div>
     </div>
 </template>

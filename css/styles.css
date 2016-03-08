@@ -222,8 +222,16 @@ path.empty{
 
 path.zones:hover{
     stroke:black;
-    stroke-width: 1;
+    stroke-width: 2;
 }
+
+path.zones{
+    stroke:black;
+    stroke-width:0.5;
+    fill:rgba(0,0,0,0);
+
+}
+
 
 #map-controls{
     position:fixed;
