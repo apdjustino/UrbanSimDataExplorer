@@ -22,8 +22,22 @@ if(Meteor.isClient){
 
     });
 
-    Template.webMap.onRendered(function(){
-        GoogleMaps.load();
-    });
+    Template.webMap.rendered = function(){
+        var cdnUrl = [
+            'http://cesiumjs.org/releases/1.18/Build/CesiumUnminified/Cesium.js'
+        ];
 
+        cdnUrl.forEach(function(cv, index){
+            var script = document.createElement('script');
+            script.setAttribute('type', 'text/javascript');
+            script.setAttribute('src', cv);
+            document.getElementsByTagName('head')[0].appendChild(script);
+            script.onload = function(){
+                var viewer = new Cesium.Viewer('cesiumContainer');
+            }
+        });
+    }
 }
+
+
+

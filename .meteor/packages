@@ -21,3 +21,7 @@ twbs:bootstrap
 iron:router
 fortawesome:fontawesome
 dburles:google-maps
+meteorhacks:npm
+
+
+npm-container
