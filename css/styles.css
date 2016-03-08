@@ -232,6 +232,10 @@ path.zones{
 
 }
 
+.filled{
+    fill:yellow;
+}
+
 
 #map-controls{
     position:fixed;

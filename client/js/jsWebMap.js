@@ -9,12 +9,78 @@ if(Meteor.isClient){
         },
         years: function() {
             return [2015,2016,2017]
+        }, measures: function(){
+            return Session.get("selectedData");
+        }, formattedValue: function(val){
+            if(val != 'zone_id')
+            var format = d3.format("0,000");
+            return format(val);
         }
 
 
     });
 
+    Template.webMap.events({
+        "click .zones": function(event, template){
+
+            var zone_id = parseInt(event.target.id);
+            Session.set('selectedZone', zone_id);
+            var year = parseInt($('#yearSelect').val());
+            Meteor.subscribe('individual_zone', year, zone_id, {
+                onReady: function(){
+                    var data = zoneData.findOne({sim_year: year, zone_id:zone_id});
+                    var dataArr =[];
+
+                    for(var prop in data){
+                        if(prop !='_id' && prop !='sim_year'){
+                            if(data.hasOwnProperty(prop)){
+                                var obj = {};
+                                obj["measure"] = prop;
+                                obj["value"] = data[prop];
+                                dataArr.push(obj);
+                            }
+                        }
+
+                    }
+
+                    Session.set("selectedData", dataArr);
+                }
+            });
+
+
+
+        },"change #yearSelect": function(event, template){
+            var year = parseInt($(event.target).val());
+            var zone_id  = Session.get('selectedZone');
+            Meteor.subscribe('individual_zone', year, zone_id, {
+                onReady: function(){
+                    var data = zoneData.findOne({sim_year: year, zone_id:zone_id});
+                    var dataArr =[];
+
+                    for(var prop in data){
+                        if(prop !='_id' && prop !='sim_year'){
+                            if(data.hasOwnProperty(prop)){
+                                var obj = {};
+                                obj["measure"] = prop;
+                                obj["value"] = data[prop];
+                                dataArr.push(obj);
+                            }
+                        }
+
+                    }
+
+                    Session.set("selectedData", dataArr);
+                }
+            });
+
+
+
+        }
+    });
+
     Template.webMap.onRendered(function(){
+        Meteor.subscribe("zones_by_year", 2015);
+        Session.set('selectedYear', 2015);
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
         var map = L.map("mapContainer").setView([39.75, -104.95], 10);
@@ -66,7 +132,8 @@ if(Meteor.isClient){
                     .data(shape.features)
                     .enter()
                     .append("path")
-                    .attr("class", geo_class);
+                    .attr("class", geo_class)
+                    .attr("id", function(d){return d.properties['ZONE_ID'];});
                 var title = feature.append("svg:title")
                     .attr("class", "pathTitle")
                     .text(function(d){return label_string + d.properties[geo_property];});
