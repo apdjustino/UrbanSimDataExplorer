@@ -19,6 +19,10 @@ if(Meteor.isServer){
         return zoneData.find({sim_year:year, zone_id:zone_id});
     });
 
+    Meteor.publish("zones_by_year", function(year){
+        return zoneData.find({sim_year:year});
+    });
+
     Meteor.startup(function(){
         zoneData._ensureIndex({sim_year:1, zone_id:1});
     });

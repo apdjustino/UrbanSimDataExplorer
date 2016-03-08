@@ -72,14 +72,41 @@ if(Meteor.isClient){
                     Session.set("selectedData", dataArr);
                 }
             });
+        }, "click .linkMeasure": function(event, template){
+            event.preventDefault();
+            var year = parseInt($('#yearSelect').val());
+            var measure = event.target.id;
+            Meteor.subscribe("zones_by_year", year, {
+                onReady: function(){
+                    var field = $('#fieldSelect').val();
+                    var id_prop =  "zone_id";
+                    var geo_prop = "ZONE_ID";
+                    var fieldObj = {};
+                    fieldObj[measure] = 1;
+                    fieldObj['zone_id'] = 1;
+                    var data = zoneData.find({sim_year: year}, {fields:fieldObj}).fetch();
+                    var max = _.max(data, function(x){return x[measure]})[measure];
+                    var quantize = d3.scale.quantize()
+                        .domain([0,max])
+                        .range(d3.range(7).map(function(i){return "q" + i + "-7";}));
+                    var color = d3.scale.linear()
+                        .domain([0,max])
+                        .range(["#eff3ff", "#084594"]);
+
+                    var feature = d3.selectAll('.zones');
+                    feature.style('fill', function(d){
+                        var val = _.find(data, function(x){return x['zone_id'] == d.properties['ZONE_ID']})[measure];
+                        return color(val);
+                    })
 
 
-
+                }
+            });
         }
     });
 
     Template.webMap.onRendered(function(){
-        Meteor.subscribe("zones_by_year", 2015);
+
         Session.set('selectedYear', 2015);
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 

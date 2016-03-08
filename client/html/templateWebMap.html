@@ -39,7 +39,7 @@
                                             <tbody>
                                                 {{#each measures}}
                                                     <tr>
-                                                        <td>{{this.measure}}</td>
+                                                        <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{this.measure}}</a></td>
                                                         <td>{{formattedValue this.value}}</td>
                                                     </tr>
                                                 {{/each}}
