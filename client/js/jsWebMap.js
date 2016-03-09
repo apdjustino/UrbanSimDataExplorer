@@ -11,10 +11,79 @@ if(Meteor.isClient){
             return [2015,2016,2017]
         }, measures: function(){
             return Session.get("selectedData");
-        }, formattedValue: function(val){
-            if(val != 'zone_id')
-            var format = d3.format("0,000");
-            return format(val);
+        }, formattedValue: function(val, measure){
+            if(measure != 'zone_id'){
+                var format = d3.format("0,000");
+                return format(val);
+            }else{
+                return val;
+            }
+        }, measureNameMap: function(abv){
+            var measureNames = {
+                zone_id: "Zone ID",
+                hh_base: "Base Year Households",
+                pop_base:"Base Year Population",
+                median_income_base: "Base Year Median Income",
+                ru_base: "Base Year Residential Unit Count",
+                emp_base:"Base Year Employment(All)",
+                emp1_base: "Base Year Education Employment",
+                emp2_base: "Base Year Entertainment Employment",
+                emp3_base: "Base Year Production Employment",
+                emp4_base: "Base Year Restaurant Employment",
+                emp5_base: "Base Year Retail Employment",
+                emp6_base: "Base Year Services Employment",
+                nr_base: "Base Year Non-Res SqFt",
+                hh_sim: "Sim Year Households",
+                pop_sim: "Sim Year Population",
+                median_income_sim: "Sim Year Median Income",
+                ru_sim: "Sim Year Residential Unit Count",
+                emp_sim: "Sim Year Employment(All)",
+                emp1_sim: "Sim Year Education Employment",
+                emp2_sim: "Sim Year Entertainment Employment",
+                emp3_sim: "Sim Year Production Employment",
+                emp4_sim: "Sim Year Restaurant Employment",
+                emp5_sim: "Sim Year Retail Employment",
+                emp6_sim: "Sim Year Services Employment",
+                nr_sim: "Sim Year Non-Res SqFt",
+                hh_diff: "Diff Year Households",
+                pop_diff: "Diff Year Population",
+                median_income_diff: "Diff Year Median Income",
+                ru_diff: "Diff Year Residential Unit Count",
+                emp_diff: "Diff Year Employment(All)",
+                emp1_diff: "Diff Year Education Employment",
+                emp2_diff: "Diff Year Entertainment Employment",
+                emp3_diff: "Diff Year Production Employment",
+                emp4_diff: "Diff Year Restaurant Employment",
+                emp5_diff: "Diff Year Retail Employment",
+                emp6_diff: "Diff Year Services Employment",
+                nr_diff: "Diff Year Non-Res SqFt",
+                res_price_base: "Base Year Residential Price",
+                non_res_price_base: "Base Year Non-Res Price",
+                res_price_sim: "Sim Year Residential Price",
+                non_res_price_sim: "Sim Year Non-Res Price",
+                res_price_diff: "Diff Year Residential Price",
+                non_res_price_diff: "Diff Year Non-Res Price",
+                sim_density_zone: "Sim Year Zonal Density",
+                building_count: "Sim Year Building Count",
+                base_year_building_count: "Base Year Building Count"
+            };
+            return measureNames[abv];
+        }, isBase: function(abv){
+            var measureAbv = abv.split('_');
+            var lastSplitItem = measureAbv[measureAbv.length - 1];
+            if(lastSplitItem == 'base'){return true;}else{return false;}
+        }, isSim: function(abv){
+            var measureAbv = abv.split('_');
+            var lastSplitItem = measureAbv[measureAbv.length - 1];
+            if(lastSplitItem == 'sim'){return true;}else{return false;}
+        }, isDiff: function(abv){
+            var measureAbv = abv.split('_');
+            var lastSplitItem = measureAbv[measureAbv.length - 1];
+            if(lastSplitItem == 'diff'){return true;}else{return false;}
+        }, hasSelectedZone: function(){
+            return Session.hasOwnProperty('selectedZone');
+        }, selectedZone: function(){
+            return Session.get('selectedZone');
         }
 
 
@@ -22,7 +91,10 @@ if(Meteor.isClient){
 
     Template.webMap.events({
         "click .zones": function(event, template){
-
+            var thisElement = event.target;
+            d3.selectAll(".zones").classed("selected", function(d){
+                return (d.properties['zone_str'] === thisElement.id) ? true : false
+            });
             var zone_id = parseInt(event.target.id);
             Session.set('selectedZone', zone_id);
             var year = parseInt($('#yearSelect').val());
@@ -94,9 +166,17 @@ if(Meteor.isClient){
                         .range(["#eff3ff", "#084594"]);
 
                     var feature = d3.selectAll('.zones');
-                    feature.style('fill', function(d){
+                    //feature.style('fill', function(d){
+                    //    var val = _.find(data, function(x){return x['zone_id'] == d.properties['ZONE_ID']})[measure];
+                    //    return color(val);
+                    //})
+                    feature.attr("class", function(d){
                         var val = _.find(data, function(x){return x['zone_id'] == d.properties['ZONE_ID']})[measure];
-                        return color(val);
+                        try{
+                            return quantize(val) + " zones";
+                        }catch(e){
+                            return "empty";
+                        }
                     })
 
 

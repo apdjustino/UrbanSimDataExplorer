@@ -246,14 +246,14 @@ path.zones{
 }
 /* Modified by Shawn Matthews 12/1/2015 in order to increase opacity. */
 
-.base {fill:#eff3ff; opacity:.5;}
-.q0-7 {fill:#eff3ff; opacity:.5;}
-.q1-7 {fill:#85B3D4; opacity:.7;}
-.q2-7 {fill:#6C9DC7; opacity:.7;}
-.q3-7 {fill:#5387BA; opacity:.7;}
-.q4-7 {fill:#3A71AD; opacity:.7;}
-.q5-7 {fill:#215BA0; opacity:.7;}
-.q6-7 {fill:#084594; opacity:.7;}
+path.base {fill:#eff3ff; opacity:.5;}
+path.q0-7 {fill:#eff3ff; opacity:.5;}
+path.q1-7 {fill:#85B3D4; opacity:.7;}
+path.q2-7 {fill:#6C9DC7; opacity:.7;}
+path.q3-7 {fill:#5387BA; opacity:.7;}
+path.q4-7 {fill:#3A71AD; opacity:.7;}
+path.q5-7 {fill:#215BA0; opacity:.7;}
+path.q6-7 {fill:#084594; opacity:.7;}
 
 
 
@@ -298,4 +298,8 @@ label{
     position:relative;
     height:875px;
     width:900px;
+}
+
+path.selected{
+    fill:yellow;
 }
