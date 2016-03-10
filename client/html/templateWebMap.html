@@ -47,11 +47,11 @@
                                                         {{#each measures}}
                                                             {{#if isBase this.measure}}
                                                             <tr>
-                                                                <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{measureNameMap this.measure}}</a></td>
+                                                                <td>{{measureNameMap this.measure}}</td>
                                                                 <td>{{formattedValue this.value this.measure}}</td>
                                                                 <td>
                                                                     <button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button>
-                                                                    <button class="btn btn-success">Color Map</button>
+                                                                    <button class="btn btn-default linkMeasure" id="{{this.measure}}">Color Map</button>
                                                                 </td>
                                                             </tr>
                                                             {{/if}}
@@ -184,7 +184,7 @@
                     <h4 class="modal-title">Add a Comment</h4>
                 </div>
                 <div class="modal-body">
-                    <textarea cols="70" rows="5"></textarea>
+                    <textarea cols="80" rows="5"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary btnAddNewGroup">Add Comment</button>

@@ -148,11 +148,11 @@ if(Meteor.isClient){
             event.preventDefault();
             var year = parseInt($('#yearSelect').val());
             var measure = event.target.id;
+            d3.select(event.target.parentNode.parentNode).classed("active", function(){
+                return !($(event.target.parentNode.parentNode).hasClass("active"));
+            });
             Meteor.subscribe("zones_by_year", year, {
                 onReady: function(){
-                    var field = $('#fieldSelect').val();
-                    var id_prop =  "zone_id";
-                    var geo_prop = "ZONE_ID";
                     var fieldObj = {};
                     fieldObj[measure] = 1;
                     fieldObj['zone_id'] = 1;
