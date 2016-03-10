@@ -303,3 +303,7 @@ label{
 path.selected{
     fill:yellow;
 }
+
+input.commentChk{
+    position: relative;
+}

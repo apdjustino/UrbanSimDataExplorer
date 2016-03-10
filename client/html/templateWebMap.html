@@ -1,7 +1,7 @@
 <template name="webMap">
     <script src="http://d3js.org/topojson.v1.min.js"></script>
 
-    <div class="col-sm-3 col-lg-3" id="sidebar" style="padding: 10px; overflow: auto;">
+    <div class="col-sm-4 col-lg-4" id="sidebar" style="padding: 10px; overflow: auto;">
         <ul class="nav nav-tabs" id="myTab">
             <li class="active" id="zone-tab"><a href="#layers" data-toggle="tab"><i class="icon-check"></i>&nbsp;Zone</a></li>
             <li id="county-tab"><a href="#legend-tab" data-toggle="tab"><i class="icon-check"></i>&nbsp;County</a></li>
@@ -39,6 +39,7 @@
                                                         <tr>
                                                             <th>Measure</th>
                                                             <th>Value</th>
+                                                            <th></th>
                                                         </tr>
 
                                                         </thead>
@@ -48,6 +49,10 @@
                                                             <tr>
                                                                 <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{measureNameMap this.measure}}</a></td>
                                                                 <td>{{formattedValue this.value this.measure}}</td>
+                                                                <td>
+                                                                    <button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button>
+                                                                    <button class="btn btn-success">Color Map</button>
+                                                                </td>
                                                             </tr>
                                                             {{/if}}
                                                         {{/each}}
@@ -63,6 +68,7 @@
                                                         <tr>
                                                             <th>Measure</th>
                                                             <th>Value</th>
+                                                            <th></th>
                                                         </tr>
 
                                                         </thead>
@@ -72,6 +78,7 @@
                                                                 <tr>
                                                                     <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{measureNameMap this.measure}}</a></td>
                                                                     <td>{{formattedValue this.value this.measure}}</td>
+                                                                    <td><button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button></td>
                                                                 </tr>
                                                             {{/if}}
                                                         {{/each}}
@@ -87,6 +94,7 @@
                                                         <tr>
                                                             <th>Measure</th>
                                                             <th>Value</th>
+                                                            <th></th>
                                                         </tr>
 
                                                         </thead>
@@ -96,6 +104,7 @@
                                                                 <tr>
                                                                     <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{measureNameMap this.measure}}</a></td>
                                                                     <td>{{formattedValue this.value this.measure}}</td>
+                                                                    <td><button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button></td>
                                                                 </tr>
                                                             {{/if}}
                                                         {{/each}}
@@ -162,8 +171,26 @@
         </div>
 
     </div>
-    <div class="col-sm-9 col-lg-9">
+    <div class="col-sm-8 col-lg-8">
         <div class="map-container" id="mapContainer">
+        </div>
+    </div>
+
+    <div id="commentModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Add a Comment</h4>
+                </div>
+                <div class="modal-body">
+                    <textarea cols="70" rows="5"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btnAddNewGroup">Add Comment</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
