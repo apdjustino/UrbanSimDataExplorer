@@ -78,7 +78,10 @@
                                                                 <tr>
                                                                     <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{measureNameMap this.measure}}</a></td>
                                                                     <td>{{formattedValue this.value this.measure}}</td>
-                                                                    <td><button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button></td>
+                                                                    <td>
+                                                                        <button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button>
+                                                                        <button class="btn btn-default linkMeasure" id="{{this.measure}}">Color Map</button>
+                                                                    </td>
                                                                 </tr>
                                                             {{/if}}
                                                         {{/each}}
@@ -104,7 +107,10 @@
                                                                 <tr>
                                                                     <td><a href="#" class="linkMeasure" id="{{this.measure}}">{{measureNameMap this.measure}}</a></td>
                                                                     <td>{{formattedValue this.value this.measure}}</td>
-                                                                    <td><button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button></td>
+                                                                    <td>
+                                                                        <button class="btn btn-default" data-toggle="modal" data-target="#commentModal">Comment</button>
+                                                                        <button class="btn btn-default linkMeasure" id="{{this.measure}}">Color Map</button>
+                                                                    </td>
                                                                 </tr>
                                                             {{/if}}
                                                         {{/each}}
