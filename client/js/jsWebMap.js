@@ -94,23 +94,36 @@ if(Meteor.isClient){
     Template.webMap.events({
         "click .zones": function(event, template){
             var thisElement = event.target;
+            var selectedZoneArray = Session.get('selectedZone');
+            if($.inArray(parseInt(thisElement.id), selectedZoneArray) !== -1){
+                selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == thisElement.id;}));
+            }else{
+                selectedZoneArray.push(parseInt(thisElement.id));
+            }
+
             d3.selectAll(".zones").classed("selected", function(d){
-                return (d.properties['zone_str'] === thisElement.id) ? true : false
+                return ($.inArray(d.properties['ZONE_ID'], selectedZoneArray) !== -1);
             });
+            Session.set('selectedZone', selectedZoneArray);
             var zone_id = parseInt(event.target.id);
-            Session.set('selectedZone', zone_id);
+            //Session.set('selectedZone', zone_id);
             var year = parseInt($('#yearSelect').val());
-            Meteor.subscribe('individual_zone', year, zone_id, {
+            Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
                 onReady: function(){
-                    var data = zoneData.findOne({sim_year: year, zone_id:zone_id});
+                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}).fetch();
                     var dataArr =[];
 
-                    for(var prop in data){
-                        if(prop !='_id' && prop !='sim_year'){
-                            if(data.hasOwnProperty(prop)){
+                    //first sum results in array
+
+                    for(var prop in data[0]){
+                        if(prop !='_id' && prop !='sim_year' && prop !== 'zone_id'){
+                            if(data[0].hasOwnProperty(prop)){
                                 var obj = {};
                                 obj["measure"] = prop;
-                                obj["value"] = data[prop];
+                                obj["value"] = 0;
+                                for(var i=0; i< data.length; i++){
+                                    obj["value"] += data[i][prop];
+                                }
                                 dataArr.push(obj);
                             }
                         }
@@ -192,6 +205,7 @@ if(Meteor.isClient){
     Template.webMap.onRendered(function(){
         Session.set('spinning', false);
         Session.set('selectedYear', 2015);
+        Session.set('selectedZone', []);
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
         var map = L.map("mapContainer").setView([39.75, -104.95], 10);
