@@ -307,3 +307,7 @@ path.selected{
 input.commentChk{
     position: relative;
 }
+
+.linkMeasure{
+    margin-top: 5px;
+}
