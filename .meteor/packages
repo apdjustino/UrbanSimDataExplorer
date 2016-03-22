@@ -21,3 +21,4 @@ twbs:bootstrap
 iron:router
 fortawesome:fontawesome
 bevanhunt:leaflet
+sacha:spin

@@ -84,6 +84,8 @@ if(Meteor.isClient){
             return Session.hasOwnProperty('selectedZone');
         }, selectedZone: function(){
             return Session.get('selectedZone');
+        }, isSpinning: function(){
+            return Session.get('spinning');
         }
 
 
@@ -146,6 +148,7 @@ if(Meteor.isClient){
             });
         }, "click .linkMeasure": function(event, template){
             event.preventDefault();
+            Session.set('spinning', true);
             var year = parseInt($('#yearSelect').val());
             var measure = event.target.id;
             d3.select(event.target.parentNode.parentNode).classed("active", function(){
@@ -153,6 +156,7 @@ if(Meteor.isClient){
             });
             Meteor.subscribe("zones_by_year", year, {
                 onReady: function(){
+                    Session.set('spinning', false);
                     var fieldObj = {};
                     fieldObj[measure] = 1;
                     fieldObj['zone_id'] = 1;
@@ -186,7 +190,7 @@ if(Meteor.isClient){
     });
 
     Template.webMap.onRendered(function(){
-
+        Session.set('spinning', false);
         Session.set('selectedYear', 2015);
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 

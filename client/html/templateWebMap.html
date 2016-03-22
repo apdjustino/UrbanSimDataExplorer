@@ -180,6 +180,9 @@
         </div>
         <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><span class="glyphicon glyphicon-chevron-left"></span></a>
         <div class="col-sm-8 col-lg-8" id="mapContainer">
+            {{#if isSpinning}}
+                {{>spinner}}
+            {{/if}}
         </div>
 
         <div id="commentModal" class="modal fade">
