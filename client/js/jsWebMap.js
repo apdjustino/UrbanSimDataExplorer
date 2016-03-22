@@ -8,7 +8,7 @@ if(Meteor.isClient){
             return fields.find({}).fetch();
         },
         years: function() {
-            return [2015,2016,2017]
+            return [2015,2020,2025,2030,2035,2040]
         }, measures: function(){
             return Session.get("selectedData");
         }, formattedValue: function(val, measure){
