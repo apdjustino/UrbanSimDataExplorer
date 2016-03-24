@@ -9,3 +9,7 @@ Router.route('/',  function(){
     this.render('webMap');
 });
 
+
+Router.route('/admin/adduser', function(){
+    this.render('addUser');
+});
