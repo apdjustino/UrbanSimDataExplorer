@@ -8,7 +8,7 @@ if(Meteor.isClient){
             return fields.find({}).fetch();
         },
         years: function() {
-            return [2015,2020,2025,2030,2035,2040]
+            return [2010,2015,2020,2025,2030,2035,2040]
         }, measures: function(){
             return Session.get("selectedData");
         }, formattedValue: function(val, measure){
@@ -90,7 +90,8 @@ if(Meteor.isClient){
 
 
     });
-
+    
+    
     Template.webMap.events({
         "click .zones": function(event, template){
             var thisElement = event.target;
@@ -108,62 +109,168 @@ if(Meteor.isClient){
             var zone_id = parseInt(event.target.id);
             //Session.set('selectedZone', zone_id);
             var year = parseInt($('#yearSelect').val());
+            var baseYearFields = {
+                _id: 0,
+                hh_base: 1,
+                pop_base:1,
+                median_income_base: 1,
+                ru_base: 1,
+                emp_base:1,
+                emp1_base: 1,
+                emp2_base: 1,
+                emp3_base: 1,
+                emp4_base: 1,
+                emp5_base: 1,
+                emp6_base: 1,
+                nr_base: 1,
+                res_price_base: 1,
+                non_res_price_base: 1
+
+            };
+            var simYearFields = {
+                _id: 0,
+                hh_sim: 1,
+                pop_sim: 1,
+                median_income_sim: 1,
+                ru_sim: 1,
+                emp_sim: 1,
+                emp1_sim: 1,
+                emp2_sim: 1,
+                emp3_sim: 1,
+                emp4_sim: 1,
+                emp5_sim: 1,
+                emp6_sim: 1,
+                nr_sim: 1,
+                res_price_sim: 1,
+                non_res_price_sim: 1
+            };
+            var diffYearFields = {
+                _id: 0,
+                hh_diff: 1,
+                pop_diff: 1,
+                median_income_diff: 1,
+                ru_diff: 1,
+                emp_diff: 1,
+                emp1_diff: 1,
+                emp2_diff: 1,
+                emp3_diff: 1,
+                emp4_diff: 1,
+                emp5_diff: 1,
+                emp6_diff: 1,
+                nr_diff: 1,
+                res_price_diff: 1,
+                non_res_price_diff: 1
+            };
+            var fields = {};
+            if(year == 2010){fields = baseYearFields; year = 2015;}else{fields = simYearFields}
             Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
                 onReady: function(){
-                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}).fetch();
+
+                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields: fields}).fetch();
                     var dataArr =[];
 
                     //first sum results in array
 
                     for(var prop in data[0]){
-                        if(prop !='_id' && prop !='sim_year' && prop !== 'zone_id'){
-                            if(data[0].hasOwnProperty(prop)){
-                                var obj = {};
-                                obj["measure"] = prop;
-                                obj["value"] = 0;
-                                for(var i=0; i< data.length; i++){
-                                    var val = parseInt(data[i][prop]) || 0;
-                                    obj["value"] += val;
-                                }
-                                dataArr.push(obj);
+                        if(data[0].hasOwnProperty(prop)){
+                            var obj = {};
+                            obj["measure"] = prop;
+                            obj["value"] = 0;
+                            for(var i=0; i< data.length; i++){
+                                var val = parseInt(data[i][prop]) || 0;
+                                obj["value"] += val;
                             }
+                            dataArr.push(obj);
                         }
 
                     }
 
-                    Session.set("selectedData", dataArr);
+                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
                 }
             });
 
 
 
         },"change #yearSelect": function(event, template){
+            var baseYearFields = {
+                _id: 0,
+                hh_base: 1,
+                pop_base:1,
+                median_income_base: 1,
+                ru_base: 1,
+                emp_base:1,
+                emp1_base: 1,
+                emp2_base: 1,
+                emp3_base: 1,
+                emp4_base: 1,
+                emp5_base: 1,
+                emp6_base: 1,
+                nr_base: 1,
+                res_price_base: 1,
+                non_res_price_base: 1
+
+            };
+            var simYearFields = {
+                _id: 0,
+                hh_sim: 1,
+                pop_sim: 1,
+                median_income_sim: 1,
+                ru_sim: 1,
+                emp_sim: 1,
+                emp1_sim: 1,
+                emp2_sim: 1,
+                emp3_sim: 1,
+                emp4_sim: 1,
+                emp5_sim: 1,
+                emp6_sim: 1,
+                nr_sim: 1,
+                res_price_sim: 1,
+                non_res_price_sim: 1
+            };
+            var diffYearFields = {
+                _id: 0,
+                hh_diff: 1,
+                pop_diff: 1,
+                median_income_diff: 1,
+                ru_diff: 1,
+                emp_diff: 1,
+                emp1_diff: 1,
+                emp2_diff: 1,
+                emp3_diff: 1,
+                emp4_diff: 1,
+                emp5_diff: 1,
+                emp6_diff: 1,
+                nr_diff: 1,
+                res_price_diff: 1,
+                non_res_price_diff: 1
+            };
             var year = parseInt($(event.target).val());
+            var fields = {};
+            if(year == 2010){fields = baseYearFields; year = 2015;}else{fields = simYearFields}
             var selectedZoneArray = Session.get('selectedZone');
             Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
                 onReady: function(){
-                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}).fetch();
+
+                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields: fields}).fetch();
                     var dataArr =[];
 
                     //first sum results in array
 
                     for(var prop in data[0]){
-                        if(prop !='_id' && prop !='sim_year' && prop !== 'zone_id'){
-                            if(data[0].hasOwnProperty(prop)){
-                                var obj = {};
-                                obj["measure"] = prop;
-                                obj["value"] = 0;
-                                for(var i=0; i< data.length; i++){
-                                    var val = parseInt(data[i][prop]) || 0;
-                                    obj["value"] += val;
-                                }
-                                dataArr.push(obj);
+                        if(data[0].hasOwnProperty(prop)){
+                            var obj = {};
+                            obj["measure"] = prop;
+                            obj["value"] = 0;
+                            for(var i=0; i< data.length; i++){
+                                var val = parseInt(data[i][prop]) || 0;
+                                obj["value"] += val;
                             }
+                            dataArr.push(obj);
                         }
 
                     }
 
-                    Session.set("selectedData", dataArr);
+                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
                 }
             });
         }, "click .linkMeasure": function(event, template){
