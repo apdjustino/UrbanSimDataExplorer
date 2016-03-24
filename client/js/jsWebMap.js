@@ -206,6 +206,11 @@ if(Meteor.isClient){
 
                 }
             });
+        }, "click #btnReset":function(event, template){
+            event.preventDefault();
+            Session.set('selectedZone', []);
+            Session.set('selectedData', undefined);
+            d3.selectAll(".zones").classed("selected", false);
         }
     });
 
