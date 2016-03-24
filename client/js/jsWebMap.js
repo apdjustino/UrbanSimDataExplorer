@@ -122,7 +122,8 @@ if(Meteor.isClient){
                                 obj["measure"] = prop;
                                 obj["value"] = 0;
                                 for(var i=0; i< data.length; i++){
-                                    obj["value"] += data[i][prop];
+                                    var val = parseInt(data[i][prop]) || 0;
+                                    obj["value"] += val;
                                 }
                                 dataArr.push(obj);
                             }
@@ -138,18 +139,24 @@ if(Meteor.isClient){
 
         },"change #yearSelect": function(event, template){
             var year = parseInt($(event.target).val());
-            var zone_id  = Session.get('selectedZone');
-            Meteor.subscribe('individual_zone', year, zone_id, {
+            var selectedZoneArray = Session.get('selectedZone');
+            Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
                 onReady: function(){
-                    var data = zoneData.findOne({sim_year: year, zone_id:zone_id});
+                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}).fetch();
                     var dataArr =[];
 
-                    for(var prop in data){
-                        if(prop !='_id' && prop !='sim_year'){
-                            if(data.hasOwnProperty(prop)){
+                    //first sum results in array
+
+                    for(var prop in data[0]){
+                        if(prop !='_id' && prop !='sim_year' && prop !== 'zone_id'){
+                            if(data[0].hasOwnProperty(prop)){
                                 var obj = {};
                                 obj["measure"] = prop;
-                                obj["value"] = data[prop];
+                                obj["value"] = 0;
+                                for(var i=0; i< data.length; i++){
+                                    var val = parseInt(data[i][prop]) || 0;
+                                    obj["value"] += val;
+                                }
                                 dataArr.push(obj);
                             }
                         }
