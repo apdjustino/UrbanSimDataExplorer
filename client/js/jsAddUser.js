@@ -26,7 +26,22 @@ if(Meteor.isClient){
     });
 
     Template.addUser.rendered = function(){
-        $('#addNewUser').validate();
+        $('#addNewUser').validate({
+            rules: {
+                password1: {
+                    minlength:6
+                },
+                password2: {
+                    equalTo: "#password1",
+                    minlength:6
+                }
+            },
+            messages:{
+                password2:{
+                    equalTo: "Passwords do not match!"
+                }
+            }
+        });
     }
 
 }
