@@ -6,10 +6,14 @@ Router.configure({
 });
 
 Router.route('/',  function(){
-    this.render('webMap');
+    this.render('home');
 });
 
 
 Router.route('/admin/adduser', function(){
     this.render('addUser');
+});
+
+Router.route('/map',  function(){
+    this.render('webMap');
 });

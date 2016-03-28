@@ -1,0 +1,70 @@
+<template name="home">
+    <div class="row">
+        <div class="col-xs-4 col-sm-4"></div>
+        <div class="col-xs-4 col-sm-4">
+            {{>sAlert}}
+            <div class="well">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="userEmail" class="control-label">Email</label>
+                        <input type="text" class="form-control email required" id="userEmail" name="userEmail" title="Please enter you username" placeholder="example@gmail.com">
+                        <span class="help-block"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="control-label">Password</label>
+                        <input type="password" class="form-control required" id="password" name="password" value="" required="" title="Please enter your password">
+                        <span class="help-block"></span>
+                    </div>
+                    <input type="submit" id="submitLoginForm" class="btn btn-success btn-block" value="Login">
+                </form>
+                <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target="#createPublicAccountModal">Create New Account</a>
+                <div id="createPublicAccountModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Create New Account</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{>createNewPublicAccount}}
+                            </div>
+                            <div class="modal-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4"></div>
+    </div>
+</template>
+
+<template name="createNewPublicAccount">
+    <form id="addNewPublicUser" role="form">
+        <div class="form-group">
+            <label for="firstName">First Name: </label>
+            <input type="text" id="firstName" name="firstName" class="form-control required">
+        </div>
+        <div class="form-group">
+            <label for="lastName">Last Name: </label>
+            <input type="text" id="lastName" name="lastName" class="form-control required">
+        </div>
+        <div class="form-group">
+            <label for="organization">Organization: </label>
+            <input type="text" id="organization" name="organization" class="form-control required">
+        </div>
+        <div class="form-group">
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" class="form-control required email">
+        </div>
+        <div class="form-group">
+            <label for="password1">Password: </label>
+            <input type="password" id="password1" name="password1" class="form-control required">
+        </div>
+        <div class="form-group">
+            <label for="password2">Confirm Password: </label>
+            <input type="password" id="password2" name="password2" class="form-control required">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit">
+    </form>
+</template>
