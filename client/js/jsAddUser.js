@@ -19,7 +19,9 @@ if(Meteor.isClient){
             dataToSend["password2"] = $("#password2").val();
             dataToSend["role"] = $("#role option:selected").val();
             dataToSend["profile"] = profile;
-            Meteor.call("addNewUser", dataToSend);
+            Meteor.call("addNewUser", dataToSend, function(error, result){
+                sAlert.success("New user added!", {position: 'bottom'})
+            });
             alert('User added');
 
         }

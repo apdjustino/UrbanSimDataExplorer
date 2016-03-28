@@ -13,6 +13,7 @@ Meteor.methods({
                     profile: data['profile']
                 });
                 Roles.addUsersToRoles(id, data['role']);
+                return true;
             }
         }
 
@@ -44,6 +45,15 @@ Meteor.methods({
         }else{
             if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
                 Roles.removeUsersFromRoles([userId], role);
+            }
+        }
+    }, newPassword: function(userId, new_password){
+        if(!Meteor.userId()){
+            throw new Meteor.error("Not logged in!");
+        }else{
+            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                Accounts.setPassword(userId, new_password);
+                return true;
             }
         }
     }

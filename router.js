@@ -46,6 +46,25 @@ Router.route('/admin/changeroles', function(){
     }
 });
 
+Router.route('/admin/changepassword', function(){
+    this.render('changePassword');
+}, {
+    onBeforeAction: function(){
+        if(!Meteor.user()){
+            this.render('home')
+        }else{
+            var user = Meteor.user();
+            if(Roles.userIsInRole(user, ['admin'])){
+                this.next();
+            }else{
+                this.render('home');
+            }
+        }
+
+    }
+});
+
+
 Router.route('/map',  function(){
     this.render('webMap');
 }, {
