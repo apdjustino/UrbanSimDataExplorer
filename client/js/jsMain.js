@@ -3,6 +3,26 @@
  */
 if(Meteor.isClient){
 
+    Template.main.helpers({
+        userEmail: function(){
+            return Meteor.user().emails[0].address;
+        }, isAdmin: function(){
+            var user = Meteor.user();
+            if(Roles.userIsInRole(user, ['admin'])){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    });
+
+    Template.main.events({
+        "click #logOutUserNav": function(event, template){
+            event.preventDefault();
+            Meteor.logout();
+        }
+    });
+
     Template.main.events({
         "click .toggle": function(event, template){
             event.preventDefault();

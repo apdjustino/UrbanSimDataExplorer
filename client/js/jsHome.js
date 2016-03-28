@@ -4,7 +4,7 @@
 if(Meteor.isClient){
 
     Template.home.events({
-        "click #btnAddNewPublicUser": function(event, template){
+        "submit #addNewPublicUser": function(event, template){
             event.preventDefault();
             var dataToSend = {};
             var profile = {};
@@ -23,12 +23,14 @@ if(Meteor.isClient){
                 if(error){
                     console.log(error);
                 }else{
+                    $('#createPublicAccountModal').removeClass('fade');
+                    $('#createPublicAccountModal').modal('hide');
                     Router.go('/map');
                 }
             })
         }, "submit #loginForm": function(event, template){
             event.preventDefault();
-            var email = $('#userEmail').val();
+            var email = $('#userEmail').val();vg
             var password = $('#password').val();
             Meteor.loginWithPassword(email, password, function(error){
                 if(error){

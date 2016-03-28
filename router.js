@@ -12,8 +12,30 @@ Router.route('/',  function(){
 
 Router.route('/admin/adduser', function(){
     this.render('addUser');
+}, {
+    onBeforeAction: function(){
+        if(!Meteor.user()){
+            this.render('home')
+        }else{
+            var user = Meteor.user();
+            if(Roles.userIsInRole(user, ['admin'])){
+                this.next();
+            }else{
+                this.render('home');
+            }
+        }
+
+    }
 });
 
 Router.route('/map',  function(){
     this.render('webMap');
+}, {
+    onBeforeAction: function(){
+        if(!Meteor.user()){
+            this.render('home')
+        }else{
+            this.next();
+        }
+    }
 });
