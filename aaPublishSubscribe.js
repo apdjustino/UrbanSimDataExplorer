@@ -5,6 +5,7 @@ if(Meteor.isClient){
 
 
     Meteor.subscribe("fields");
+    Meteor.subscribe("users");
 
 }
 
@@ -30,5 +31,11 @@ if(Meteor.isServer){
     Meteor.startup(function(){
         zoneData._ensureIndex({sim_year:1, zone_id:1});
     });
+
+    Meteor.publish("users", function(){
+        if(this.userId){
+            return Meteor.users.find({}, {fields:{services:0}});
+        }
+    })
 
 }

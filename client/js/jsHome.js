@@ -30,7 +30,7 @@ if(Meteor.isClient){
             })
         }, "submit #loginForm": function(event, template){
             event.preventDefault();
-            var email = $('#userEmail').val();vg
+            var email = $('#userEmail').val();
             var password = $('#password').val();
             Meteor.loginWithPassword(email, password, function(error){
                 if(error){

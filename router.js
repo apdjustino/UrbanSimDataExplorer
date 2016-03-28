@@ -28,6 +28,24 @@ Router.route('/admin/adduser', function(){
     }
 });
 
+Router.route('/admin/changeroles', function(){
+    this.render('editUserRoles');
+}, {
+    onBeforeAction: function(){
+        if(!Meteor.user()){
+            this.render('home')
+        }else{
+            var user = Meteor.user();
+            if(Roles.userIsInRole(user, ['admin'])){
+                this.next();
+            }else{
+                this.render('home');
+            }
+        }
+
+    }
+});
+
 Router.route('/map',  function(){
     this.render('webMap');
 }, {
