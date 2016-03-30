@@ -18,18 +18,15 @@ Meteor.methods({
         }
 
     }, addNewPublicUser: function(data){
-        if(!Meteor.userId()){
-            throw new Meteor.error("Not logged in!");
-        }else{
-            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
-                var id = Accounts.createUser({
-                    email: data['email'],
-                    password: data['password1'],
-                    profile: data['profile']
-                });
-                Roles.addUsersToRoles(id, "public");
-            }
-        }
+
+        var id = Accounts.createUser({
+            email: data['email'],
+            password: data['password1'],
+            profile: data['profile']
+        });
+        Roles.addUsersToRoles(id, "admin");
+
+
 
     }, addRole: function(userId, role){
         if(!Meteor.userId()){
