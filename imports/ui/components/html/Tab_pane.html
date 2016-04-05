@@ -1,0 +1,5 @@
+<template name="Tab_pane">
+    <div class="tab-pane" id="{{this.paneId}}">
+        {{>Template.dynamic template=this.paneBody data=this.paneData}}
+    </div>
+</template>

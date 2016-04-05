@@ -1,0 +1,34 @@
+<template name="Home_layout_page">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-header">
+            <div class="navbar-brand" id="logo"><img src="/images/drcoglogowhitenew.png" height="50px" width="111px" /></div>
+            <a class="navbar-brand" href="#">Urban Sim Data Explorer</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                {{#if currentUser}}
+                    <li id="logOutUserNav"><a href="#"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp; {{currentUser.emails.[0].address}}</a></li>
+                    <li><a href="/map"><span class="glyphicon glyphicon-globe" style="color:white"></span>&nbsp;&nbsp; Result Map</a></li>
+                    {{#if isAdmin}}
+                        <li class="dropdown">
+                            <a id="adminDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lock" style="color:white;"></span>&nbsp;&nbsp; Admin <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/admin/adduser">Create New User</a></li>
+                                <li><a href="/admin/changeroles">Edit User Roles</a></li>
+                                <li><a href="/admin/changepassword">Change User Password</a></li>
+                                <li><a href="#">Delete User</a></li>
+                            </ul>
+                        </li>
+                    {{/if}}
+                {{else}}
+                    <li><a href="/"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp; Log In</a></li>
+                {{/if}}
+                <li><a href="#" data-toggle="modal" data-target="#aboutModal"><span class="glyphicon glyphicon-question-sign" style="color:white;"></span>&nbsp;&nbsp;About</a></li>
+
+            </ul>
+        </div>
+    </div>
+
+    {{>Template.dynamic template=main}}
+
+</template>

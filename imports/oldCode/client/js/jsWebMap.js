@@ -1,6 +1,8 @@
 /**
  * Created by jmartinez on 2/16/2016.
  */
+import topojson from 'topojson';
+
 if(Meteor.isClient){
 
     Template.webMap.helpers({
