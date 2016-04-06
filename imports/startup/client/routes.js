@@ -16,6 +16,7 @@ import '../../ui/components/Result_table.js';
 
 //import client layouts
 import '../../ui/layouts/Home_layout_page.html';
+import '../../ui/layouts/Home_layout_page.js';
 
 //import client page html
 
@@ -25,6 +26,7 @@ import '../../ui/pages/html/EditUserRole_page.html';
 import '../../ui/pages/html/Login_page.html';
 import '../../ui/pages/html/WebMap_page.html';
 import '../../ui/pages/html/ZoneTabPane_body.html';
+import '../../ui/pages/html/CommentModal_body.html';
 
 //import client page js
 

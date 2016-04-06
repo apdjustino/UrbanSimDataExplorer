@@ -3,7 +3,38 @@
  */
 if(Meteor.isClient){
 
+    Template.Login_page.helpers({
+        LoginModal_args: function(){
+            return {
+                modalId: 'createPublicAccountModal',
+                bodyTemplate: 'LoginModal_body',
+                modalTitle: 'Create New Account',
+                modalData: ''
+            }
+        }
+    });
+
     Template.Login_page.events({
+        "submit #loginForm": function(event, template){
+            event.preventDefault();
+            var email = $('#userEmail').val();
+            var password = $('#password').val();
+            Meteor.loginWithPassword(email, password, function(error){
+                if(error){
+                    if(error.error == 403){
+                        sAlert.error("Incorrect Email and/or Password",{position:'bottom'});
+                    }else{
+                        sAlert.error(error.reason, {position:'bottom'});
+                    }
+                }else{
+                    FlowRouter.go('/map');
+                }
+            })
+
+        }
+    });
+
+    Template.LoginModal_body.events({
         "submit #addNewPublicUser": function(event, template){
             event.preventDefault();
             var dataToSend = {};
@@ -25,25 +56,9 @@ if(Meteor.isClient){
                 }else{
                     $('#createPublicAccountModal').removeClass('fade');
                     $('#createPublicAccountModal').modal('hide');
-                    Router.go('/map');
+                    FlowRouter.go('/map');
                 }
             })
-        }, "submit #loginForm": function(event, template){
-            event.preventDefault();
-            var email = $('#userEmail').val();
-            var password = $('#password').val();
-            Meteor.loginWithPassword(email, password, function(error){
-                if(error){
-                    if(error.error == 403){
-                        sAlert.error("Incorrect Email and/or Password",{position:'bottom'});
-                    }else{
-                        sAlert.error(error.reason, {position:'bottom'});
-                    }
-                }else{
-                    Router.go('/map');
-                }
-            })
-
         }
     });
 

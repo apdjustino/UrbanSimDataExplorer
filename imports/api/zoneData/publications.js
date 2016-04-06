@@ -83,6 +83,15 @@ if(Meteor.isServer){
         }
 
     });
-        
-    
+
+    Meteor.publish("zones_by_year", function(year, measure){
+        var fieldsToGet = {};
+        fieldsToGet[measure] = 1;
+        fieldsToGet['zone_id'] = 1;
+        fieldsToGet['sim_year'] = 1;
+
+        if(year == 2010){year = 2015;}
+
+        return zoneData.find({sim_year:year}, {fields: fieldsToGet});
+    });
 }

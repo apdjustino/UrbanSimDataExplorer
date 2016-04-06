@@ -72,6 +72,88 @@ if(Meteor.isClient){
                     this.stop();
                 }
             });
+        }, "change #yearSelect": function(event, template){
+            var selectedZoneArray = Session.get('selectedZone');
+            //Session.set('selectedZone', zone_id);
+            var year = parseInt($('#yearSelect').val());
+
+            var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
+                onReady: function(){
+                    if(year === 2010){year = 2015;}
+                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
+                    var dataArr =[];
+
+                    //first sum results in array
+
+                    for(var prop in data[0]){
+                        if(data[0].hasOwnProperty(prop)){
+                            var obj = {};
+                            obj["measure"] = prop;
+                            obj["value"] = 0;
+                            for(var i=0; i< data.length; i++){
+                                var val = parseInt(data[i][prop]) || 0;
+                                obj["value"] += val;
+                            }
+                            dataArr.push(obj);
+                        }
+
+                    }
+
+                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
+                    this.stop();
+                }
+            });
+        }, "click .linkMeasure": function(event, template) {
+            event.preventDefault();
+            Session.set('spinning', true);
+            var year = parseInt($('#yearSelect').val());
+            var measure = event.target.id;
+            if(year == 2010){year = 2015;}
+            d3.select(event.target.parentNode.parentNode).classed("active", function () {
+                return !($(event.target.parentNode.parentNode).hasClass("active"));
+            });
+            Meteor.subscribe("zones_by_year", year, measure, {
+                onReady: function () {
+                    Session.set('spinning', false);
+                    var fieldObj = {};
+                    fieldObj[measure] = 1;
+                    fieldObj['zone_id'] = 1;
+                    var data = zoneData.find({sim_year: year}, {fields: fieldObj}).fetch();
+                    var max = _.max(data, function (x) {
+                        return x[measure]
+                    })[measure];
+                    var quantize = d3.scale.quantize()
+                        .domain([0, max])
+                        .range(d3.range(7).map(function (i) {
+                            return "q" + i + "-7";
+                        }));
+                    var color = d3.scale.linear()
+                        .domain([0, max])
+                        .range(["#eff3ff", "#084594"]);
+
+                    var feature = d3.selectAll('.zones');
+                    //feature.style('fill', function(d){
+                    //    var val = _.find(data, function(x){return x['zone_id'] == d.properties['ZONE_ID']})[measure];
+                    //    return color(val);
+                    //})
+                    feature.attr("class", function (d) {
+                        var val = _.find(data, function (x) {
+                            return x['zone_id'] == d.properties['ZONE_ID']
+                        })[measure];
+                        try {
+                            return quantize(val) + " zones";
+                        } catch (e) {
+                            return "empty";
+                        }
+                    });
+                    this.stop();
+                }
+            });
+        }, "click #btnReset":function(event, template) {
+            event.preventDefault();
+            Session.set('selectedZone', []);
+            Session.set('selectedData', undefined);
+            d3.selectAll(".zones").classed("selected", false);
         }
     });
 
