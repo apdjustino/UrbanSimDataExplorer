@@ -85,6 +85,9 @@ if(Meteor.isServer){
     });
 
     Meteor.publish("zones_by_year", function(year, measure){
+        check(year, Number);
+        check(measure, String);
+
         var fieldsToGet = {};
         fieldsToGet[measure] = 1;
         fieldsToGet['zone_id'] = 1;

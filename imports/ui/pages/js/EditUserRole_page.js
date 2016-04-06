@@ -37,5 +37,10 @@ if(Meteor.isClient){
         }
     });
 
-
+    Template.EditUserRole_page.onCreated(function(){
+        var self = this;
+        self.autorun(function(){
+            self.subscribe('users');
+        });
+    });
 }

@@ -1,0 +1,11 @@
+<template name="AdminBlockHelper">
+    {{#if currentUser}}
+        {{#if isInRole 'admin'}}
+            {{>Template.contentBlock}}
+        {{else}}
+            {{>DeniedAccess_page}}
+        {{/if}}
+    {{else}}
+        {{>Login_page}}
+    {{/if}}
+</template>

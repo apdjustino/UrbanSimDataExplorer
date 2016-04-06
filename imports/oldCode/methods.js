@@ -53,5 +53,14 @@ Meteor.methods({
                 return true;
             }
         }
+    }, deleteUser: function(userId){
+        if(!Meteor.userId()){
+            throw new Meteor.error("Not logged in!");
+        }else{
+            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                Meteor.users.remove({_id: userId});
+            }
+        }
+        
     }
 });

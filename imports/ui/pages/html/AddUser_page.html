@@ -1,45 +1,48 @@
 <template name="AddUser_page">
-    <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-            <form id="addNewUser" role="form">
-                <div class="form-group">
-                    <label for="firstName">First Name: </label>
-                    <input type="text" id="firstName" name="firstName" class="form-control required">
-                </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name: </label>
-                    <input type="text" id="lastName" name="lastName" class="form-control required">
-                </div>
-                <div class="form-group">
-                    <label for="organization">Organization: </label>
-                    <input type="text" id="organization" name="organization" class="form-control required">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email: </label>
-                    <input type="email" id="email" name="email" class="form-control required email">
-                </div>
-                <div class="form-group">
-                    <label for="password1">Password: </label>
-                    <input type="password" id="password1" name="password1" class="form-control required">
-                </div>
-                <div class="form-group">
-                    <label for="password2">Confirm Password: </label>
-                    <input type="password" id="password2" name="password2" class="form-control required">
-                </div>
-                <div class="form-group">
-                    <label for="role">Role: </label>
-                    <select id="role" class="form-control">
-                        <option value="admin">Admin</option>
-                        <option value="drcog">DRCOG User (Internal)</option>
-                        <option value="public">Public</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-primary" value="Submit">
-                </div>
-            </form>
+    {{#AdminBlockHelper}}
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <form id="addNewUser" role="form">
+                    <div class="form-group">
+                        <label for="firstName">First Name: </label>
+                        <input type="text" id="firstName" name="firstName" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name: </label>
+                        <input type="text" id="lastName" name="lastName" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                        <label for="organization">Organization: </label>
+                        <input type="text" id="organization" name="organization" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email: </label>
+                        <input type="email" id="email" name="email" class="form-control required email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password1">Password: </label>
+                        <input type="password" id="password1" name="password1" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">Confirm Password: </label>
+                        <input type="password" id="password2" name="password2" class="form-control required">
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role: </label>
+                        <select id="role" class="form-control">
+                            <option value="admin">Admin</option>
+                            <option value="drcog">DRCOG User (Internal)</option>
+                            <option value="public">Public</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary" value="Submit">
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-4"></div>
         </div>
-        <div class="col-lg-4"></div>
-    </div>
+    {{/AdminBlockHelper}}
+
 </template>

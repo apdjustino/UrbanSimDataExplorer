@@ -35,6 +35,13 @@ if(Meteor.isClient){
                 }
             }
         });
-    }
+    };
+
+    Template.ChangePassword_page.onCreated(function(){
+        var self = this;
+        self.autorun(function(){
+            self.subscribe('users');
+        });
+    })
 
 }

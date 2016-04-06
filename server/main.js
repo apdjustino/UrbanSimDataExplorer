@@ -2,6 +2,7 @@
  * Created by jmartinez on 4/5/16.
  */
 import '../imports/api/zoneData/publications.js';
+import '../imports/api/users/publications.js';
 
 if(Meteor.isServer){
     Accounts.onCreateUser(function(options, user){

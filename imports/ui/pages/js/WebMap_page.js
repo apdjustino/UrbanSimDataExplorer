@@ -10,7 +10,7 @@ if(Meteor.isClient){
         selectedData: function(){
             return Session.get('selectedData');
         }, selectedAreas: function(){
-            return Session.get('selectedAreas');
+            return Session.get('selectedZone');
         }, isSpinning: function(){
             return Session.get('spinning');
         }, TabPane_args: function(tabPane){
