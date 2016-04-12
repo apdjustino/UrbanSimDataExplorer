@@ -1,6 +1,14 @@
-html, body, #map, #sidebar, #container, #mapContainer{
-    height: 750px;
+html, body{
+    height: 100%;
     margin: 0px;
+}
+
+#sidebar{
+    height: 900px;
+}
+
+#mapContainer{
+    height: 900px;
 }
 
 body {

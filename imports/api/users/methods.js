@@ -24,7 +24,7 @@ Meteor.methods({
             password: data['password1'],
             profile: data['profile']
         });
-        Roles.addUsersToRoles(id, "admin");
+        Roles.addUsersToRoles(id, "public");
 
 
 
