@@ -14,12 +14,12 @@
                 <td>{{measureNameMap this.measure}}</td>
                 <td>{{formattedValue this.value this.measure}}</td>
                 <td>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</button>
+                    {{#if multiZones}}<button class="btn btn-primary" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</button>{{/if}}
                     <button class="btn btn-info linkMeasure" id="{{this.measure}}">Color Map</button>
                 </td>
 
             </tr>
-        {{>Modal_fade (CommentModal_args this.measure)}}
+            {{#if multiZones}}{{>Modal_fade (CommentModal_args this.measure)}}{{/if}}
         {{/each}}
         </tbody>
     </table>

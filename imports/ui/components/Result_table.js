@@ -15,7 +15,14 @@ if(Meteor.isClient){
                 modalId: 'commentModal-' + measure,
                 bodyTemplate: 'CommentModal_body',
                 modalTitle: selectedYear + ' ' + measureNameMap(measure) + ' Comments for Zone(s): ' + selectedZones,
-                modalData: {measure: measure, year: selectedYear}
+                modalData: {measure: measure, year: selectedYear, zone:selectedZones}
+            }
+        }, multiZones: function(){
+            var selectedZones = Session.get('selectedZone');
+            if(selectedZones.length > 1){
+                return false;
+            }else{
+                return true
             }
         }
     })

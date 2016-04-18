@@ -40,6 +40,7 @@ import '../../ui/pages/js/Login_page.js';
 import '../../ui/pages/js/WebMap_page.js';
 import '../../ui/pages/js/ZoneTabPane_body.js';
 import '../../ui/pages/js/DeleteUser_page.js';
+import '../../ui/pages/js/CommentModal_body.js';
 
 //declare routs
 
