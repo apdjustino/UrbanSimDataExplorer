@@ -35,7 +35,12 @@ if(Meteor.isClient){
             if($.inArray(parseInt(thisElement.id), selectedZoneArray) !== -1){
                 selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == thisElement.id;}));
             }else{
-                selectedZoneArray.push(parseInt(thisElement.id));
+                if(Session.get('allowMultipleGeo') == false){
+                    selectedZoneArray = [parseInt(thisElement.id)];
+                }else{
+                    selectedZoneArray.push(parseInt(thisElement.id));
+                }
+
             }
 
             d3.selectAll(".zones").classed("selected", function(d){
@@ -161,6 +166,7 @@ if(Meteor.isClient){
         Session.set('spinning', false);
         Session.set('selectedYear', 2015);
         Session.set('selectedZone', []);
+        Session.set('allowMultipleGeo', false);
         $('#myTab li').first().addClass('active');
         $('.tab-pane').first().addClass('active');
         

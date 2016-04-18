@@ -10,6 +10,13 @@ if(Meteor.isClient){
                 tableData: tableData
             };
         }
+    });
+
+    Template.ZoneTabPane_body.events({
+        "change #chkMultiple": function(event, template){
+            event.preventDefault();
+            Session.set('allowMultipleGeo', event.target.checked);
+        }
     })
 
 }
