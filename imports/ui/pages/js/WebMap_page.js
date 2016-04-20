@@ -158,7 +158,7 @@ if(Meteor.isClient){
             event.preventDefault();
             Session.set('selectedZone', []);
             Session.set('selectedData', undefined);
-            d3.selectAll(".zones").classed("selected", false);
+            d3.selectAll(".zones").attr("class", "zones");
         }
     });
 
