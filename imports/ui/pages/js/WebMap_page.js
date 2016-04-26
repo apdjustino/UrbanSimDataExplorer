@@ -3,9 +3,57 @@
  */
 import topojson from 'topojson';
 
+export function findZoneData(zoneId, year){
+    var selectedZoneArray = Session.get('selectedZone');
+    if($.inArray(parseInt(zoneId), selectedZoneArray) !== -1){
+        selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == zoneId;}));
+    }else{
+        if(Session.get('allowMultipleGeo') == false){
+            selectedZoneArray = [parseInt(zoneId)];
+        }else{
+            selectedZoneArray.push(parseInt(zoneId));
+        }
 
+    }
+
+    d3.selectAll(".zones").classed("selected", function(d){
+        return ($.inArray(d.properties['ZONE_ID'], selectedZoneArray) !== -1);
+    });
+    Session.set('selectedZone', selectedZoneArray);
+
+
+    var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
+        onReady: function(){
+            if(year === 2010){year = 2015;}
+            var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
+            var dataArr =[];
+
+            //first sum results in array
+
+            for(var prop in data[0]){
+                if(data[0].hasOwnProperty(prop)){
+                    var obj = {};
+                    obj["measure"] = prop;
+                    obj["value"] = 0;
+                    for(var i=0; i< data.length; i++){
+                        var val = parseInt(data[i][prop]) || 0;
+                        obj["value"] += val;
+                    }
+                    dataArr.push(obj);
+                }
+
+            }
+
+            Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
+            this.stop();
+        }
+    });
+}
 if(Meteor.isClient){
-    
+
+
+
+
     Template.WebMap_page.helpers({
         selectedData: function(){
             return Session.get('selectedData');
@@ -31,52 +79,10 @@ if(Meteor.isClient){
     Template.WebMap_page.events({
         "click .zones": function(event, template){
             var thisElement = event.target;
-            var selectedZoneArray = Session.get('selectedZone');
-            if($.inArray(parseInt(thisElement.id), selectedZoneArray) !== -1){
-                selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == thisElement.id;}));
-            }else{
-                if(Session.get('allowMultipleGeo') == false){
-                    selectedZoneArray = [parseInt(thisElement.id)];
-                }else{
-                    selectedZoneArray.push(parseInt(thisElement.id));
-                }
-
-            }
-
-            d3.selectAll(".zones").classed("selected", function(d){
-                return ($.inArray(d.properties['ZONE_ID'], selectedZoneArray) !== -1);
-            });
-            Session.set('selectedZone', selectedZoneArray);
-            var zone_id = parseInt(event.target.id);
-            //Session.set('selectedZone', zone_id);
             var year = parseInt($('#yearSelect').val());
+            findZoneData(thisElement.id, year);
 
-            var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
-                onReady: function(){
-                    if(year === 2010){year = 2015;}
-                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
-                    var dataArr =[];
 
-                    //first sum results in array
-
-                    for(var prop in data[0]){
-                        if(data[0].hasOwnProperty(prop)){
-                            var obj = {};
-                            obj["measure"] = prop;
-                            obj["value"] = 0;
-                            for(var i=0; i< data.length; i++){
-                                var val = parseInt(data[i][prop]) || 0;
-                                obj["value"] += val;
-                            }
-                            dataArr.push(obj);
-                        }
-
-                    }
-
-                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
-                    this.stop();
-                }
-            });
         }, "change #yearSelect": function(event, template){
             var selectedZoneArray = Session.get('selectedZone');
             //Session.set('selectedZone', zone_id);
@@ -162,6 +168,7 @@ if(Meteor.isClient){
         }
     });
 
+    map = undefined;
     Template.WebMap_page.onRendered(function(){
         Session.set('spinning', false);
         Session.set('selectedYear', 2015);
@@ -169,10 +176,12 @@ if(Meteor.isClient){
         Session.set('allowMultipleGeo', false);
         $('#myTab li').first().addClass('active');
         $('.tab-pane').first().addClass('active');
+
+        var geoSubscription = Meteor.subscribe('zoneGeoData');
         
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
-        var map = L.map("mapContainer").setView([39.75, -104.95], 10);
+        map = L.map("mapContainer").setView([39.75, -104.95], 10);
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
         //initiate d3 variables
@@ -281,4 +290,6 @@ if(Meteor.isClient){
         drawMap(drawZones);
 
     });
+
 }
+

@@ -1,24 +1,40 @@
 <template name="ZoneTabPane_body">
+    {{>sAlert}}
     <div class="row">
         <div class="col-lg-12">
-            <div class="yearSelectContainer">
-                <label for="yearSelect">Select a Year:</label>
+            <h2><a href="#">Step 1: Click on a zone</a></h2>
+            <h2><a href="#" data-toggle="collapse" data-target="#yearSelectContainer">Step 2: Choose a Year</a></h2>
+            <div id="yearSelectContainer">
                 <select class="form-control map-inputs" id="yearSelect">
                     {{#each GLOBAL_years}}
                         <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
-            <div style="display:inline">
-                <button id="btnReset" class="btn btn-default" style="display:inline">Reset Map</button>
+
+            <h2><a href="#" data-toggle="collapse" data-target="#optionsContainer">Step 3: Choose Options</a></h2>
+            <div id="optionsContainer">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <div class="checkbox-inline">
+                            <label><input type="checkbox" id="chkMultiple">Allow multiple selections</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <form class="form-inline" id="findAZone">
+                            <label for="zoneSearch">Find a Zone: </label>
+                            <input id="zoneSearch" class="form-control" type="text" style="position:relative; width:100%;">
+                            <input type="submit" class="btn btn-primary" value="Find">
+                        </form>
+                    </div>
+                </div>
             </div>
+            <h2><a href="#" data-toggle="collapse" data-target="#resultsContainer">Step 4: View Results</a></h2>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="resultsContainer">
         <div class="col-lg-12">
-            <h4>Click on a zone to retrieve UrbanSim results.</h4>
-            <input type="checkbox" id="chkMultiple"> *Allow multiple selections
-            <h4>UrbanSim Results Zone(s): {{selectedAreas}}</h4>
+            <button id="btnReset" class="btn btn-default" style="display:inline">Reset Map</button>
             {{>Result_table}}
         </div>
     </div>
