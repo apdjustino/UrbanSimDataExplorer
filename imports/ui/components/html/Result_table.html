@@ -14,8 +14,8 @@
                 <td>{{measureNameMap this.measure}}</td>
                 <td>{{formattedValue this.value this.measure}}</td>
                 <td>
-                    {{#if multiZones}}<button class="btn btn-primary" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</button>{{/if}}
-                    <button class="btn btn-info linkMeasure" id="{{this.measure}}">Color Map</button>
+                    {{#if multiZones}}<h5 class="text-left"><a href="#" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</a></h5>{{/if}}
+                    <h5 class=""><a href="#" class="linkMeasure" id="{{this.measure}}">Color Map</a></h5>
                 </td>
 
             </tr>
