@@ -7,11 +7,8 @@ if(Meteor.isClient){
 
 
     Template.ZoneTabPane_body.helpers({
-        ResultTable_args: function(selectedData){
-            const tableData = selectedData;
-            return {
-                tableData: tableData
-            };
+        selectedAreas: function() {
+            return Session.get('selectedZone');
         }
     });
 
