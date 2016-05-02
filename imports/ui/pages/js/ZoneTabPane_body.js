@@ -3,6 +3,7 @@
  */
 
 import { findZoneData } from '../js/WebMap_page'
+import {drawMap} from '../../../startup/client/mapFunctions.js';
 if(Meteor.isClient){
 
 
@@ -49,5 +50,26 @@ if(Meteor.isClient){
 
         }
     });
+
+    map = undefined;
+    Template.ZoneTabPane_body.onRendered(function(){
+        var geoSubscription = Meteor.subscribe('zoneGeoData');
+        L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
+
+        map = L.map("mapContainer").setView([39.75, -104.95], 10);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+
+        var zoneParams = {
+            pathString: "data/zonesGeo.json",
+            obj_name: "zones",
+            label_string: "ZoneId: ",
+            geo_property: "ZONE_ID",
+            geo_class: "zones"
+        };
+
+        drawMap(zoneParams);
+
+    })
 
 }
