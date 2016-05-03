@@ -155,6 +155,7 @@ if(Meteor.isClient){
             drawMap(countyParams);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
+            d3.selectAll("path").remove();
             var zoneParams = {
                 pathString: "data/zonesGeo.json",
                 obj_name: "zones",
