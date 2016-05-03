@@ -2,6 +2,8 @@
  * Created by jmartinez on 4/5/16.
  */
 import {drawMap} from '../../../startup/client/mapFunctions.js';
+import {colorMap} from '../../../startup/client/mapFunctions.js';
+
 export function findZoneData(zoneId, year){
     var selectedZoneArray = Session.get('selectedZone');
     if($.inArray(parseInt(zoneId), selectedZoneArray) !== -1){
@@ -130,33 +132,7 @@ if(Meteor.isClient){
                     fieldObj[measure] = 1;
                     fieldObj['zone_id'] = 1;
                     var data = zoneData.find({sim_year: year}, {fields: fieldObj}).fetch();
-                    var max = _.max(data, function (x) {
-                        return x[measure]
-                    })[measure];
-                    var quantize = d3.scale.quantize()
-                        .domain([0, max])
-                        .range(d3.range(7).map(function (i) {
-                            return "q" + i + "-7";
-                        }));
-                    var color = d3.scale.linear()
-                        .domain([0, max])
-                        .range(["#eff3ff", "#084594"]);
-
-                    var feature = d3.selectAll('.zones');
-                    //feature.style('fill', function(d){
-                    //    var val = _.find(data, function(x){return x['zone_id'] == d.properties['ZONE_ID']})[measure];
-                    //    return color(val);
-                    //})
-                    feature.attr("class", function (d) {
-                        var val = _.find(data, function (x) {
-                            return x['zone_id'] == d.properties['ZONE_ID']
-                        })[measure];
-                        try {
-                            return quantize(val) + " zones";
-                        } catch (e) {
-                            return "empty";
-                        }
-                    });
+                    colorMap(data, measure, 'zone');
                     this.stop();
                 }
             });

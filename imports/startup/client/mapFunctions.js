@@ -64,3 +64,36 @@ export function drawMap(params){
 
     });
 }
+
+export function colorMap(data, measure, juris){
+    
+    var max = _.max(data, function (x) {
+        return x[measure]
+    })[measure];
+
+    
+    var quantize = d3.scale.quantize()
+        .domain([0, max])
+        .range(d3.range(7).map(function (i) {
+            return "q" + i + "-7";
+        }));
+
+    var feature = d3.selectAll('.zones');
+
+
+    feature.attr("class", function (d) {
+        var val = _.find(data, function (x) {
+            if(juris === 'county'){
+                return x['county_name'] == d.properties['COUNTY']
+            }else{
+                return x['zone_id'] == d.properties['ZONE_ID']
+            }            
+        })[measure];
+        try {
+            return quantize(val) + " zones";
+        } catch (e) {
+            return "empty";
+        }
+    });
+    
+}

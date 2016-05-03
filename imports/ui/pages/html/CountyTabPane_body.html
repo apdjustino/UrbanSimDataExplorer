@@ -1,3 +1,61 @@
 <template name="CountyTabPane_body">
+    {{>sAlert}}
+    <div class="row">
+        <div class="col-lg-12">
+            <h2><a href="#" data-toggle="collapse" data-target="#yearSelectContainer">Step 1: Choose a Year</a></h2>
+            <div id="yearSelectContainer">
+                <select class="form-control" id="yearSelectCounty">
+                    {{#each GLOBAL_years}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </div>
+            <h2><a href="#" data-toggle="collapse" data-target="#variableSelectContainer">Step 2: Select Variable</a></h2>
+            <div id="variableSelectContainer">
+                <select class="form-control" id="variableSelect">
+                    {{#if isInRole 'admin'}}
+                        {{#each admin_variables}}
+                            {{#if isBaseYear}}
+                                <option value="{{this.abv_base}}">{{measureNameMap this.abv_base}}</option>
+                            {{else}}
+                                <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
+                            {{/if}}
+                        {{/each}}
+                    {{else}}
+                        {{#each public_variables}}
+                            {{#if isBaseYear}}
+                                <option value="{{this.abv_base}}">{{measureNameMap this.abv_base}}</option>
+                            {{else}}
+                                <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
+                            {{/if}}
+                        {{/each}}
+                    {{/if}}
+                </select>
+            </div>
+            <h2><a href="#" data-toggle="collapse" data-target="#countyResultContainer">Step 3: View Results</a></h2>
+            <div id="countyResultContainer">
+                <button id="btnCountyQuery" class="btn btn-primary">Query</button>
+                {{#if queryReturn}}
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <th>County</th>
+                            <th>{{selectedVariable}}</th>
+                            <th></th>
+                        </tr>
 
+                        </thead>
+                        <tbody>
+                        {{#each countyResults}}
+                            <tr>
+                                <td>{{this.county_name}}</td>
+                                <td>{{this.value}}</td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                {{/if}}
+            </div>
+        </div>
+    </div>
 </template>
