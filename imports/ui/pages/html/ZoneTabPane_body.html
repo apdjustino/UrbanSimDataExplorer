@@ -2,41 +2,67 @@
     {{>sAlert}}
     <div class="row">
         <div class="col-lg-12">
-            <h2><a href="#">Step 1: Click on a zone</a></h2>
-            <h2><a href="#" data-toggle="collapse" data-target="#yearSelectContainer">Step 2: Choose a Year</a></h2>
-            <div id="yearSelectContainer">
-                <select class="form-control map-inputs" id="yearSelect">
+            <h2><a href="#" data-toggle="collapse" data-target="#yearSelectContainerZone">Step 1: Choose a Year</a></h2>
+            <div id="yearSelectContainerZone">
+                <select class="form-control" id="yearSelectZone">
                     {{#each GLOBAL_years}}
                         <option value="{{this}}">{{this}}</option>
                     {{/each}}
                 </select>
             </div>
-
-            <h2><a href="#" data-toggle="collapse" data-target="#optionsContainer">Step 3: Choose Options</a></h2>
-            <div id="optionsContainer">
+            <h2><a href="#" data-toggle="collapse" data-target="#variableSelectContainerZone">Step 2: Select Variable</a></h2>
+            <div id="variableSelectContainerZone">
+                <select class="form-control" id="variableSelectZone">
+                    {{#if isInRole 'admin'}}
+                        {{#each admin_variables}}
+                            {{#if isBaseYear}}
+                                <option value="{{this.abv_base}}">{{measureNameMap this.abv_base}}</option>
+                            {{else}}
+                                <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
+                            {{/if}}
+                        {{/each}}
+                    {{else}}
+                        {{#each public_variables}}
+                            {{#if isBaseYear}}
+                                <option value="{{this.abv_base}}">{{measureNameMap this.abv_base}}</option>
+                            {{else}}
+                                <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
+                            {{/if}}
+                        {{/each}}
+                    {{/if}}
+                </select>
+            </div>
+            <h2><a href="#" data-toggle="collapse" data-target="#zoneResultContainer">Step 3: View Results</a></h2>
+            <div id="zoneResultContainer">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <div class="checkbox-inline">
-                            <label><input type="checkbox" id="chkMultiple">Allow multiple selections</label>
-                        </div>
+                    <div class="col-lg-12">
+                        <h5 class="text-left">*To view zone results, click on a zone or search by Zone Id</h5>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                </div>
+                <div class="row">
+                    <div class="col-lg-2">
+                        <button id="btnZoneQuery" class="btn btn-primary">Query</button>
+                    </div>
+                    <div class="col-lg-10">
                         <form class="form-inline" id="findAZone">
-                            <label for="zoneSearch">Find a Zone: </label>
-                            <input id="zoneSearch" class="form-control" type="text" style="position:relative; width:100%;">
-                            <input type="submit" class="btn btn-primary" value="Find">
+                            <label for="findAZone">Zone Id: </label>
+                            <div class="form-group">
+                                <input type="text" id="zoneSearch" class="form-control" style="position:relative; width:60%;">
+                                <input type="submit" class="btn btn-primary" value="Find">
+                            </div>
                         </form>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button class="btn btn-primary" id="btnReset" style="display:inline;">Reset Map</button>
+                    </div>
+                </div>
+
+                {{#if zoneClicked}}
+                    {{>Result_table}}
+                {{/if}}
             </div>
-            <h2><a href="#" data-toggle="collapse" data-target="#resultsContainer">Step 4: View Results</a></h2>
-        </div>
-    </div>
-    <div class="row" id="resultsContainer">
-        <div class="col-lg-12">
-            <button id="btnReset" class="btn btn-default" style="display:inline">Reset Map</button>
-            <h4>Selected Zone(s): {{selectedAreas}}</h4>
-            {{>Result_table}}
         </div>
     </div>
 </template>

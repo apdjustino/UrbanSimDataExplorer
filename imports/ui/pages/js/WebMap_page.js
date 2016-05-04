@@ -80,8 +80,9 @@ if(Meteor.isClient){
     
     Template.WebMap_page.events({
         "click .zones": function(event, template){
+            Session.set('zoneClicked', true);
             var thisElement = event.target;
-            var year = parseInt($('#yearSelect').val());
+            var year = parseInt($('#yearSelectZone').val());
             findZoneData(thisElement.id, year);
 
 
@@ -140,6 +141,7 @@ if(Meteor.isClient){
             event.preventDefault();
             Session.set('selectedZone', []);
             Session.set('selectedData', undefined);
+            Session.set('zoneClicked', false);
             d3.selectAll(".zones").attr("class", "zones");
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
