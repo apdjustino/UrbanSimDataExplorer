@@ -5,22 +5,25 @@ import topojson from 'topojson';
 
 export function drawMap(params){
     
-    var svg = d3.select(map.getPanes().overlayPane).append("svg");
-    var g = svg.append("g").attr("class", "leaflet-zoom-hide");
+    var svg = d3.select("svg");
+    var g = d3.select(".leaflet-zoom-hide");
+
+
 
     d3.json(params.pathString, function(zones){
         //console.log(zones);
+        
         var shape = topojson.feature(zones, zones.objects[params.obj_name]);
         var transform = d3.geo.transform({point: projectPoint});
         var path = d3.geo.path().projection(transform);
 
 
-        feature = g.selectAll("path")
+        feature = g.selectAll(params.geo_property)
             .data(shape.features)
             .enter()
             .append("path")
             .attr("class", params.geo_class)
-            .attr("id", function(d){return d.properties['ZONE_ID'];});
+            .attr("id", function(d){return d.properties[params.geo_property];});
         var title = feature.append("svg:title")
             .attr("class", "pathTitle")
             .text(function(d){return params.label_string + d.properties[params.geo_property];});
@@ -46,7 +49,8 @@ export function drawMap(params){
             g
                 .attr("transform", "translate(" + -topLeft[0] + "," + -topLeft[1] + ")");
 
-            feature.attr("d", path);
+            d3.selectAll("." + params.geo_class).attr("d", path);
+            // feature.attr("d", path);
 
 
 

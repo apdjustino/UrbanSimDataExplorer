@@ -241,6 +241,19 @@ path.zones{
 
 }
 
+path.city{
+    stroke: none;
+    fill:rgba(0,0,0,0);
+    opacity:0.6;
+}
+
+path.citySelected{
+    stroke: blue;
+    stroke-width:2;
+    fill:rgba(0,0,0,0);
+    opacity:0.6;
+}
+
 .filled{
     fill:yellow;
 }

@@ -84,12 +84,36 @@ if(Meteor.isClient){
             }
 
         }, "change #yearSelectZone": function(event, template){
-            var selectedYear = $('#yearSelectZone option:selected').val();
-            var isBaseYear = false;
-            if(selectedYear == 2010){
-                isBaseYear = true;
-            }
-            Session.set('isBaseYear', isBaseYear);
+            var selectedZoneArray = Session.get('selectedZone');
+            //Session.set('selectedZone', zone_id);
+            var year = parseInt($('#yearSelectZone').val());
+
+            var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
+                onReady: function(){
+                    if(year === 2010){year = 2015;}
+                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
+                    var dataArr =[];
+
+                    //first sum results in array
+
+                    for(var prop in data[0]){
+                        if(data[0].hasOwnProperty(prop)){
+                            var obj = {};
+                            obj["measure"] = prop;
+                            obj["value"] = 0;
+                            for(var i=0; i< data.length; i++){
+                                var val = parseInt(data[i][prop]) || 0;
+                                obj["value"] += val;
+                            }
+                            dataArr.push(obj);
+                        }
+
+                    }
+
+                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
+                    this.stop();
+                }
+            });
         }, "click #btnZoneQuery": function(event, template){
             event.preventDefault();
             var selectedYear = parseInt($('#yearSelectZone option:selected').val());
@@ -125,7 +149,10 @@ if(Meteor.isClient){
         map = L.map("mapContainer").setView([39.75, -104.95], 10);
         L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-
+        var svg = d3.select(map.getPanes().overlayPane).append("svg");
+        var g = svg.append("g").attr("class", "leaflet-zoom-hide");
+        
+        
         var zoneParams = {
             pathString: "data/zonesGeo.json",
             obj_name: "zones",
@@ -134,6 +161,13 @@ if(Meteor.isClient){
             geo_class: "zones"
         };
 
+        drawMap({
+            pathString: "data/municipalities.json",
+            obj_name: "drcog_municipalities",
+            label_string: "City: ",
+            geo_property: "CITY",
+            geo_class: "city"
+        });
         drawMap(zoneParams);
 
     })

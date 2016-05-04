@@ -51,10 +51,7 @@ export function findZoneData(zoneId, year){
     });
 }
 if(Meteor.isClient){
-
-
-
-
+    
     Template.WebMap_page.helpers({
         selectedData: function(){
             return Session.get('selectedData');
@@ -71,7 +68,8 @@ if(Meteor.isClient){
         }, TabPanes: function(selectedAreas, selectedData){
             return [
                 {paneName: 'Zone', paneId: 'zoneResults', paneBody: 'ZoneTabPane_body', paneData:{selectedAreas:selectedAreas, selectedData:selectedData}},
-                {paneName: 'County', paneId: 'countyResults', paneBody: 'CountyTabPane_body', paneData:{}}
+                {paneName: 'County', paneId: 'countyResults', paneBody: 'CountyTabPane_body', paneData:{}},
+                {paneName: 'Layers', paneId: 'layers', paneBody: 'LayersTabPane_body', paneData:{}}
             ]
         }, selectedZone: function(){
             return Session.get('selectedZone');
@@ -79,44 +77,13 @@ if(Meteor.isClient){
     });
     
     Template.WebMap_page.events({
-        "click .zones": function(event, template){
+        "click .zones": function(event, template) {
             Session.set('zoneClicked', true);
             var thisElement = event.target;
             var year = parseInt($('#yearSelectZone').val());
             findZoneData(thisElement.id, year);
 
 
-        }, "change #yearSelect": function(event, template){
-            var selectedZoneArray = Session.get('selectedZone');
-            //Session.set('selectedZone', zone_id);
-            var year = parseInt($('#yearSelect').val());
-
-            var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
-                onReady: function(){
-                    if(year === 2010){year = 2015;}
-                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
-                    var dataArr =[];
-
-                    //first sum results in array
-
-                    for(var prop in data[0]){
-                        if(data[0].hasOwnProperty(prop)){
-                            var obj = {};
-                            obj["measure"] = prop;
-                            obj["value"] = 0;
-                            for(var i=0; i< data.length; i++){
-                                var val = parseInt(data[i][prop]) || 0;
-                                obj["value"] += val;
-                            }
-                            dataArr.push(obj);
-                        }
-
-                    }
-
-                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
-                    this.stop();
-                }
-            });
         }, "click .linkMeasure": function(event, template) {
             event.preventDefault();
             Session.set('spinning', true);
@@ -145,7 +112,7 @@ if(Meteor.isClient){
             d3.selectAll(".zones").attr("class", "zones");
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
-            d3.selectAll("path").remove();
+            d3.selectAll(".zones").remove();
             var countyParams = {
                 pathString: "data/county_web.json",
                 obj_name: "county_2014_web",
@@ -153,10 +120,17 @@ if(Meteor.isClient){
                 geo_property: "COUNTY",
                 geo_class: "zones"
             };
+            drawMap({
+                pathString: "data/municipalities.json",
+                obj_name: "drcog_municipalities",
+                label_string: "City: ",
+                geo_property: "CITY",
+                geo_class: "city"
+            });
             drawMap(countyParams);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
-            d3.selectAll("path").remove();
+            d3.selectAll(".zones").remove();
             var zoneParams = {
                 pathString: "data/zonesGeo.json",
                 obj_name: "zones",
@@ -165,7 +139,15 @@ if(Meteor.isClient){
                 geo_class: "zones"
             };
             Session.set('spinning', true);
+            drawMap({
+                pathString: "data/municipalities.json",
+                obj_name: "drcog_municipalities",
+                label_string: "City: ",
+                geo_property: "CITY",
+                geo_class: "city"
+            });
             drawMap(zoneParams);
+
         }
     });
 

@@ -1,0 +1,15 @@
+<template name="LayersTabPane_body">
+
+    <h2>Add Layers To Map</h2>
+    <ul>
+        {{#each muniList}}
+            <li>
+                <input class="muniChk" type="checkbox" value="{{this}}"> {{this}}
+            </li>
+
+        {{/each}}
+    </ul>
+
+
+
+</template>
