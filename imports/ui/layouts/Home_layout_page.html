@@ -7,7 +7,7 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 {{#if currentUser}}
-                    <li id="logOutUserNav"><a href="#"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp; {{currentUser.emails.[0].address}}</a></li>
+                    <li id="logOutUserNav"><a href="#"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp; Log Out</a></li>
                     <li><a href="/map"><span class="glyphicon glyphicon-globe" style="color:white"></span>&nbsp;&nbsp; Result Map</a></li>
                     {{#if isInRole 'admin'}}
                         <li class="dropdown">

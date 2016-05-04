@@ -51,7 +51,7 @@ if(Meteor.isClient){
         }, "click #btnCountyQuery": function(event, template){
             event.preventDefault();
             var selectedYear = parseInt($('#yearSelectCounty option:selected').val());
-            var selectedVar = $('#variableSelect option:selected').val();
+            var selectedVar = $('#variableSelectCounty option:selected').val();
             Session.set('selectedVariable', selectedVar);
             var countySubscription = Meteor.subscribe('counties_by_year', selectedYear, selectedVar, {
                 onReady: function(){

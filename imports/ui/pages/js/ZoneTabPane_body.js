@@ -88,6 +88,12 @@ if(Meteor.isClient){
             //Session.set('selectedZone', zone_id);
             var year = parseInt($('#yearSelectZone').val());
 
+            var isBaseYear = false;
+            if(year == 2010){
+                isBaseYear = true;
+            }
+            Session.set('isBaseYear', isBaseYear);
+
             var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
                 onReady: function(){
                     if(year === 2010){year = 2015;}
@@ -117,7 +123,7 @@ if(Meteor.isClient){
         }, "click #btnZoneQuery": function(event, template){
             event.preventDefault();
             var selectedYear = parseInt($('#yearSelectZone option:selected').val());
-            var selectedVar = $('#variableSelect option:selected').val();
+            var selectedVar = $('#variableSelectZone option:selected').val();
             Session.set('selectedVariable', selectedVar);
             Session.set('spinning', true);
             if(selectedYear == 2010){selectedYear = 2015;}
