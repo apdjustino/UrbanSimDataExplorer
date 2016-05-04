@@ -153,7 +153,6 @@ if(Meteor.isClient){
                 geo_property: "COUNTY",
                 geo_class: "zones"
             };
-
             drawMap(countyParams);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
