@@ -19,11 +19,5 @@ if(Meteor.isServer){
         return countyData.find({sim_year:year}, {fields: fieldsToGet});
     });
     
-    Meteor.publish('counties_by_year_all', function(year){
-        check(year, Number);
-        
-        return countyData.find({sim_year:year});
-        
-    })
     
 }

@@ -21,10 +21,9 @@
                     <option value="2040">2040</option>
                 </select>
             </div>
-            <h5>*Download button will appear when data loads.</h5>
-            {{#if subIsReady}}
-                <a href="data:attachment/csv;charset=UTF-8,{{data}}" download="download.csv" class="btn btn-primary" id="btnDownload">Download</a>
-            {{/if}}
+
+            <button class="btn btn-primary" id="btnDownload">Download</button>
+
         </div>
     </div>
 </template>
