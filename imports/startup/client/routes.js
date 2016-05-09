@@ -32,6 +32,7 @@ import '../../ui/pages/html/DeniedAccess_page.html';
 import '../../ui/pages/html/DeleteUser_page.html';
 import '../../ui/pages/html/CountyTabPane_body.html'
 import '../../ui/pages/html/LayersTabPane_body.html';
+import '../../ui/pages/html/DownloadsTabPane_body.html';
 
 //import client page js
 
@@ -45,6 +46,7 @@ import '../../ui/pages/js/DeleteUser_page.js';
 import '../../ui/pages/js/CommentModal_body.js';
 import '../../ui/pages/js/CountyTabPane_body.js';
 import '../../ui/pages/js/LayersTabPane_body.js';
+import '../../ui/pages/js/DownloadsTabPane_body.js';
 
 //declare routs
 

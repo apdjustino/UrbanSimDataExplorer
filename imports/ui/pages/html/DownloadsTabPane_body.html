@@ -1,0 +1,30 @@
+<template name="DownloadsTabPane_body">
+    {{>sAlert}}
+    <div class="row">
+        <div class="col-lg-12">
+            <h2><a href="#" data-toggle="collapse" data-target="#geographyContainer">Step 1: Choose a Geography</a></h2>
+            <div id="geographyContainer">
+                <select class="form-control" id="geographySelectDownload">
+                    <option value="county">Counties</option>
+                    <option value="zone">Zones</option>
+                </select>
+            </div>
+            <h2><a href="#" data-toggle="collapse" data-target="#yearDownloadContainer">Step 2: Choose a Year</a></h2>
+            <h5>*Base year 2010 data is included with the data for each forecast year.</h5>
+            <div id="yearDownloadContainer">
+                <select class="form-control" id="yearSelectDownload">
+                    <option value="2015">2015</option>
+                    <option value="2020">2020</option>
+                    <option value="2025">2025</option>
+                    <option value="2030">2030</option>
+                    <option value="2035">2035</option>
+                    <option value="2040">2040</option>
+                </select>
+            </div>
+            <h5>*Download button will appear when data loads.</h5>
+            {{#if subIsReady}}
+                <a href="data:attachment/csv;charset=UTF-8,{{data}}" download="download.csv" class="btn btn-primary" id="btnDownload">Download</a>
+            {{/if}}
+        </div>
+    </div>
+</template>

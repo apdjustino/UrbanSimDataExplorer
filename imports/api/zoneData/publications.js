@@ -97,4 +97,13 @@ if(Meteor.isServer){
 
         return zoneData.find({sim_year:year}, {fields: fieldsToGet});
     });
+    
+    
+    Meteor.publish("zones_by_year_all", function(year){
+        check(year, Number);
+        
+        return zoneData.find({sim_year:year});
+        
+    });
+    
 }

@@ -69,7 +69,8 @@ if(Meteor.isClient){
             return [
                 {paneName: 'Zone', paneId: 'zoneResults', paneBody: 'ZoneTabPane_body', paneData:{selectedAreas:selectedAreas, selectedData:selectedData}},
                 {paneName: 'County', paneId: 'countyResults', paneBody: 'CountyTabPane_body', paneData:{}},
-                {paneName: 'Layers', paneId: 'layers', paneBody: 'LayersTabPane_body', paneData:{}}
+                {paneName: 'Layers', paneId: 'layers', paneBody: 'LayersTabPane_body', paneData:{}},
+                {paneName: 'Downloads', paneId: 'downloads', paneBody:'DownloadsTabPane_body', paneData:{}}
             ]
         }, selectedZone: function(){
             return Session.get('selectedZone');
@@ -112,6 +113,12 @@ if(Meteor.isClient){
             d3.selectAll(".zones").attr("class", "zones");
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
+            
+            allCountySub.stop();
+            allZoneSub.stop();
+            Session.set('zoneSubIsReady', false);
+            Session.set('countySubIsReady', false);
+            
             d3.selectAll(".zones").remove();
             var countyParams = {
                 pathString: "data/county_web.json",
@@ -130,6 +137,12 @@ if(Meteor.isClient){
             drawMap(countyParams);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
+            
+            allCountySub.stop();
+            allZoneSub.stop();
+            Session.set('zoneSubIsReady', false);
+            Session.set('countySubIsReady', false);
+            
             d3.selectAll(".zones").remove();
             var zoneParams = {
                 pathString: "data/zonesGeo.json",
@@ -148,6 +161,18 @@ if(Meteor.isClient){
             });
             drawMap(zoneParams);
 
+        },  "click #downloads-li": function(event){
+            event.preventDefault();
+            allZoneSub = Meteor.subscribe('zones_by_year_all', Session.get('downloadYear'), {
+                onReady: function(){
+                    Session.set('zoneSubIsReady', true);
+                }
+            });
+            allCountySub = Meteor.subscribe('counties_by_year_all', Session.get('downloadYear'), {
+                onReady: function(){
+                    Session.set('countySubIsReady', true);
+                }
+            });
         }
     });
 
