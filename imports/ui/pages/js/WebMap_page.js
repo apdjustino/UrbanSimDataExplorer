@@ -113,8 +113,6 @@ if(Meteor.isClient){
             d3.selectAll(".zones").attr("class", "zones");
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
-            allCountySub.stop();
-            allZoneSub.stop();
             d3.selectAll(".zones").remove();
             var countyParams = {
                 pathString: "data/county_web.json",
@@ -133,8 +131,6 @@ if(Meteor.isClient){
             drawMap(countyParams);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
-            allCountySub.stop();
-            allZoneSub.stop();
             d3.selectAll(".zones").remove();
             var zoneParams = {
                 pathString: "data/zonesGeo.json",
