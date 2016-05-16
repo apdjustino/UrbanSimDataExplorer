@@ -14,9 +14,12 @@
                 <td>{{measureNameMap this.measure}}</td>
                 <td>{{formattedValue this.value this.measure}}</td>
                 <td>
-                    {{#if multiZones}}<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</a>{{/if}}
+                    {{#if multiZones}}
+                        {{#if isInRole 'admin, drcog'}}
+                            <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</a>
+                        {{/if}}
+                    {{/if}}
                 </td>
-
             </tr>
             {{#if multiZones}}{{>Modal_fade (CommentModal_args this.measure)}}{{/if}}
         {{/each}}
