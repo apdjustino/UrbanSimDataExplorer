@@ -26,7 +26,14 @@ export function drawMap(params){
             .attr("id", function(d){return d.properties[params.geo_property];});
         var title = feature.append("svg:title")
             .attr("class", "pathTitle")
-            .text(function(d){return params.label_string + d.properties[params.geo_property];});
+            .text(function(d){
+                if(params.hasOwnProperty('tazId')){
+                    return params.label_string + d.properties[params.geo_property] + ', TAZ_ID: ' + d.properties[params.tazId];
+                }else{
+                    return params.label_string + d.properties[params.geo_property];
+                }
+
+            });
         
 
         map.on("viewreset", reset);
