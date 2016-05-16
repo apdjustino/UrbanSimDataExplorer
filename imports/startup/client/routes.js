@@ -95,3 +95,4 @@ AdminGroup.route('/deleteuser', {
         BlazeLayout.render('Home_layout_page', {main: 'DeleteUser_page'});
     }
 });
+

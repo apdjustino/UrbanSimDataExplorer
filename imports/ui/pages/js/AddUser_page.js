@@ -19,11 +19,40 @@ if(Meteor.isClient){
             dataToSend["password2"] = $("#password2").val();
             dataToSend["role"] = $("#role option:selected").val();
             dataToSend["profile"] = profile;
-            Meteor.call("addNewUser", dataToSend, function(error, result){
-                sAlert.success("New user added!", {position: 'bottom'})
-            });
-            alert('User added');
 
+            Meteor.call("addNewUser", dataToSend, function(error){
+                if(error){
+                    sAlert.error(error.reason, {position:'bottom'});
+                }else{
+                    sAlert.success("New user added!", {position: 'bottom'})
+                }
+
+            });
+
+        }, "click #btnSendEmail": function(event){
+            event.preventDefault();
+            var dataToSend = {};
+            var profile = {};
+
+            profile['firstName'] =  $('#firstName').val();
+            profile["lastName"] = $('#lastName').val();
+            profile["organization"] = $('#organization').val();
+
+
+            dataToSend["email"] = $('#email').val();
+            dataToSend["password1"] = $('#password1').val();
+            dataToSend["password2"] = $("#password2").val();
+            dataToSend["role"] = $("#role option:selected").val();
+            dataToSend["profile"] = profile;
+
+            Meteor.call("sendInvite", dataToSend, function(error){
+                if(error){
+                    sAlert.error(error.reason, {position:'bottom'});
+                }else{
+                    sAlert.success("New user added!", {position: 'bottom'})    
+                }
+                
+            });
         }
     });
 

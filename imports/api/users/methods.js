@@ -62,5 +62,18 @@ Meteor.methods({
             }
         }
 
+    }, sendInvite: function(data){
+        if(!Meteor.userId()){
+            throw new Meteor.error("Not logged in!");
+        }else{
+            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                var id = Accounts.createUser({
+                    email: data['email'],
+                    profile: data['profile']
+                });
+                Roles.addUsersToRoles(id, data['role']);
+                Accounts.sendEnrollmentEmail(id);
+            }
+        }
     }
 });
