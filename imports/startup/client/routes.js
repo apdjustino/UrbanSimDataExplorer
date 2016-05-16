@@ -18,6 +18,7 @@ import '../../ui/components/html/AdminBlockHelper.html';
 //import client layouts
 import '../../ui/layouts/Home_layout_page.html';
 import '../../ui/layouts/Home_layout_page.js';
+import '../../ui/layouts/Blank_layout_page.html';
 
 //import client page html
 
@@ -33,6 +34,7 @@ import '../../ui/pages/html/DeleteUser_page.html';
 import '../../ui/pages/html/CountyTabPane_body.html'
 import '../../ui/pages/html/LayersTabPane_body.html';
 import '../../ui/pages/html/DownloadsTabPane_body.html';
+import '../../ui/pages/html/SetPassword_page.html';
 
 //import client page js
 
@@ -47,13 +49,22 @@ import '../../ui/pages/js/CommentModal_body.js';
 import '../../ui/pages/js/CountyTabPane_body.js';
 import '../../ui/pages/js/LayersTabPane_body.js';
 import '../../ui/pages/js/DownloadsTabPane_body.js';
+import '../../ui/pages/js/SetPassword_page.js';
 
 //declare routs
+
 
 FlowRouter.route('/', {
     name: 'home',
     action: function(){
         BlazeLayout.render('Home_layout_page', {main: 'Login_page'});
+    }
+});
+
+FlowRouter.route('/enroll-account/:token', {
+    name:'setPassword',
+    action: function(){
+        BlazeLayout.render('Blank_layout_page', {main: 'SetPassword_page'});
     }
 });
 
