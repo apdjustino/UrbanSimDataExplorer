@@ -8,7 +8,16 @@ if(Meteor.isClient){
             event.preventDefault();
             var role = $('#roleList option:selected').val();
             var userId = $('#userDropDownSelect option:selected').val();
-            Meteor.call("deleteRole", userId, role);
+            if(role){
+                Meteor.call("deleteRole", userId, role, function(error){
+                    if(error){
+                        sAlert.error(error.reason, {position:'bottom'});
+                    }
+                });
+            }else{
+                sAlert.error('No role selected for deletion. Select a role and then click on the delete button', {position:'bottom'});
+            }
+
 
 
         },

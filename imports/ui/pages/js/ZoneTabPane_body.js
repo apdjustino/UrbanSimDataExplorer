@@ -153,7 +153,9 @@ if(Meteor.isClient){
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
         map = L.map("mapContainer").setView([39.75, -104.95], 10);
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        var streets = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+        var imagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+        map.addLayer(streets);
 
         var svg = d3.select(map.getPanes().overlayPane).append("svg");
         var g = svg.append("g").attr("class", "leaflet-zoom-hide");

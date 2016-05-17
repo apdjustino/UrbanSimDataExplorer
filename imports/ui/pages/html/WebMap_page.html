@@ -17,6 +17,20 @@
             {{#if isSpinning}}
                 {{>spinner}}
             {{/if}}
+            <div class="container mapTileLayerImagery well well-sm">
+                <ul class="list-inline">
+                    <li>
+                        <label class="radio-inline">
+                            <input type="radio" name="tile" value="street">Street Tiles
+                        </label>
+                    </li>
+                    <li>
+                        <label class="radio-inline">
+                            <input type="radio" name="tile" value="imagery">Imagery Tiles
+                        </label>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>

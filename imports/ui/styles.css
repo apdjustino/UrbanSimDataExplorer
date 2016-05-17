@@ -347,3 +347,9 @@ input.commentChk{
 .error{
     color:red;
 }
+
+.mapTileLayerImagery{
+    z-index: 1000;
+    position:relative;
+    left:75%;
+}
