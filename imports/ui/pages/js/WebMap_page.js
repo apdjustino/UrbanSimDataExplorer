@@ -151,6 +151,21 @@ if(Meteor.isClient){
 
         },  "click #downloads-li": function(event){
             event.preventDefault();
+        }, "click .tileRadio": function(event){
+            var val = event.target.value;
+            if(val === 'street'){
+                map.eachLayer(function(layer){
+                    map.removeLayer(layer);
+                });
+                var streets = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+                map.addLayer(streets);
+            }else{
+                map.eachLayer(function(layer){
+                    map.removeLayer(layer);
+                });
+                var imagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+                map.addLayer(imagery);
+            }
         }
     });
 
