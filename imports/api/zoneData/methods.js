@@ -113,6 +113,7 @@ Meteor.methods({
                 }else{
                     data = countyData.find({sim_year:year}, {fields:countyPublicFields}).fetch();
                 }
+                console.log(data);
                 data = Papa.unparse(data);
             }else{
                 if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
