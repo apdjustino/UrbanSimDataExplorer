@@ -2,7 +2,7 @@
     {{>sAlert}}
     <div class="row">
         <div class="col-lg-12">
-            <h2><a href="#" data-toggle="collapse" data-target="#yearSelectContainerZone">Step 1: Choose a Year</a></h2>
+            <h4><a href="#" data-toggle="collapse" data-target="#yearSelectContainerZone">Step 1: Choose a Year</a></h4>
             <div id="yearSelectContainerZone">
                 <select class="form-control" id="yearSelectZone">
                     {{#each GLOBAL_years}}
@@ -10,7 +10,7 @@
                     {{/each}}
                 </select>
             </div>
-            <h2><a href="#" data-toggle="collapse" data-target="#variableSelectContainerZone">Step 2: Select Variable</a></h2>
+            <h4><a href="#" data-toggle="collapse" data-target="#variableSelectContainerZone">Step 2: Select Variable</a></h4>
             <div id="variableSelectContainerZone">
                 <select class="form-control" id="variableSelectZone">
                     {{#if isInRole 'admin'}}
@@ -32,7 +32,7 @@
                     {{/if}}
                 </select>
             </div>
-            <h2><a href="#" data-toggle="collapse" data-target="#zoneResultContainer">Step 3: View Results</a></h2>
+            <h4><a href="#" data-toggle="collapse" data-target="#zoneResultContainer">Step 3: View Results</a></h4>
             <div id="zoneResultContainer">
                 <div class="row">
                     <div class="col-lg-12">
