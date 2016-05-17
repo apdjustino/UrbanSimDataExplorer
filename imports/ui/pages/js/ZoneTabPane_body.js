@@ -160,7 +160,7 @@ if(Meteor.isClient){
         
         
         var zoneParams = {
-            pathString: "data/zonesGeo.json",
+            pathString: "/data/zonesGeo.json",
             obj_name: "zones",
             label_string: "ZoneId: ",
             geo_property: "ZONE_ID",
@@ -169,7 +169,7 @@ if(Meteor.isClient){
         };
 
         drawMap({
-            pathString: "data/municipalities.json",
+            pathString: "/data/municipalities.json",
             obj_name: "drcog_municipalities",
             label_string: "City: ",
             geo_property: "CITY",
