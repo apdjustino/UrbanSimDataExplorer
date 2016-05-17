@@ -34,7 +34,11 @@
             </div>
             <h4><a href="#" data-toggle="collapse" data-target="#countyResultContainer">Step 3: View Results</a></h4>
             <div id="countyResultContainer">
-                <button id="btnCountyQuery" class="btn btn-primary">Query</button>
+                <div style="display:inline">
+                    <button id="btnCountyQuery" class="btn btn-primary">Query</button>
+                    <button class="btn btn-primary" id="btnReset">Reset Map</button>
+                </div>
+
                 {{#if queryReturn}}
                     <table class="table table-condensed table-striped">
                         <thead>
