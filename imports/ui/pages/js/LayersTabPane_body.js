@@ -6,7 +6,7 @@ if(Meteor.isClient){
     Template.LayersTabPane_body.helpers({
         muniList: function(){
             var muniList = [
-                'Idahoe Springs',
+                'Idaho Springs',
                 'Georgetown',
                 'Silver Plume',
                 'Empire',
@@ -61,7 +61,7 @@ if(Meteor.isClient){
                 'Larkspur',
                 'Wheat Ridge',
                 'Castle Pines',
-                'Mountainview',
+                'Mountain View',
                 'Lakeside',
                 'Edgewater'
             ];
