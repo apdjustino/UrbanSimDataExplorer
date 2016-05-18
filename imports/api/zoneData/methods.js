@@ -129,6 +129,59 @@ Meteor.methods({
         }
         
         
+    }, dataDictionary: function(){
+        if(!Meteor.userId()){
+            throw new Meteor.Error("Not logged in");
+        }else{
+            var data = undefined;
+            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                data = [{
+                    zone_id: "Zone ID",
+                    county: "County Name",
+                    hh_base: "Households",
+                    pop_base:"Population",
+                    median_income_base: "Median Income",
+                    ru_base: "Residential Unit Count",
+                    emp_base:"Employment(All)",
+                    emp1_base: "Education Employment",
+                    emp2_base: "Entertainment Employment",
+                    emp3_base: "Production Employment",
+                    emp4_base: "Restaurant Employment",
+                    emp5_base: "Retail Employment",
+                    emp6_base: "Services Employment",
+                    nr_base: "Non-Res SqFt",
+                    hh_sim: "Households",
+                    pop_sim: "Population",
+                    median_income_sim: "Median Income",
+                    ru_sim: "Residential Unit Count",
+                    emp_sim: "Employment(All)",
+                    emp1_sim: "Education Employment",
+                    emp2_sim: "Entertainment Employment",
+                    emp3_sim: "Production Employment",
+                    emp4_sim: "Restaurant Employment",
+                    emp5_sim: "Retail Employment",
+                    emp6_sim: "Services Employment",
+                    nr_sim: "Non-Res SqFt",
+                    res_price_base: "Residential Price",
+                    non_res_price_base: "Non-Res Price",
+                    res_price_sim: "Residential Price",
+                    non_res_price_sim: "Non-Res Price"
+                }];
+            }else{
+                data = [{
+                    zone_id: "Zone ID",
+                    county: "County Name",
+                    hh_base: "Households",
+                    pop_base:"Population",
+                    emp_base:"Employment(All)",
+                    hh_sim: "Households",
+                    pop_sim: "Population",
+                    emp_sim: "Employment(All)"
+                }];
+            }
+            unparsed = Papa.unparse(data);
+            return unparsed;
+        }
     }
     
 });
