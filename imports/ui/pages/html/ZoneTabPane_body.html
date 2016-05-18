@@ -32,18 +32,19 @@
                     {{/if}}
                 </select>
             </div>
-            <h4><a href="#" data-toggle="collapse" data-target="#zoneResultContainer">Step 3: View Results</a></h4>
+            <h4><a href="#" data-toggle="collapse" data-target="#zoneResultContainer">Step 3: View Results</a>  <span><h5>*To view zone results, click on a zone or search by Zone Id</h5></span></h4>
             <div id="zoneResultContainer">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h5 class="text-left">*To view zone results, click on a zone or search by Zone Id</h5>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-lg-2">
                         <button id="btnZoneQuery" class="btn btn-primary">Query</button>
                     </div>
                     <div class="col-lg-10">
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <h4><a href="#">Options:</a></h4>
                         <form class="form-inline" id="findAZone">
                             <label for="findAZone">Zone/TAZ Id: </label>
                             <div class="form-group">
@@ -51,13 +52,22 @@
                                 <input type="submit" class="btn btn-primary" value="Find">
                             </div>
                         </form>
+
+
+                        <input type="checkbox" id="chkMultiple"> Multiple zone selections
+                        <input type="checkbox" id="showLegend" checked> Show Legend
+                        <br>
+                        <button class="btn btn-primary" id="btnReset" style="margin-top:15px;">Reset Map</button>
                     </div>
+
+
+
                 </div>
                 <div style="height:20px;"></div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <input type="checkbox" id="chkMultiple"> Multiple zone selections
-                        <button class="btn btn-primary" id="btnReset" style="margin-top:15px;">Reset Map</button>
+
+
                     </div>
 
                 </div>

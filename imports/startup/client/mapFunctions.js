@@ -109,5 +109,47 @@ export function colorMap(data, measure, juris){
             return "empty";
         }
     });
+
+    //draw legend
+
+    var quantizeRange = [];
+    d3.range(7).forEach(function(cv){
+        quantizeRange.push("q" + cv + "-7");
+    });
+    var range = [];
+    quantizeRange.forEach(function(cv){
+        var obj = {};
+        obj["cssClass"] = cv;
+        obj["range"] = quantize.invertExtent(cv);
+        range.push(obj)
+    });
+
+    d3.selectAll(".legendItemContainer").remove();
+    var legendDiv = d3.select('#legendList');
+
+    var listItems = legendDiv.selectAll("div")
+        .data(range)
+        .enter()
+        .append("div")
+        .attr("class", "legendItemContainer row");
+
+    var containers = d3.selectAll(".legendItemContainer");
+    containers.append("div").attr("class", "col-xs-3 col-sm-3 col-md-3 col-lg-3 leftCol");
+    containers.append("div").attr("class", "col-xs-9 col-sm-9 col-md-9 col-lg-9 rightCol");
+
+    var leftCols = d3.selectAll(".leftCol")
+        .append("div")
+        .attr("class", function(d){
+            return d.cssClass + " legendItem"
+        });
+
+    var rightCols = d3.selectAll(".rightCol")
+        .append("h5")
+        .attr("class","text-center")
+        .text(function(d){
+            return parseInt(d.range[0]) + ' - ' + parseInt(d.range[1]);
+        });
+
+
     
 }

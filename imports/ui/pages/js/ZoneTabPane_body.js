@@ -139,7 +139,15 @@ if(Meteor.isClient){
                 }
             });
 
+        }, "click #showLegend": function(event){
+            if(!event.target.checked){
+                $('#legendList').animate({'left':'88%'}, 1000)
+            }else {
+                $('#legendList').animate({'left':'44%'}, 1000)
+            }
+
         }
+
     });
 
     map = undefined;

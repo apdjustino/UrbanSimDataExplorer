@@ -281,6 +281,15 @@ path.q5-7 {fill:#215BA0; opacity:.7;}
 path.q6-7 {fill:#084594; opacity:.7;}
 
 
+div.q0-7 {background-color:#eff3ff}
+div.q1-7 {background-color:#85B3D4}
+div.q2-7 {background-color:#6C9DC7}
+div.q3-7 {background-color:#5387BA}
+div.q4-7 {background-color:#3A71AD}
+div.q5-7 {background-color:#215BA0}
+div.q6-7 {background-color:#084594}
+
+
 
 
 .check{
@@ -351,5 +360,35 @@ input.commentChk{
 .mapTileLayerImagery{
     z-index: 1000;
     position:relative;
-    left:75%;
+    width:17%;
+    left:44%;
+}
+
+.legendContainer{
+    z-index: 1000;
+    position:relative;
+    width:17%;
+    left:44%;
+
+
+}
+
+.legendItem{
+    height:20px;
+    width:20px;
+    margin:7px;
+    border-style:solid;
+    border-width:1px;
+}
+
+#legendList{
+    list-style-type: none;
+}
+
+.legendItemContainer{
+    position:relative;
+}
+
+.legendListHidden{
+    margin-left:2000px;
 }
