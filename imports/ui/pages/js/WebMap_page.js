@@ -175,10 +175,10 @@ if(Meteor.isClient){
             var bounds = el.getBoundingClientRect();
             console.log(bounds.top);
 
-            if(bounds.top === 450){
-                $('#chartsContainer').animate({'top':'675px'}, 500);
+            if(bounds.top < 550){
+                $('#chartsContainer').animate({'top':'93vh'}, 500);
             }else{
-                $($('#chartsContainer').animate({'top':'400px'}, 500));
+                $($('#chartsContainer').animate({'top':'56vh'}, 500));
             }
 
         }

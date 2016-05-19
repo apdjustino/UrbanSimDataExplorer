@@ -8,11 +8,11 @@ html, body, #container{
 }
 
 #sidebar{
-    height: 675px;
+    height: 93vh;
 }
 
 #mapContainer{
-    height: 675px;
+    height: 93vh;
 }
 
 body {
@@ -399,7 +399,7 @@ input.commentChk{
     width: 104%;
     left:-15px;
     height: 275px;
-    top: 675px;
+    top: 93vh;
     border-top: 2px solid;
     background-color: #fff;
 
