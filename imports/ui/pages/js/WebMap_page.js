@@ -174,11 +174,12 @@ if(Meteor.isClient){
             var el = document.getElementById('chartsContainer');
             var bounds = el.getBoundingClientRect();
             console.log(bounds.top);
-
-            if(bounds.top < 550){
+            var windowSize = .66 * $(window).height();
+            console.log(windowSize);
+            if(bounds.top < windowSize){
                 $('#chartsContainer').animate({'top':'93vh'}, 500);
             }else{
-                $($('#chartsContainer').animate({'top':'56vh'}, 500));
+                $($('#chartsContainer').animate({'top': '56vh'}, 500));
             }
 
         }
