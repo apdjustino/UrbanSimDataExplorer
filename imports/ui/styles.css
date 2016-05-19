@@ -8,11 +8,11 @@ html, body, #container{
 }
 
 #sidebar{
-    height: 900px;
+    height: 675px;
 }
 
 #mapContainer{
-    height: 900px;
+    height: 675px;
 }
 
 body {
@@ -108,7 +108,7 @@ a.toggle {
     background-color: #222;
     color: white;
     opacity: 0.8;
-    z-index: 100;
+    z-index: 1001;
 }
 
 a:hover.toggle {
@@ -391,4 +391,38 @@ input.commentChk{
 
 .legendListHidden{
     margin-left:2000px;
+}
+
+.chartsContainer {
+    z-index: 1000;
+    position: absolute;
+    width: 104%;
+    left:-15px;
+    height: 250px;
+    top: 425px;
+    border-top: 2px solid;
+    background-color: #fff;
+
+}
+
+#toggleCharts{
+    background: url('images/double_arrow_down.png') no-repeat;
+    background-size: 20px;
+    background-position-x:3px;
+    background-position-y: 3px;
+    background-position: 3px 3px;
+    background-color: #fff;
+    border-top: 2px solid;
+    border-left: 2px solid;
+    border-right: 2px solid;
+    border-bottom: none;
+    border-radius: 4px 4px 0 0;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    position: absolute;
+    width: 275px;
+    height: 30px;
+    cursor: pointer;
+    top: -30px;
 }

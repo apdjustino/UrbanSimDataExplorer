@@ -166,7 +166,20 @@ if(Meteor.isClient){
                 var imagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
                 map.addLayer(imagery);
             }
+        }, "click #toggleCharts": function(event){
+            event.preventDefault();
+            var el = document.getElementById('chartsContainer');
+            var bounds = el.getBoundingClientRect();
+            console.log(bounds.top);
+
+            if(bounds.top === 475){
+                $('#chartsContainer').animate({'top':'675px'}, 500);
+            }else{
+                $($('#chartsContainer').animate({'top':'425px'}, 500));
+            }
+
         }
+
     });
 
 
