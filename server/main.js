@@ -17,8 +17,8 @@ if(Meteor.isServer){
             return Meteor.absoluteUrl('enroll-account/' + token)
         };
 
-        process.env.MAIL_URL = "smtp://justin%40sandbox4851f242dc32413caf7306f4f466e0d1.mailgun.org:destroy1@smtp.mailgun.org:587"
-
+        //process.env.MAIL_URL = "smtp://justin%40sandbox4851f242dc32413caf7306f4f466e0d1.mailgun.org:destroy1@smtp.mailgun.org:587"
+        process.env.MAIL_URL = "smtp://smtp.drcog.org:25"
 
     });
 }
