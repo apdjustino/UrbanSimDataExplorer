@@ -3,6 +3,7 @@
  */
 import {drawMap} from '../../../startup/client/mapFunctions.js';
 import {colorMap} from '../../../startup/client/mapFunctions.js';
+import {drawChart} from '../../../startup/client/mapFunctions.js';
 
 export function findZoneData(zoneId, year){
     var selectedZoneArray = Session.get('selectedZone');
@@ -25,8 +26,8 @@ export function findZoneData(zoneId, year){
 
     var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
         onReady: function(){
-            if(year === 2010){year = 2015;}
             var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
+            this.stop();
             var dataArr =[];
 
             //first sum results in array
@@ -44,9 +45,12 @@ export function findZoneData(zoneId, year){
                 }
 
             }
+            var dataDict = {};
+            dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
+            dataDict["allYears"] = zoneData.find().fetch();
+            Session.set("selectedData", dataDict.oneYear);
+            drawChart(dataDict.allYears);
 
-            Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
-            this.stop();
         }
     });
 }
@@ -90,7 +94,6 @@ if(Meteor.isClient){
             Session.set('spinning', true);
             var year = parseInt($('#yearSelect').val());
             var measure = event.target.id;
-            if(year == 2010){year = 2015;}
             d3.select(event.target.parentNode.parentNode).classed("active", function () {
                 return !($(event.target.parentNode.parentNode).hasClass("active"));
             });
@@ -172,10 +175,10 @@ if(Meteor.isClient){
             var bounds = el.getBoundingClientRect();
             console.log(bounds.top);
 
-            if(bounds.top === 475){
+            if(bounds.top === 450){
                 $('#chartsContainer').animate({'top':'675px'}, 500);
             }else{
-                $($('#chartsContainer').animate({'top':'425px'}, 500));
+                $($('#chartsContainer').animate({'top':'400px'}, 500));
             }
 
         }

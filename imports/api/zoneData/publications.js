@@ -73,13 +73,13 @@ if(Meteor.isServer){
 
 
 
-        if(_.contains(thisUser.roles, 'admin')){
-            if(year == 2010){queryYear = 2015; fields = adminBaseFields}else{fields = adminSimFields;}
-            return zoneData.find({sim_year: queryYear, zone_id:{$in:zones}}, {fields:fields});
+        if(Roles.userIsInRole(thisUser._id), ['admin']){
+            fields = adminSimFields;
+            return zoneData.find({zone_id:{$in:zones}}, {fields:fields});
         }else{
             //console.log(fields);
-            if(year == 2010){queryYear = 2015; fields = publicBaseFields}else{fields = publicSimFields;}
-            return zoneData.find({sim_year: queryYear, zone_id:{$in:zones}}, {fields:fields});
+            fields = publicSimFields;
+            return zoneData.find({zone_id:{$in:zones}}, {fields:fields});
         }
 
     });
@@ -92,9 +92,7 @@ if(Meteor.isServer){
         fieldsToGet[measure] = 1;
         fieldsToGet['zone_id'] = 1;
         fieldsToGet['sim_year'] = 1;
-
-        if(year == 2010){year = 2015;}
-
+        
         return zoneData.find({sim_year:year}, {fields: fieldsToGet});
     });
     

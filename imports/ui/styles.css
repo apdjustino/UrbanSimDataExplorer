@@ -398,8 +398,8 @@ input.commentChk{
     position: absolute;
     width: 104%;
     left:-15px;
-    height: 250px;
-    top: 425px;
+    height: 275px;
+    top: 675px;
     border-top: 2px solid;
     background-color: #fff;
 
@@ -425,4 +425,27 @@ input.commentChk{
     height: 30px;
     cursor: pointer;
     top: -30px;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.x.axis path {
+    display: none;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.lineEmp {
+    fill: none;
+    stroke: orange;
+    stroke-width: 1.5px;
 }
