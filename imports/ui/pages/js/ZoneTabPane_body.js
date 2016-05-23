@@ -132,7 +132,7 @@ if(Meteor.isClient){
                 }
             });
 
-        }, "click #showLegend": function(event){
+        }, "click .showLegend": function(event){
             if(!event.target.checked){
                 $('#legendList').animate({'left':'88%'}, 1000)
             }else {

@@ -130,6 +130,9 @@ if(Meteor.isClient){
             Session.set('selectedData', undefined);
             Session.set('zoneClicked', false);
             d3.selectAll(".zones").attr("class", "zones");
+            d3.selectAll(".city").classed("citySelected", false);
+            d3.selectAll(".svgChart").remove();
+            $('input:checkbox').attr('checked', false);
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
             d3.selectAll(".zones").remove();

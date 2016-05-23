@@ -1,6 +1,14 @@
 <template name="LayersTabPane_body">
 
-    <h4>Add Layers To Map</h4>
+    <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <h4 class="text-left">Add Layers To Map</h4>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+            <button class="btn btn-primary" id="btnReset" style="float:right;">Reset Map</button>
+        </div>
+    </div>
+
     <ul style="list-style-type:none">
         {{#each muniList}}
             <li>
