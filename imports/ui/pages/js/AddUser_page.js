@@ -47,6 +47,7 @@ if(Meteor.isClient){
 
             Meteor.call("sendInvite", dataToSend, function(error){
                 if(error){
+                    console.log(error);
                     sAlert.error(error.reason, {position:'bottom'});
                 }else{
                     sAlert.success("New user added!", {position: 'bottom'})    
