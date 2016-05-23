@@ -132,7 +132,7 @@ if(Meteor.isClient){
             d3.selectAll(".zones").attr("class", "zones");
             d3.selectAll(".city").classed("citySelected", false);
             d3.selectAll(".svgChart").remove();
-            $('input:checkbox').attr('checked', false);
+            $('.muniChk').attr('checked', false);
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
             d3.selectAll(".zones").remove();
