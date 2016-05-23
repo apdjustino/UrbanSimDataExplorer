@@ -46,8 +46,24 @@ export function findZoneData(zoneId, year){
 
             }
             var dataDict = {};
+            var chartData = [];
             dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
-            dataDict["allYears"] = zoneData.find().fetch();
+            var allYears = _.groupBy(zoneData.find().fetch(), 'sim_year');
+            for(var property in allYears){
+                if(allYears.hasOwnProperty(property)){
+                    var sim_data = allYears[property].reduce(function(a, b){
+                        return {
+                            pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                            emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                            sim_year: a.sim_year
+                        };
+                    });
+                    chartData.push(sim_data);
+
+                }
+            }
+            console.log(chartData);
+            dataDict["allYears"] = chartData;
             Session.set("selectedData", dataDict.oneYear);
             drawChart(dataDict.allYears);
 
