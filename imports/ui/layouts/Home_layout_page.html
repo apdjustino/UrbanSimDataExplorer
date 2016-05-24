@@ -1,5 +1,5 @@
 <template name="Home_layout_page">
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top homeNav">
         <div class="navbar-header">
             <div class="navbar-brand" id="logo"><img src="/images/drcoglogowhitenew.png" height="50px" width="111px" /></div>
             <a class="navbar-brand" href="#">Urban Sim Data Explorer</a>
@@ -21,7 +21,7 @@
                         </li>
                     {{/if}}
                 {{else}}
-                    <li><a href="/"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp; Log In</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp; Log In</a></li>
                 {{/if}}
                 <li><a href="#" data-toggle="modal" data-target="#aboutModal"><span class="glyphicon glyphicon-question-sign" style="color:white;"></span>&nbsp;&nbsp;About</a></li>
 
@@ -36,3 +36,4 @@
     {{/if}}
 
 </template>
+

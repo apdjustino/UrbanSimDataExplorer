@@ -449,3 +449,45 @@ input.commentChk{
     stroke: orange;
     stroke-width: 1.5px;
 }
+
+.loginFooter{
+
+    height: 30vh;
+    top:70vh;
+    width:100%;
+    padding: 20px 10px;
+    min-height:60px;
+    background-color: #3c3c3c;
+    color: #efefef;
+    position:absolute;
+}
+
+.homeNav{
+    background-color:#3c3c3c;
+}
+
+.module-content{
+    padding: 0 25px;
+    margin: 20px 0;
+}
+
+.module-content:first-child{
+    magin-top:0;
+    padding-top:20px;
+}
+
+.module-content:last-child{
+    margin-bottom: 0;
+    padding-bottom: 20px;
+}
+
+.box{
+    background-color: #fff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.05);
+}
+
+.span6{
+    width:460px;
+}

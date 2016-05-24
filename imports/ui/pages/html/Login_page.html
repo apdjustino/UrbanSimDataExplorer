@@ -1,28 +1,54 @@
 <template name="Login_page">
-    <div class="row">
-        <div class="col-xs-4 col-sm-4"></div>
-        <div class="col-xs-4 col-sm-4">
-            {{>sAlert}}
-            <div class="well">
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="userEmail" class="control-label">Email</label>
-                        <input type="text" class="form-control email required" id="userEmail" name="userEmail" title="Please enter you username" placeholder="example@gmail.com">
-                        <span class="help-block"></span>
+    {{>sAlert}}
+    <div class="hero" style="background-image: url('images/background-tile.png')">
+        <div style="position:relative; height:70vh; width:100%;">
+            <div class="container" style="position:relative; top:10%;">
+                <div class="row row1">
+                    <div class="span6 col1">
+                        <div class="module-content box">
+                            <header>
+                                <p>
+                                    The Data Portal is an online application for data exchange between DRCOG and its members that promotes the creation of regional datasets for the purposes of planning, spatial analysis, and forecasting.
+                                </p>
+                            </header>
+                            <section class="featured media-overlay">
+                                <h2 class="media-heading"></h2>
+                                <a class="media-image" href="#">
+                                    <img src="images/dppreview.png" alt="Placeholder" width="420" height="220" />
+                                </a>
+                            </section>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="password" class="control-label">Password</label>
-                        <input type="password" class="form-control required" id="password" name="password" value="" required="" title="Please enter your password">
-                        <span class="help-block"></span>
+                    <div class="col-sm-6"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="footer" class="loginFooter">
+        <div id="sticky-footer">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="region region-footerlogo">
+                        <section id="block-block-1" class="block block-block clearfix">
+                            <p>
+                                <a href="http://www.drcog.org">
+                                    <img alt="Denver Regional Council Of Government" src="images/footerLogo.png">
+                                </a>
+
+                            </p>
+                        </section>
                     </div>
-                    <input type="submit" id="submitLoginForm" class="btn btn-success btn-block" value="Login">
-                </form>
-                <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target="#createPublicAccountModal">Create New Account</a>
-                {{>Modal_fade (LoginModal_args)}}
+
+                </div>
+                <div class="col-sm-8">
+                </div>
             </div>
         </div>
-        <div class="col-xs-4 col-sm-4"></div>
     </div>
+
+    {{>Modal_fade (Credentials_args)}}
+    {{>Modal_fade (LoginModal_args)}}
 </template>
 
 <template name="LoginModal_body">
@@ -53,4 +79,24 @@
         </div>
         <input type="submit" class="btn btn-primary" value="Submit">
     </form>
+</template>
+
+<template name="CredentialsModal_body">
+
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="userEmail" class="control-label">Email</label>
+            <input type="text" class="form-control email required" id="userEmail" name="userEmail" title="Please enter you username" placeholder="example@gmail.com">
+            <span class="help-block"></span>
+        </div>
+        <div class="form-group">
+            <label for="password" class="control-label">Password</label>
+            <input type="password" class="form-control required" id="password" name="password" value="" required="" title="Please enter your password">
+            <span class="help-block"></span>
+        </div>
+        <input type="submit" id="submitLoginForm" class="btn btn-success btn-block" value="Login">
+    </form>
+    <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target="#createPublicAccountModal">Create New Account</a>
+
+
 </template>

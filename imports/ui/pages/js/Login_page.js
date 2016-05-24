@@ -11,10 +11,17 @@ if(Meteor.isClient){
                 modalTitle: 'Create New Account',
                 modalData: ''
             }
+        }, Credentials_args: function(){
+            return {
+                modalId: 'loginModal',
+                bodyTemplate: 'CredentialsModal_body',
+                modalTitle: 'LOG IN',
+                modalData: ''
+            }
         }
     });
 
-    Template.Login_page.events({
+    Template.CredentialsModal_body.events({
         "submit #loginForm": function(event, template){
             event.preventDefault();
             var email = $('#userEmail').val();
@@ -27,9 +34,13 @@ if(Meteor.isClient){
                         sAlert.error(error.reason, {position:'bottom'});
                     }
                 }else{
+
+                    $('#loginModal').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
                     FlowRouter.go('/map');
                 }
-            })
+            });
 
         }
     });
@@ -56,6 +67,9 @@ if(Meteor.isClient){
                 }else{
                     $('#createPublicAccountModal').removeClass('fade');
                     $('#createPublicAccountModal').modal('hide');
+                    $('#loginModal').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
                     FlowRouter.go('/map');
                 }
             })
