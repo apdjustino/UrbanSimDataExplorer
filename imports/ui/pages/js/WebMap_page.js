@@ -52,7 +52,7 @@ export function subscribeToZone(year, selectedZoneArray){
                         return obj
                     });
 
-                    return {measure: key, value:value[key], diff: value[key] - baseValue[key]};
+                    return {measure: key, value:parseInt(value[key]), diff: parseInt(value[key]) - parseInt(baseValue[key])};
                 });
             }
 
