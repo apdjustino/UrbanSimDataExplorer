@@ -9,7 +9,7 @@ if(Meteor.isClient){
     
     Template.Result_table.helpers({
         tableData: function(){
-            return Session.get('selectedData');
+            return Session.get('selectedData').oneYear;
         }, CommentModal_args: function(measure){
             var selectedYear = parseInt($('#yearSelectZone option:selected').val());
             var selectedZones = Session.get('selectedZone');

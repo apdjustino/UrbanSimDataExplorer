@@ -4,6 +4,7 @@
         <tr>
             <th>Measure</th>
             <th>Value</th>
+            <th>Base Year Diff</th>
             <th></th>
         </tr>
 
@@ -13,10 +14,11 @@
             <tr>
                 <td>{{measureNameMap this.measure}}</td>
                 <td>{{formattedValue this.value this.measure}}</td>
+                <td>{{formattedValue this.diff this.measure}}</td>
                 <td>
                     {{#if multiZones}}
                         {{#if isInRole 'admin, drcog'}}
-                            <a href="#" class="btn btn-primary commentLink" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</a>
+                            <a href="#" class="commentLink" data-toggle="modal" data-target="#commentModal-{{this.measure}}">Comment</a>
                         {{/if}}
                     {{/if}}
                 </td>

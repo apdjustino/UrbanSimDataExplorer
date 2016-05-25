@@ -24,27 +24,53 @@ export function findZoneData(zoneId, year){
     Session.set('selectedZone', selectedZoneArray);
 
 
-    var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
+    var zoneSubscription = subscribeToZone(year, selectedZoneArray);
+}
+
+export function subscribeToZone(year, selectedZoneArray){
+    return Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
         onReady: function(){
             var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
+            var baseData = zoneData.find({sim_year: 2010, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
             this.stop();
             var dataArr =[];
 
-            //first sum results in array
+            //functional programming way of creating the right data object
+            if(data.length > 0){
+                dataArr = _.keys(data[0]).map(function(key){
+                    var value = data.reduce(function(a, b){
+                        var obj = {};
+                        obj[key] = a[key] + b[key];
+                        return obj
+                    });
 
-            for(var prop in data[0]){
-                if(data[0].hasOwnProperty(prop)){
-                    var obj = {};
-                    obj["measure"] = prop;
-                    obj["value"] = 0;
-                    for(var i=0; i< data.length; i++){
-                        var val = parseInt(data[i][prop]) || 0;
-                        obj["value"] += val;
-                    }
-                    dataArr.push(obj);
-                }
+                    var baseValue = baseData.reduce(function(a, b){
+                        var obj = {};
+                        obj[key] = a[key] + b[key];
+                        return obj
+                    });
 
+                    return {measure: key, value:value[key], diff: value[key] - baseValue[key]};
+                });
             }
+
+
+
+            //imperative programming way of creating the right data object
+
+            // for(var prop in data[0]){
+            //     if(data[0].hasOwnProperty(prop)){
+            //         var obj = {};
+            //         obj["measure"] = prop;
+            //         obj["value"] = 0;
+            //         for(var i=0; i< data.length; i++){
+            //             var val = parseInt(data[i][prop]) || 0;
+            //             obj["value"] += val;
+            //         }
+            //         dataArr.push(obj);
+            //     }
+            // }
+
             var dataDict = {};
             var chartData = [];
             dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
@@ -62,14 +88,16 @@ export function findZoneData(zoneId, year){
 
                 }
             }
-            console.log(chartData);
             dataDict["allYears"] = chartData;
-            Session.set("selectedData", dataDict.oneYear);
+            Session.set("selectedData", dataDict);
+
+
             drawChart(dataDict.allYears);
 
         }
     });
 }
+
 if(Meteor.isClient){
     
     Template.WebMap_page.helpers({
@@ -200,7 +228,7 @@ if(Meteor.isClient){
             var windowSize = .66 * $(window).height();
             console.log(windowSize);
             if(bounds.top < windowSize){
-                $('#chartsContainer').animate({'top':'90vh'}, 500);
+                $('#chartsContainer').animate({'top':'91vh'}, 500);
             }else{
                 $($('#chartsContainer').animate({'top': '53vh'}, 500));
             }

@@ -2,7 +2,8 @@
  * Created by jmartinez on 4/5/16.
  */
 
-import { findZoneData } from '../js/WebMap_page'
+import { findZoneData } from '../js/WebMap_page';
+import {subscribeToZone} from '../js/WebMap_page';
 import {drawMap} from '../../../startup/client/mapFunctions.js';
 import {colorMap} from '../../../startup/client/mapFunctions.js';
 
@@ -89,31 +90,8 @@ if(Meteor.isClient){
             var year = parseInt($('#yearSelectZone').val());
 
 
-            var zoneSubscription = Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
-                onReady: function(){
-                    var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
-                    var dataArr =[];
+            var zoneSubscription = subscribeToZone(year, selectedZoneArray);
 
-                    //first sum results in array
-
-                    for(var prop in data[0]){
-                        if(data[0].hasOwnProperty(prop)){
-                            var obj = {};
-                            obj["measure"] = prop;
-                            obj["value"] = 0;
-                            for(var i=0; i< data.length; i++){
-                                var val = parseInt(data[i][prop]) || 0;
-                                obj["value"] += val;
-                            }
-                            dataArr.push(obj);
-                        }
-
-                    }
-
-                    Session.set("selectedData", _.sortBy(dataArr, 'measure').reverse());
-                    this.stop();
-                }
-            });
         }, "click #btnZoneQuery": function(event, template){
             event.preventDefault();
             var selectedYear = parseInt($('#yearSelectZone option:selected').val());
