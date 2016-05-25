@@ -2,6 +2,7 @@
  * Created by jmartinez on 5/2/16.
  */
 import {colorMap} from '../../../startup/client/mapFunctions.js';
+import {drawChart} from '../../../startup/client/mapFunctions.js';
 if(Meteor.isClient){
     
     Template.CountyTabPane_body.helpers({
@@ -99,6 +100,28 @@ if(Meteor.isClient){
         Session.set('countyResults', undefined);
         Session.set('queryReturn', false);
         Session.set('selectedVariable', undefined);
+
+        var self = this;
+        this.autorun(function(){
+            self.subscribe('counties', {
+                onReady: function(){
+                    var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+                    var regionalChartData = _.keys(counties).map(function(key){
+                        var simData = counties[key].reduce(function(a,b){
+                            return {
+                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                                sim_year: a.sim_year
+                            };
+                        });
+                        return simData;
+                    });
+                    
+                    drawChart(regionalChartData);
+
+                }
+            });
+        });
     })
     
 }

@@ -156,7 +156,7 @@ export function colorMap(data, measure, juris){
 
 export function drawChart(data){
     d3.selectAll(".svgChart").remove();
-    var margin = {top: 10, right:25, bottom:25, left:50},
+    var margin = {top: 10, right:25, bottom:25, left:90},
         width = 350 - margin.left - margin.right,
         height = 220 - margin.top - margin.bottom;
     
@@ -201,8 +201,7 @@ export function drawChart(data){
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
-
-    x.domain(d3.extent(data, function(d){return d.sim_year;}));
+    x.domain([2010, 2040]);
     y_pop.domain(d3.extent(data, function(d){return d.pop_sim}));
     y_emp.domain(d3.extent(data, function(d){return d.emp_sim}));
 
@@ -248,3 +247,4 @@ export function drawChart(data){
 
     
 }
+

@@ -245,6 +245,18 @@ path.zones{
 
 }
 
+path.counties{
+    stroke:black;
+    stroke-width:0.5;
+    fill:rgba(0,0,0,0);
+    opacity:0.6;
+}
+
+path.counties:hover{
+    stroke:black;
+    stroke-width: 2;
+}
+
 path.city{
     stroke: none;
     fill:rgba(0,0,0,0);

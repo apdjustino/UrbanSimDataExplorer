@@ -74,22 +74,40 @@ export function subscribeToZone(year, selectedZoneArray){
             // }
 
             var dataDict = {};
-            var chartData = [];
+            var chartData;
+
+
+
             dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
             var allYears = _.groupBy(zoneData.find().fetch(), 'sim_year');
-            for(var property in allYears){
-                if(allYears.hasOwnProperty(property)){
-                    var sim_data = allYears[property].reduce(function(a, b){
+            var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+
+            if(Session.get('selectedZone').length > 0){
+                chartData = _.keys(allYears).map(function(key){
+                    var simData = allYears[key].reduce(function(a,b){
                         return {
                             pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
                             emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
                             sim_year: a.sim_year
                         };
                     });
-                    chartData.push(sim_data);
-
-                }
+                    return simData;
+                });
+            }else{
+                chartData = _.keys(counties).map(function(key){
+                    var simData = counties[key].reduce(function(a,b){
+                        return {
+                            pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                            emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                            sim_year: a.sim_year
+                        };
+                    });
+                    return simData;
+                });
             }
+
+
+
             dataDict["allYears"] = chartData;
             Session.set("selectedData", dataDict);
 
@@ -171,7 +189,7 @@ if(Meteor.isClient){
                 obj_name: "county_2014_web",
                 label_string: "County: ",
                 geo_property: "COUNTY",
-                geo_class: "zones"
+                geo_class: "counties"
             };
             drawMap({
                 pathString: "data/municipalities.json",
@@ -180,7 +198,21 @@ if(Meteor.isClient){
                 geo_property: "CITY",
                 geo_class: "city"
             });
+
             drawMap(countyParams);
+            var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+            var regionalChartData = _.keys(counties).map(function(key){
+                var simData = counties[key].reduce(function(a,b){
+                    return {
+                        pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                        emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                        sim_year: a.sim_year
+                    };
+                });
+                return simData;
+            });
+
+            drawChart(regionalChartData);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
             d3.selectAll(".zones").remove();
