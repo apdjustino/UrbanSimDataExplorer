@@ -1,6 +1,28 @@
 /**
  * Created by jmartinez on 4/5/16.
  */
+export function getDataFields(admin){
+    if(admin){
+        return {zone_id:0, _id:0, sim_year:0};
+    }else{
+        return {
+            zone_id:0,
+            _id:0, 
+            sim_year:0,
+            median_income_sim:0,
+            ru_sim: 0,
+            emp1_sim: 0,
+            emp2_sim: 0,
+            emp3_sim: 0,
+            emp4_sim: 0,
+            emp5_sim: 0,
+            emp6_sim: 0,
+            nr_sim: 0,
+            res_price_sim: 0,
+            non_res_price_sim: 0
+        }
+    }
+}
 if(Meteor.isClient){
     
     Template.registerHelper('GLOBAL_years', function(){

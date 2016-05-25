@@ -4,6 +4,7 @@
 import {drawMap} from '../../../startup/client/mapFunctions.js';
 import {colorMap} from '../../../startup/client/mapFunctions.js';
 import {drawChart} from '../../../startup/client/mapFunctions.js';
+import {getDataFields} from '../../../ui/components/Global_helpers.js';
 
 export function findZoneData(zoneId, year){
     var selectedZoneArray = Session.get('selectedZone');
@@ -30,8 +31,9 @@ export function findZoneData(zoneId, year){
 export function subscribeToZone(year, selectedZoneArray){
     return Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
         onReady: function(){
-            var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
-            var baseData = zoneData.find({sim_year: 2010, zone_id:{$in:selectedZoneArray}}, {fields:{zone_id:0, _id:0, sim_year:0}}).fetch();
+            var fieldObj = getDataFields(Roles.userIsInRole(Meteor.userId(), ['admin']));
+            var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+            var baseData = zoneData.find({sim_year: 2010, zone_id:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
             this.stop();
             var dataArr =[];
 
@@ -209,7 +211,7 @@ if(Meteor.isClient){
                     map.removeLayer(layer);
                 });
                 var streets = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
                 });
                 map.addLayer(streets);
             }else{
