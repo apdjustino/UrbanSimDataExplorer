@@ -187,6 +187,7 @@ if(Meteor.isClient){
                 obj_name: "zones",
                 label_string: "ZoneId: ",
                 geo_property: "ZONE_ID",
+                tazId: "TAZ_ID",
                 geo_class: "zones"
             };
             Session.set('spinning', true);
