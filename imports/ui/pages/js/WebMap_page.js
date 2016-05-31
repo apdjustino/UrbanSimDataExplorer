@@ -242,16 +242,22 @@ if(Meteor.isClient){
                 map.eachLayer(function(layer){
                     map.removeLayer(layer);
                 });
-                var streets = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+                var streets = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    subdomains: 'abcd',
+                    id: 'mapbox.outdoors',
+                    accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
                 });
                 map.addLayer(streets);
             }else{
                 map.eachLayer(function(layer){
                     map.removeLayer(layer);
                 });
-                var imagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                var imagery = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    subdomains: 'abcd',
+                    id: 'mapbox.streets-satellite',
+                    accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
                 });
                 map.addLayer(imagery);
             }
@@ -259,11 +265,9 @@ if(Meteor.isClient){
             event.preventDefault();
             var el = document.getElementById('chartsContainer');
             var bounds = el.getBoundingClientRect();
-            console.log(bounds.top);
             var windowSize = .66 * $(window).height();
-            console.log(windowSize);
             if(bounds.top < windowSize){
-                $('#chartsContainer').animate({'top':'91vh'}, 500);
+                $('#chartsContainer').animate({'top':'93vh'}, 500);
             }else{
                 $($('#chartsContainer').animate({'top': '53vh'}, 500));
             }
