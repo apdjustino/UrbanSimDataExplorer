@@ -18,7 +18,7 @@ if(Meteor.isServer){
             return Meteor.absoluteUrl('enroll-account/' + token)
         };
         
-        Accounts.emailTemplates.from = 'DRCOG Land Use Team <no-reply@drcog.org';
+        Accounts.emailTemplates.from = 'DRCOG Land Use Team <no-reply@drcog.org>';
         Accounts.emailTemplates.siteName = 'DRCOG Land Use Explorer';
         Accounts.emailTemplates.enrollAccount.subject = function(user){
             return user.profile.firstName + ' ' + user.profile.lastName + ', you have been invited to join the DRCOG Land Use Explorer';
