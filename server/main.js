@@ -26,8 +26,8 @@ if(Meteor.isServer){
         
         Accounts.emailTemplates.enrollAccount.text = function(user, url){
             return "Hello " + user.profile.firstName + ", \n\n You are invited to join the DRCOG Land Use Explorer project. Your account will " +
-                "allow you review DRCOG's latest land use forecast, provide feedback, and download the results. To get started, click on the link" +
-                "below and set up your password. \n\n" + url; 
+                "allow you to review DRCOG's latest land use forecast, provide feedback, and download the results. To get started, click on the link" +
+                " below and set up your password. \n\n" + url; 
         };
 
         //process.env.MAIL_URL = "smtp://justin%40sandbox4851f242dc32413caf7306f4f466e0d1.mailgun.org:destroy1@smtp.mailgun.org:587"
