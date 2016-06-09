@@ -12,7 +12,7 @@ html, body, #container{
 }
 
 #mapContainer{
-    height: 93vh;
+
 }
 
 body {
@@ -410,8 +410,7 @@ input.commentChk{
     position: absolute;
     width: 104%;
     left:-15px;
-    height: 40vh;
-    top: 93vh;
+    top: 100%;
     border-top: 2px solid;
     background-color: #fff;
 

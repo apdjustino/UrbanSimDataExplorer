@@ -261,16 +261,30 @@ if(Meteor.isClient){
                 });
                 map.addLayer(imagery);
             }
-        }, "click #toggleCharts": function(event){
+        }, "click #toggleCharts": function(event, template){
             event.preventDefault();
+            var toggle = template.chartToggle.get();
+            toggle = !toggle;
+            template.chartToggle.set(toggle);
+
+            var htmlHeight = $(window).height();
+            var navHeight = $('.homeNav').height();
+            var mapHeight = htmlHeight - navHeight;
             var el = document.getElementById('chartsContainer');
             var bounds = el.getBoundingClientRect();
-            var windowSize = .66 * $(window).height();
-            if(bounds.top < windowSize){
-                $('#chartsContainer').animate({'top':'93vh'}, 500);
+            var containerHeight = bounds.bottom - bounds.top;
+            var newTop = mapHeight - containerHeight;
+            console.log(containerHeight);
+            console.log(newTop);
+            console.log(mapHeight);
+            newTop = newTop.toString() + 'px';
+
+            if(toggle){
+                $('#chartsContainer').animate({'top': newTop}, 500);
             }else{
-                $($('#chartsContainer').animate({'top': '53vh'}, 500));
+                $('#chartsContainer').animate({'top': '100%'}, 500);
             }
+
 
         }
 
@@ -285,9 +299,18 @@ if(Meteor.isClient){
         $('#myTab li').first().addClass('active');
         $('.tab-pane').first().addClass('active');
 
+        var htmlHeight = $(window).height();
+        var navHeight = $('.homeNav').height();
+
+        $('#mapContainer').height(htmlHeight - navHeight);
+
 
 
     });
+
+    Template.WebMap_page.onCreated(function(){
+        this.chartToggle = new ReactiveVar(false);
+    })
 
 }
 
