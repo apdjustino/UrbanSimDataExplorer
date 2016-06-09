@@ -12,7 +12,7 @@ html, body, #container{
 }
 
 #mapContainer{
-
+    height: 93vh;
 }
 
 body {

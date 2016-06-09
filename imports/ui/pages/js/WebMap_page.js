@@ -274,9 +274,7 @@ if(Meteor.isClient){
             var bounds = el.getBoundingClientRect();
             var containerHeight = bounds.bottom - bounds.top;
             var newTop = mapHeight - containerHeight;
-            console.log(containerHeight);
-            console.log(newTop);
-            console.log(mapHeight);
+
             newTop = newTop.toString() + 'px';
 
             if(toggle){
@@ -298,11 +296,7 @@ if(Meteor.isClient){
         Session.set('allowMultipleGeo', false);
         $('#myTab li').first().addClass('active');
         $('.tab-pane').first().addClass('active');
-
-        var htmlHeight = $(window).height();
-        var navHeight = $('.homeNav').height();
-
-        $('#mapContainer').height(htmlHeight - navHeight);
+        
 
 
 
