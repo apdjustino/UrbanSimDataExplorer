@@ -42,14 +42,7 @@ if(Meteor.isClient){
     });
 
     Template.CountyTabPane_body.events({
-        "change #yearSelectCounty": function(event, template){
-            var selectedYear = $('#yearSelectCounty option:selected').val();
-            var isBaseYear = false;
-            if(selectedYear == 2010){
-                isBaseYear = true;
-            }
-            Session.set('isBaseYear', isBaseYear);
-        }, "click #btnCountyQuery": function(event, template){
+        "click #btnCountyQuery": function(event, template){
             event.preventDefault();
             var selectedYear = parseInt($('#yearSelectCounty option:selected').val());
             var selectedVar = $('#variableSelectCounty option:selected').val();
@@ -57,13 +50,13 @@ if(Meteor.isClient){
             var countySubscription = Meteor.subscribe('counties_by_year', selectedYear, selectedVar, {
                 onReady: function(){
                     var commaFormat = d3.format(',');
-                    if(selectedYear === 2010){selectedYear = 2015;}
                     var fieldsToGet = {};
                     fieldsToGet[selectedVar] = 1;
                     fieldsToGet['county_id'] = 1;
                     fieldsToGet['county_name'] = 1;
                     fieldsToGet['sim_year'] = 1;
                     var data = countyData.find({sim_year: selectedYear}, {fields: fieldsToGet}).fetch();
+                    console.log(selectedVar);
                     var output = [];
                     data.forEach(function(cv){
                         var obj = {};
@@ -96,7 +89,6 @@ if(Meteor.isClient){
     });
 
     Template.CountyTabPane_body.onCreated(function(){
-        Session.set('isBaseYear', true);
         Session.set('countyResults', undefined);
         Session.set('queryReturn', false);
         Session.set('selectedVariable', undefined);

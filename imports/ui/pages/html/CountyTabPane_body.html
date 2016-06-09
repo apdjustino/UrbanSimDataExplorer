@@ -15,19 +15,11 @@
                 <select class="form-control" id="variableSelectCounty">
                     {{#if isInRole 'admin'}}
                         {{#each admin_variables}}
-                            {{#if isBaseYear}}
-                                <option value="{{this.abv_base}}">{{measureNameMap this.abv_base}}</option>
-                            {{else}}
-                                <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
-                            {{/if}}
+                            <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
                         {{/each}}
                     {{else}}
                         {{#each public_variables}}
-                            {{#if isBaseYear}}
-                                <option value="{{this.abv_base}}">{{measureNameMap this.abv_base}}</option>
-                            {{else}}
-                                <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
-                            {{/if}}
+                            <option value="{{this.abv}}">{{measureNameMap this.abv}}</option>
                         {{/each}}
                     {{/if}}
                 </select>
