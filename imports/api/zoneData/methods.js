@@ -2,6 +2,9 @@
  * Created by jmartinez on 5/9/16.
  */
 import {check} from 'meteor/check';
+exec = Npm.require('child_process').exec;
+Fiber = Npm.require('fibers');
+Future = Npm.require('fibers/future');
 Meteor.methods({
     
     downloadData: function(geo, year){
@@ -182,6 +185,14 @@ Meteor.methods({
             unparsed = Papa.unparse(data);
             return unparsed;
         }
+    }, testPython: function(){
+        var fut = new Future();
+        exec('/tmp/python_test.py', function(error, stdout, stderror){
+            new Fiber(function(){
+                fut.return('Python was here');
+            }).run();
+        });
+        return fut.wait();
     }
     
 });

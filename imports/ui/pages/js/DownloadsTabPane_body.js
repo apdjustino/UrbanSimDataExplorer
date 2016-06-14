@@ -76,6 +76,15 @@ if(Meteor.isClient){
 
                 }
             })
+        }, "click #btnTestPython": function(event){
+            event.preventDefault();
+            Meteor.call('testPython', function(error, response){
+                if(error){
+                    alert(error.reason);
+                }else{
+                    console.log(response);
+                }
+            });
         }
     });
 
