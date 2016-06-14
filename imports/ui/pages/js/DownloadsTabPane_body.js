@@ -82,7 +82,7 @@ if(Meteor.isClient){
                 if(error){
                     alert(error.reason);
                 }else{
-                    console.log(response);
+                    alert(response);
                 }
             });
         }
