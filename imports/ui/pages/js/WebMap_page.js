@@ -275,6 +275,8 @@ if(Meteor.isClient){
             var containerHeight = bounds.bottom - bounds.top;
             var newTop = mapHeight - containerHeight;
 
+            console.log(bounds);
+
             newTop = newTop.toString() + 'px';
 
             if(toggle){
