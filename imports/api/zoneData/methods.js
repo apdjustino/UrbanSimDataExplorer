@@ -195,7 +195,10 @@ if(Meteor.isServer){
     Meteor.methods({
         testPython: function(){
             var fut = new Future();
-            exec('/tmp/python_test.py', function(error, stdout, stderror){
+            exec('python /tmp/python_test.py', function(error, stdout, stderror){
+                console.log(error);
+                console.log(stdout);
+                console.log(stderror);
                 new Fiber(function(){
                     fut.return('Python was here');
                 }).run();
