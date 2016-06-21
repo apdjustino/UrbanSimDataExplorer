@@ -26,6 +26,11 @@ if(Meteor.isClient){
             }else{
                 return true
             }
+        }, commentCount: function(measure){
+            var year = parseInt($('#yearSelectZone option:selected').val());
+            var zone = Session.get('selectedZone')[0];
+            var id = zone + '-' + measure + '-' + year;
+            return Comments.getCollection().find({referenceId: id}).count();
         }
     });
 

@@ -145,12 +145,19 @@ if(Meteor.isClient){
         }
     });
     
+    zoneComments = undefined;
     Template.WebMap_page.events({
         "click .zones": function(event, template) {
             Session.set('zoneClicked', true);
             var thisElement = event.target;
             var year = parseInt($('#yearSelectZone').val());
             findZoneData(thisElement.id, year);
+            if(zoneComments){
+                zoneComments.stop();
+                zoneComments = Meteor.subscribe("commentsByZone", thisElement.id)
+            }else{
+                zoneComments = Meteor.subscribe("commentsByZone", thisElement.id)
+            }
 
 
         }, "click .linkMeasure": function(event, template) {
