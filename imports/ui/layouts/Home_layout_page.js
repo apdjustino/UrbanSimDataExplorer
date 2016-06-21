@@ -16,6 +16,10 @@ if(Meteor.isClient){
             $('a.toggle span').toggleClass('glyphicon-chevron-left glyphicon-chevron-right');
             $('#sidebar').toggle();
         }
+    });
+
+    Template.Home_layout_page.onRendered(function(){
+        $('#aboutModal').modal('show');
     })
     
 }
