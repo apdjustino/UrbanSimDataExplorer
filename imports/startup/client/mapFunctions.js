@@ -4,11 +4,10 @@
 import topojson from 'topojson';
 
 export function drawMap(params){
+
+    var svg = d3.select(map.getPanes().overlayPane).append("svg").attr("class", "mapSvg");
+    var g = svg.append("g").attr("class", "leaflet-zoom-hide");
     
-    var svg = d3.select("svg");
-    var g = d3.select(".leaflet-zoom-hide");
-
-
 
     d3.json(params.pathString, function(error, zones){
         if(error){

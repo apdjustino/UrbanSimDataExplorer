@@ -190,7 +190,9 @@ if(Meteor.isClient){
             $('.muniChk').attr('checked', false);
         }, "click #countyResults-li": function(event, template){
             event.preventDefault();
+            d3.select(".mapSvg").remove();
             d3.selectAll(".zones").remove();
+            d3.selectAll(".counties").remove();
             var countyParams = {
                 pathString: "data/county_web.json",
                 obj_name: "county_2014_web",
@@ -198,6 +200,7 @@ if(Meteor.isClient){
                 geo_property: "COUNTY",
                 geo_class: "counties"
             };
+            drawMap(countyParams);
             drawMap({
                 pathString: "data/municipalities.json",
                 obj_name: "drcog_municipalities",
@@ -206,7 +209,7 @@ if(Meteor.isClient){
                 geo_class: "city"
             });
 
-            drawMap(countyParams);
+
             var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
             var regionalChartData = _.keys(counties).map(function(key){
                 var simData = counties[key].reduce(function(a,b){
@@ -222,7 +225,9 @@ if(Meteor.isClient){
             drawChart(regionalChartData);
         }, "click #zoneResults-li": function(event, template){
             event.preventDefault();
+            d3.select(".mapSvg").remove();
             d3.selectAll(".zones").remove();
+            d3.selectAll(".counties").remove();
             var zoneParams = {
                 pathString: "data/zonesGeo.json",
                 obj_name: "zones",
