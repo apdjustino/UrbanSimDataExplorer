@@ -39,10 +39,14 @@ export function drawMap(params){
         
 
         map.on("viewreset", reset);
-        map.on("moveend", function(){
+        map.on("moveend", drawBuildings);
+        map.on("zoomend", drawBuildings);
+        reset();
+        
+        function drawBuildings(){
             var bounds = map.getBounds();
             var zoom = map.getZoom();
-            if(zoom >= 16){
+            if(zoom >= 17){
                 var building_sub = Meteor.subscribe('buildings', bounds._southWest, bounds._northEast, {
                     onReady: function(){
                         var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
@@ -54,19 +58,15 @@ export function drawMap(params){
                                 .append("path")
                                 .attr("class", 'buildings')
                                 .attr("d", path);
+                            building_sub.stop();
                         });
-                        this.stop();
+                        
                     }
                 });
             }else{
                 d3.selectAll('.buildings').remove();
             }
-
-
-
-
-        });
-        reset();
+        }
 
         function reset(){
 
