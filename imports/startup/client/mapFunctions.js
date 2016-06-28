@@ -39,12 +39,41 @@ export function drawMap(params){
         
 
         map.on("viewreset", reset);
+        map.on("moveend", function(){
+            var bounds = map.getBounds();
+            var zoom = map.getZoom();
+            if(zoom >= 16){
+                var building_sub = Meteor.subscribe('buildings', bounds._southWest, bounds._northEast, {
+                    onReady: function(){
+                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
+                        Meteor.call('findBuildings', ids, function(error, response){
+                            d3.selectAll('.buildings').remove();
+                            bldg_feature = g.selectAll('.buildings')
+                                .data(response)
+                                .enter()
+                                .append("path")
+                                .attr("class", 'buildings')
+                                .attr("d", path);
+                        });
+                        this.stop();
+                    }
+                });
+            }else{
+                d3.selectAll('.buildings').remove();
+            }
+
+
+
+
+        });
         reset();
 
         function reset(){
+
             var bounds = path.bounds(shape),
                 topLeft = bounds[0],
                 bottomRight = bounds[1];
+
 
             width = bottomRight[0] - topLeft[0];
             height = bottomRight[1] - topLeft[1];

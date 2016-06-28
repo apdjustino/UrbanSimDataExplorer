@@ -270,6 +270,13 @@ path.citySelected{
     opacity:0.6;
 }
 
+path.buildings {
+    stroke:green;
+    stroke-width: 1;
+    fill:green;
+    opacity: .6
+}
+
 .filled{
     fill:yellow;
 }

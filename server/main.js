@@ -6,6 +6,7 @@ import '../imports/api/users/publications.js';
 import '../imports/api/zoneGeoData/publications.js';
 import '../imports/api/countyData/publications.js';
 import '../imports/api/comments/publications.js';
+import '../imports/api/buildings/publications.js';
 
 if(Meteor.isServer){
     Accounts.onCreateUser(function(options, user){
@@ -31,7 +32,13 @@ if(Meteor.isServer){
         };
 
         //process.env.MAIL_URL = "smtp://justin%40sandbox4851f242dc32413caf7306f4f466e0d1.mailgun.org:destroy1@smtp.mailgun.org:587"
-        process.env.MAIL_URL = "smtp://10.0.1.201:25"
+        process.env.MAIL_URL = "smtp://10.0.1.201:25";
 
+        //set index for buildings and buildings centroid collection
+        //buildings_centroids._ensureIndex({'geometry.coordinates': '2dsphere'});
+        buildings_centroids._ensureIndex({'geometry': '2dsphere'});
+        buildings._ensureIndex({'properties.Building_I': 1});
+
+        
     });
 }
