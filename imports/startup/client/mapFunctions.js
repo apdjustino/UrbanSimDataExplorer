@@ -59,6 +59,7 @@ export function drawMap(params){
                                 .enter()
                                 .append("path")
                                 .attr("class", 'buildings')
+                                .attr("id", function(d){return d.properties.Building_I})
                                 .attr("d", path);
                         });
                     }
@@ -76,6 +77,7 @@ export function drawMap(params){
                                 .enter()
                                 .append("path")
                                 .attr("class", "parcels")
+                                .attr("id", function(d){return d.properties.parcel_id})
                                 .attr("d", path)
                         });
                     }

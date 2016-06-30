@@ -298,6 +298,13 @@ if(Meteor.isClient){
             }
 
 
+        }, "click .buildings": function(event, template){
+            console.log(this.id);
+            Meteor.subscribe('selected_building', this.id, {
+                onReady: function(){
+                    console.log(urbansim_buildings.findOne({plan_id: this.id}));
+                }
+            })
         }
 
     });
