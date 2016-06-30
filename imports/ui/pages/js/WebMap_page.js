@@ -302,7 +302,7 @@ if(Meteor.isClient){
             console.log(event.target.id);
             Meteor.subscribe('selected_building', event.target.id, {
                 onReady: function(){
-                    console.log(urbansim_buildings.findOne({plan_id: this.id}));
+                    console.log(urbansim_buildings.findOne({plan_id: event.target.id}));
                 }
             })
         }
