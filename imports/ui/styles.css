@@ -274,7 +274,8 @@ path.buildings {
     stroke:green;
     stroke-width: 1;
     fill:green;
-    opacity: .6
+    opacity: .6;
+    z-index: 10000;
 }
 
 path.parcels {
