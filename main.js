@@ -8,3 +8,5 @@ import '/imports/api/users/methods.js';
 import '/imports/api/zoneData/methods.js';
 import '/imports/api/buildings/collections.js';
 import '/imports/api/buildings/methods.js';
+import '/imports/api/parcels/methods.js';
+import '/imports/api/parcels/collections.js';

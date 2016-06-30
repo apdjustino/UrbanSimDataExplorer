@@ -39,13 +39,19 @@ export function drawMap(params){
         
 
         map.on("viewreset", reset);
-        map.on("moveend", function(){
+        map.on("moveend", drawBuildingsParcels);
+        map.on("zoomend", drawBuildingsParcels);
+        reset();
+        
+        function drawBuildingsParcels() {
             var bounds = map.getBounds();
             var zoom = map.getZoom();
-            if(zoom >= 16){
+            if(zoom >= 17){
+                reset();
                 var building_sub = Meteor.subscribe('buildings', bounds._southWest, bounds._northEast, {
                     onReady: function(){
                         var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
+                        this.stop();
                         Meteor.call('findBuildings', ids, function(error, response){
                             d3.selectAll('.buildings').remove();
                             bldg_feature = g.selectAll('.buildings')
@@ -55,18 +61,31 @@ export function drawMap(params){
                                 .attr("class", 'buildings')
                                 .attr("d", path);
                         });
+                    }
+                });
+
+                var parcel_sub = Meteor.subscribe('parcels', bounds._southWest, bounds._northEast, {
+                    onReady: function(){
+                        var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
                         this.stop();
+                        console.log(ids);
+                        Meteor.call('findParcels', ids, function(error, response){
+                            d3.selectAll('.parcels').remove();
+                            parcel_feature = g.selectAll('.parcels')
+                                .data(response)
+                                .enter()
+                                .append("path")
+                                .attr("class", "parcels")
+                                .attr("d", path)
+                        });
                     }
                 });
             }else{
                 d3.selectAll('.buildings').remove();
+                d3.selectAll('.parcels').remove();
             }
 
-
-
-
-        });
-        reset();
+        }
 
         function reset(){
 

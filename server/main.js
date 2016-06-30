@@ -7,6 +7,7 @@ import '../imports/api/zoneGeoData/publications.js';
 import '../imports/api/countyData/publications.js';
 import '../imports/api/comments/publications.js';
 import '../imports/api/buildings/publications.js';
+import '../imports/api/parcels/publications.js';
 
 if(Meteor.isServer){
     Accounts.onCreateUser(function(options, user){
@@ -38,6 +39,8 @@ if(Meteor.isServer){
         //buildings_centroids._ensureIndex({'geometry.coordinates': '2dsphere'});
         buildings_centroids._ensureIndex({'geometry': '2dsphere'});
         buildings._ensureIndex({'properties.Building_I': 1});
+        parcels_centroids._ensureIndex({'geometry': '2dsphere'});
+        parcels._ensureIndex({'properties.parcel_id': 1});
 
         
     });

@@ -277,6 +277,13 @@ path.buildings {
     opacity: .6
 }
 
+path.parcels {
+    stroke:black;
+    stroke-width:0.5;
+    fill:rgba(0,0,0,0);
+    opacity:0.6;
+}
+
 .filled{
     fill:yellow;
 }
