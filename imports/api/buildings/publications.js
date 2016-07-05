@@ -7,6 +7,7 @@ if(Meteor.isServer){
     });
 
     Meteor.publish('selected_building', function(plan_id){
+        console.log(urbansim_buildings.findOne({}));
         return urbansim_buildings.find({plan_id: plan_id})
     });
 }
