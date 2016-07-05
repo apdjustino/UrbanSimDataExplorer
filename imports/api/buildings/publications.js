@@ -8,8 +8,7 @@ if(Meteor.isServer){
 
     Meteor.publish('selected_building', function(id){
         console.log(id);
-        console.log(urbansim_buildings.findOne({"plan_id": id}));
-        console.log(urbansim_buildings.findOne());
+        console.log(urbansim_buildings.find({}).count());
         return urbansim_buildings.find({"plan_id": id})
     });
 }
