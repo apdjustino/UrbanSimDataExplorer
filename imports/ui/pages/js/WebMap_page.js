@@ -307,18 +307,17 @@ if(Meteor.isClient){
             var id = parseInt(event.target.id);
             var sub = Meteor.subscribe('selected_building', id, {
                 onReady: function(){
-                    d3.selectAll('.buildings')
-                        .style('fill', function(d){
-                            console.log(d);
-                            return 'orange';
-                        });
-                    
                     var data = urbansim_buildings.findOne({plan_id: id});
                     if(data){
                         outData = _.without(_.keys(data), '_id','centroid_x','centroid_y','plan_id').map(function(key){
                             return {'prop': key, 'value': data[key]};
                         });
                         template.buildingData.set(outData);
+                        d3.selectAll('.buildings').transition().duration(250)
+                            .style('fill', function(d){
+                                console.log(d);
+                                return 'orange';
+                            })
                     }
 
                 }
