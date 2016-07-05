@@ -364,6 +364,10 @@ path.selected{
     fill:yellow;
 }
 
+path.selectedBuilding{
+    fill:orange;
+}
+
 input.commentChk{
     position: relative;
 }
