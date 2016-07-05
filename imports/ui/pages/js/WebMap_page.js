@@ -308,12 +308,13 @@ if(Meteor.isClient){
             var sub = Meteor.subscribe('selected_building', id, {
                 onReady: function(){
                     var data = urbansim_buildings.findOne({plan_id: id});
-                    console.log(data);
-                    outData = _.keys(data).map(function(key){
-                        return {'prop': key, 'value': data[key]};
-                    });
-                    console.log(outData);
-                    template.buildingData.set(outData);
+                    if(data){
+                        outData = _.without(_.keys(data), '_id','centroid_x','centroid_y','plan_id').map(function(key){
+                            return {'prop': key, 'value': data[key]};
+                        });
+                        template.buildingData.set(outData);
+                    }
+
                 }
             })
         }
