@@ -313,7 +313,7 @@ if(Meteor.isClient){
                             return {'prop': key, 'value': data[key]};
                         });
                         template.buildingData.set(outData);
-                        d3.selectAll('.buildings').transition().duration(250)
+                        d3.selectAll('.buildings').transition().duration(100)
                             .style('fill', function(d){
                                 if(d.properties.Building_I == id){
                                     return 'orange';    
