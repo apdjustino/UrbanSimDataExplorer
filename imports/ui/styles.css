@@ -271,7 +271,6 @@ path.citySelected{
 }
 
 path.buildings {
-    stroke:green;
     stroke-width: 1;
     fill:green;
     opacity: .6;

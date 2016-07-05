@@ -315,8 +315,11 @@ if(Meteor.isClient){
                         template.buildingData.set(outData);
                         d3.selectAll('.buildings').transition().duration(250)
                             .style('fill', function(d){
-                                console.log(d);
-                                return 'orange';
+                                if(d.properties.Building_I == id){
+                                    return 'orange';    
+                                }else{
+                                    return 'green';
+                                }
                             })
                     }
 
