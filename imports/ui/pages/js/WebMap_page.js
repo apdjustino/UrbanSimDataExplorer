@@ -299,10 +299,11 @@ if(Meteor.isClient){
 
 
         }, "click .buildings": function(event, template){
-            var sub = Meteor.subscribe('selected_building', event.target.id, {
+            var id = parseInt(event.target.id);
+            var sub = Meteor.subscribe('selected_building', id, {
                 onReady: function(){
-                    console.log(event.target.id);
-                    console.log(urbansim_buildings.findOne({plan_id: event.target.id}));
+                    console.log(id);
+                    console.log(urbansim_buildings.findOne({plan_id: id}));
                 }
             })
         }
