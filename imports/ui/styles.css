@@ -397,14 +397,14 @@ input.commentChk{
     z-index: 1000;
     position:relative;
     width:17%;
-    left:44%;
+    left:88%;
 }
 
 .editorContainer{
     z-index: 1000;
     position:relative;
     width:250px;
-    left:37%;
+    left:125%;
 }
 
 
