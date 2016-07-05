@@ -305,6 +305,7 @@ if(Meteor.isClient){
 
         }, "click .buildings": function(event, template){
             var id = parseInt(event.target.id);
+            $('#closeEditDiv').animate({'left': '37%'}, 500);
             var sub = Meteor.subscribe('selected_building', id, {
                 onReady: function(){
                     var data = urbansim_buildings.findOne({plan_id: id});
@@ -324,7 +325,10 @@ if(Meteor.isClient){
                     }
 
                 }
-            })
+            });
+        }, "click #closeEditDiv": function(event, template){
+            event.preventDefault();
+            $('#closeEditDiv').animate({'left': '125%'}, 250);
         }
 
     });
