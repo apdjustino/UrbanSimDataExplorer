@@ -400,8 +400,8 @@ input.commentChk{
 .editorContainer{
     z-index: 1000;
     position:relative;
-    width:21%;
-    left:40%;
+    width:250px;
+    left:37%;
 }
 
 

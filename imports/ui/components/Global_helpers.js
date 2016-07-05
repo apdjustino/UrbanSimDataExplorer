@@ -34,7 +34,7 @@ if(Meteor.isClient){
     });
     
     Template.registerHelper('formattedValue', function(val, measure){
-        if(measure != 'zone_id'){
+        if(measure.substr(measure.length - 3 != '_id')){
             var format = d3.format("0,000");
             return format(val);
         }else{
