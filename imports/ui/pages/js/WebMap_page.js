@@ -82,6 +82,9 @@ export function subscribeToZone(year, selectedZoneArray){
             var allYears = _.groupBy(zoneData.find().fetch(), 'sim_year');
             var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
 
+            
+            //this if statement determines if the chart draws the generic all region series
+            //or the series for that particular zone. selectedZone will be length 0 when nothing is selected
             if(Session.get('selectedZone').length > 0){
                 chartData = _.keys(allYears).map(function(key){
                     var simData = allYears[key].reduce(function(a,b){
@@ -142,6 +145,8 @@ if(Meteor.isClient){
             ]
         }, selectedZone: function(){
             return Session.get('selectedZone');
+        }, buildingData: function(){
+            return Template.instance().buildingData.get();
         }
     });
     
@@ -287,7 +292,7 @@ if(Meteor.isClient){
             var containerHeight = bounds.bottom - bounds.top;
             var newTop = mapHeight - containerHeight;
 
-            console.log(bounds);
+            
 
             newTop = newTop.toString() + 'px';
 
@@ -302,8 +307,13 @@ if(Meteor.isClient){
             var id = parseInt(event.target.id);
             var sub = Meteor.subscribe('selected_building', id, {
                 onReady: function(){
-                    console.log(id);
-                    console.log(urbansim_buildings.findOne({plan_id: id}));
+                    var data = urbansim_buildings.findOne({plan_id: id});
+                    console.log(data);
+                    outData = _.keys(data).map(function(key){
+                        return {'prop': key, 'value': data[key]};
+                    });
+                    console.log(outData);
+                    template.buildingData.set(outData);
                 }
             })
         }
@@ -326,6 +336,7 @@ if(Meteor.isClient){
 
     Template.WebMap_page.onCreated(function(){
         this.chartToggle = new ReactiveVar(false);
+        this.buildingData = new ReactiveVar(false);
     })
 
 }

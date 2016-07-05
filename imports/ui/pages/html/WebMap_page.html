@@ -35,8 +35,23 @@
             <div id="legendList" class="container well well-sm legendContainer">
                 <h5 class="text-center">Legend</h5>
             </div>
-            <div id="editor" class="container well well-lg legendContainer">
-                <h5 class="text-center">Data</h5>
+            <div id="editor" class="container well well-sm legendContainer">
+                <table class="table table-condensed table-striped">
+                    <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{#each buildingData}}
+                            <tr>
+                                <td>{{this.prop}}</td>
+                                <td>{{formattedValue this.value this.prop}}</td>
+                            </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
             <div id="chartsContainer" class="container well well-sm chartsContainer">
                 <button id="toggleCharts" title="Open/close the charts panel.">Charts & Statistics</button>
