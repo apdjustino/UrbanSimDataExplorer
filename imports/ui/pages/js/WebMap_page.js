@@ -328,7 +328,7 @@ if(Meteor.isClient){
             });
         }, "click #closeEditDiv": function(event, template){
             event.preventDefault();
-            $('#closeEditDiv').animate({'left': '125%'}, 250);
+            $('#editor').animate({'left': '125%'}, 250);
         }
 
     });
