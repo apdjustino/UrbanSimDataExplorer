@@ -309,6 +309,7 @@ if(Meteor.isClient){
             var sub = Meteor.subscribe('selected_building', id, {
                 onReady: function(){
                     var data = urbansim_buildings.findOne({plan_id: id});
+                    this.stop();
                     if(data){
                         outData = _.without(_.keys(data), '_id','centroid_x','centroid_y','plan_id').map(function(key){
                             return {'prop': key, 'value': data[key]};
@@ -321,7 +322,8 @@ if(Meteor.isClient){
                                 }else{
                                     return 'green';
                                 }
-                            })
+                            });
+                        d3.selectAll('.parcels').style('fill', 'none');
                     }
 
                 }
@@ -329,6 +331,18 @@ if(Meteor.isClient){
         }, "click #closeEditDiv": function(event, template){
             event.preventDefault();
             $('#editor').animate({'left': '125%'}, 250);
+        }, "click .parcels": function(event, template){
+            var id = parseInt(event.target.id);
+            $('#editor').animate({'left': '37%'}, 500);
+            d3.selectAll('.parcels').transition().duration(100)
+                .style('fill', function(d){
+                    if(d.properties.parcel_id == id){
+                        return 'orange';
+                    }else{
+                        return 'green';
+                    }
+                });
+            d3.selectAll('.buildings').style('fill', 'green');
         }
 
     });

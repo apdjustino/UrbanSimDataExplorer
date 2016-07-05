@@ -54,7 +54,6 @@ export function drawMap(params){
                     onReady: function(){
                         var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
                         this.stop();
-                        console.log(ids);
                         Meteor.call('findParcels', ids, function(error, response){
                             d3.selectAll('.parcels').remove();
                             parcel_feature = g.selectAll('.parcels')
@@ -132,7 +131,6 @@ export function drawMap(params){
 }
 
 export function colorMap(data, measure, juris){
-    console.log(data);
     var max = _.max(data, function (x) {
         return x[measure]
     })[measure];
