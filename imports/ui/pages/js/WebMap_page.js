@@ -323,7 +323,7 @@ if(Meteor.isClient){
                                     return 'green';
                                 }
                             });
-                        d3.selectAll('.parcels').style('fill', 'none');
+                        d3.selectAll('.parcels').style('fill', 'rgba(0,0,0,0)');
                     }
 
                 }
@@ -339,7 +339,7 @@ if(Meteor.isClient){
                     if(d.properties.parcel_id == id){
                         return 'orange';
                     }else{
-                        return 'green';
+                        return 'rgba(0,0,0,0)';
                     }
                 });
             d3.selectAll('.buildings').style('fill', 'green');
