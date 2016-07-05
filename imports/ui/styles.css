@@ -395,9 +395,15 @@ input.commentChk{
     position:relative;
     width:17%;
     left:44%;
-
-
 }
+
+.editorContainer{
+    z-index: 1000;
+    position:relative;
+    width:21%;
+    left:40%;
+}
+
 
 .legendItem{
     height:20px;
