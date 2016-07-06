@@ -42,7 +42,7 @@ if(Meteor.isServer){
         parcels_centroids._ensureIndex({'geometry': '2dsphere'});
         parcels._ensureIndex({'properties.parcel_id': 1});
         urbansim_buildings._ensureIndex({'plan_id':1});
-
+        urbansim_parcels._ensureIndex({'parcel_id':1});
         
     });
 }

@@ -334,15 +334,29 @@ if(Meteor.isClient){
         }, "click .parcels": function(event, template){
             var id = parseInt(event.target.id);
             $('#editor').animate({'left': '37%'}, 500);
-            d3.selectAll('.parcels').transition().duration(100)
-                .style('fill', function(d){
-                    if(d.properties.parcel_id == id){
-                        return 'orange';
-                    }else{
-                        return 'rgba(0,0,0,0)';
+
+            var sub = Meteor.subscribe('selected_parcel', id, {
+                onReady: function(){
+                    var data = urbansim_parcels.findOne({parcel_id: id});
+                    this.stop();
+                    if(data){
+                        outData = _.without(_.keys(data), '_id', 'centroid_x', 'centroid_y', 'x', 'y').map(function(key){
+                            return {'prop': key, 'value': data[key]};
+                        });
+                        template.buildingData.set(outData);
+                        d3.selectAll('.parcels').transition().duration(100)
+                            .style('fill', function(d){
+                                if(d.properties.parcel_id == id){
+                                    return 'orange';
+                                }else{
+                                    return 'rgba(0,0,0,0)';
+                                }
+                            });
+                        d3.selectAll('.buildings').style('fill', 'green');
                     }
-                });
-            d3.selectAll('.buildings').style('fill', 'green');
+                }
+            });
+
         }
 
     });
