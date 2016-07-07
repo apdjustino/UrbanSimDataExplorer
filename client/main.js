@@ -3,7 +3,6 @@
  */
 import '../imports/startup/client/routes.js';
 import '../imports/startup/client/mapFunctions.js';
-import leaflet_draw from 'leaflet-draw';
 if(Meteor.isClient){
 
     Meteor.startup(function(){
