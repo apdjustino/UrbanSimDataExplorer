@@ -131,7 +131,7 @@ if(Meteor.isClient){
         var geoSubscription = Meteor.subscribe('zoneGeoData');
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
-        map = L.map("mapContainer", {drawControl:true}).setView([39.75, -104.95], 10);
+        map = L.map("mapContainer").setView([39.75, -104.95], 10);
         var streets = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             subdomains: 'abcd',
