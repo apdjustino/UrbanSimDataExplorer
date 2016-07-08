@@ -9,7 +9,6 @@ if(Meteor.isClient){
 
     Template.CommentModal_body.helpers({
         commentId: function(measure, year, zone){
-            console.log(zone + '-' + measure + '-' + year);
             return zone + '-' + measure + '-' + year;
             // return '448-ru_sim-2010'
         }, comment: function(commentId){

@@ -20,6 +20,8 @@ if(Meteor.isClient){
             console.log("async fonts loaded", WebFontConfig);
         })();
 
+        var sub = Meteor.subscribe('users');
+
     })
 
 }
