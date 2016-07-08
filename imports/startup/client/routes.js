@@ -35,6 +35,7 @@ import '../../ui/pages/html/CountyTabPane_body.html'
 import '../../ui/pages/html/LayersTabPane_body.html';
 import '../../ui/pages/html/DownloadsTabPane_body.html';
 import '../../ui/pages/html/SetPassword_page.html';
+import '../../ui/pages/html/ScenarioTabPane_body.html';
 
 //import client page js
 
@@ -50,6 +51,7 @@ import '../../ui/pages/js/CountyTabPane_body.js';
 import '../../ui/pages/js/LayersTabPane_body.js';
 import '../../ui/pages/js/DownloadsTabPane_body.js';
 import '../../ui/pages/js/SetPassword_page.js';
+import '../../ui/pages/js/ScenarioTabPane_body.js';
 
 //declare routs
 

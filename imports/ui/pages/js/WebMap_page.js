@@ -122,6 +122,10 @@ export function subscribeToZone(year, selectedZoneArray){
 }
 
 if(Meteor.isClient){
+
+    line = undefined;
+    coordinates =[];
+    counter = 0;
     
     Template.WebMap_page.helpers({
         selectedData: function(){
@@ -141,7 +145,8 @@ if(Meteor.isClient){
                 {paneName: 'Zone', paneId: 'zoneResults', paneBody: 'ZoneTabPane_body', paneData:{selectedAreas:selectedAreas, selectedData:selectedData}},
                 {paneName: 'County', paneId: 'countyResults', paneBody: 'CountyTabPane_body', paneData:{}},
                 {paneName: 'Layers', paneId: 'layers', paneBody: 'LayersTabPane_body', paneData:{}},
-                {paneName: 'Downloads', paneId: 'downloads', paneBody:'DownloadsTabPane_body', paneData:{}}
+                {paneName: 'Downloads', paneId: 'downloads', paneBody:'DownloadsTabPane_body', paneData:{}},
+                {paneName: 'Scenarios', paneId: 'scenarios', paneBody:'ScenarioTabPane_body', paneData:{}}
             ]
         }, selectedZone: function(){
             return Session.get('selectedZone');

@@ -4,9 +4,18 @@
 import topojson from 'topojson';
 
 export function drawMap(params){
+    map.doubleClickZoom.disable();
+    var svg;
+    var g;
+    if(!d3.select('.mapSvg').empty()){
+        svg = d3.select('.mapSvg');
+        g = d3.select(".leaflet-zoom-hide");
+    }else{
+        svg = d3.select(map.getPanes().overlayPane).append("svg").attr("class", "mapSvg");
+        g = svg.append("g")
+            .attr("class", "leaflet-zoom-hide");
+    }
 
-    var svg = d3.select(map.getPanes().overlayPane).append("svg").attr("class", "mapSvg");
-    var g = svg.append("g").attr("class", "leaflet-zoom-hide");
     
 
     d3.json(params.pathString, function(error, zones){
