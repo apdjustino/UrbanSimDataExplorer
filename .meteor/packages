@@ -33,4 +33,4 @@ arillo:flow-router-helpers
 harrison:papa-parse
 pfafman:filesaver
 reactive-var
-arkham:comments-ui-appgility
+arkham:comments-ui@=1.0.2

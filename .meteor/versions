@@ -6,14 +6,13 @@ aldeed:collection2-core@1.1.1
 aldeed:schema-deny@1.0.1
 aldeed:schema-index@1.0.1
 aldeed:simple-schema@1.5.3
-aldeed:template-extension@4.0.0
+aldeed:template-extension@3.4.3
 allow-deny@1.0.5
 arillo:flow-router-helpers@0.5.2
-arkham:comments-ui-appgility@1.1.2
+arkham:comments-ui@1.0.2
 autoupdate@1.2.10
 babel-compiler@6.8.3
 babel-runtime@0.1.9_1
-barbatus:stars-rating@1.0.7
 base64@1.0.9
 bevanhunt:leaflet@2.0.0
 binary-heap@1.0.9
