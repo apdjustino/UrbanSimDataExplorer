@@ -117,6 +117,24 @@ if(Meteor.isClient){
                 $('#legendList').animate({'left':'44%'}, 1000)
             }
 
+        }, "change #showCommentZones": function(event, template){
+            if(event.target.checked){
+                Meteor.call("getCommentZones", function(error, result){
+                    if(error){
+                        sAlert.error(error.reason);
+                    }else{
+                        d3.selectAll('.zones').transition().duration(500)
+                            .style("fill", function(d){
+                                if(_.contains(result, d.properties.ZONE_ID)){
+                                    return "red"
+                                }
+                            });
+                    }
+                });
+            }else{
+                d3.selectAll(".zones").transition().duration(500)
+                    .style("fill", "none");
+            }
         }
 
     });

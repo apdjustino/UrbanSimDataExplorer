@@ -399,6 +399,24 @@ if(Meteor.isClient){
     Template.WebMap_page.onCreated(function(){
         this.chartToggle = new ReactiveVar(false);
         this.buildingData = new ReactiveVar(false);
+
+        Tracker.autorun(function(){
+            var comments = Comments.getCollection().find({}).fetch();
+            if($('#showCommentZones').prop('checked')){
+                Meteor.call("getCommentZones", function(error, result){
+                    if(error){
+                        sAlert.error(error.reason);
+                    }else{
+                        d3.selectAll('.zones').transition().duration(500)
+                            .style("fill", function(d){
+                                if(_.contains(result, d.properties.ZONE_ID)){
+                                    return "red"
+                                }
+                            });
+                    }
+                });
+            }
+        })
     })
 
 }

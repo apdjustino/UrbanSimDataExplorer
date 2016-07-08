@@ -10,3 +10,4 @@ import '/imports/api/buildings/collections.js';
 import '/imports/api/buildings/methods.js';
 import '/imports/api/parcels/methods.js';
 import '/imports/api/parcels/collections.js';
+import '/imports/api/comments/methods.js';

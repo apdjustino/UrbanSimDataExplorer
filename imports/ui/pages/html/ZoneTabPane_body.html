@@ -48,6 +48,13 @@
 
                         <input type="checkbox" id="chkMultiple"> Multiple zone selections
                         <input type="checkbox" class="showLegend"> Show Legend
+                        {{#if isInRole 'admin'}}
+                            <input type="checkbox" id="showCommentZones"> Show Zones W/Comments
+                        {{/if}}
+                        {{#if isInRole 'drcog'}}
+                            <input type="checkbox" id="showCommentZones"> Show Zones W/Comments
+                        {{/if}}
+
                         <br>
                         <button class="btn btn-primary" id="btnReset" style="margin-top:15px;">Reset Map</button>
                     </div>
