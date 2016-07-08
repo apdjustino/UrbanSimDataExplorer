@@ -41,6 +41,7 @@ if(Meteor.isClient){
     Template.Result_table.events({
         'click .commentLink': function(){
             var measure = this.measure;
+            Session.set('commentMeasure', measure);
             var year = parseInt($('#yearSelectZone option:selected').val());
             var zone = Session.get('selectedZone')[0];
             var id = zone + '-' + measure + '-' + year;

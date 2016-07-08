@@ -5,6 +5,7 @@ import {drawMap} from '../../../startup/client/mapFunctions.js';
 import {colorMap} from '../../../startup/client/mapFunctions.js';
 import {drawChart} from '../../../startup/client/mapFunctions.js';
 import {getDataFields} from '../../../ui/components/Global_helpers.js';
+import { measureNameMap } from '../../../ui/components/Global_helpers.js';
 
 export function findZoneData(zoneId, year){
     var selectedZoneArray = Session.get('selectedZone');
@@ -152,6 +153,20 @@ if(Meteor.isClient){
             return Session.get('selectedZone');
         }, buildingData: function(){
             return Template.instance().buildingData.get();
+        }, commentMeasure: function(){
+            return Session.get('commentMeasure');
+        }, CommentModal_args: function(){
+            var selectedYear = parseInt($('#yearSelectZone option:selected').val());
+            var selectedZones = Session.get('selectedZone');
+            var measure = Session.get('commentMeasure');
+            
+            return {
+                modalId: 'commentModal',
+                bodyTemplate: 'CommentModal_body',
+                modalTitle: selectedYear + ' ' + measureNameMap(measure) + ' Comments for Zone(s): ' + selectedZones,
+                modalData: {measure: measure, year: selectedYear, zone:selectedZones}
+            }
+            
         }
     });
     
@@ -372,6 +387,7 @@ if(Meteor.isClient){
         Session.set('selectedYear', 2015);
         Session.set('selectedZone', []);
         Session.set('allowMultipleGeo', false);
+        Session.set('commentMeasure', undefined);
         $('#myTab li').first().addClass('active');
         $('.tab-pane').first().addClass('active');
         

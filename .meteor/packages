@@ -30,7 +30,7 @@ standard-minifier-js
 kadira:flow-router
 kadira:blaze-layout
 arillo:flow-router-helpers
-arkham:comments-ui
 harrison:papa-parse
 pfafman:filesaver
 reactive-var
+arkham:comments-ui-appgility

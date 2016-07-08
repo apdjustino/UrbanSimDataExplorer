@@ -29,7 +29,7 @@ export function drawMap(params){
         var path = d3.geo.path().projection(transform);
 
 
-        feature = g.selectAll(params.geo_property)
+        var feature = g.selectAll(params.geo_property)
             .data(shape.features)
             .enter()
             .append("path")
