@@ -133,7 +133,7 @@ if(Meteor.isClient){
                 });
             }else{
                 d3.selectAll(".zones").transition().duration(500)
-                    .style("fill", "none");
+                    .style("fill", "");
             }
         }
 
