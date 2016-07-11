@@ -10,6 +10,13 @@
     </div>
 
     <ul style="list-style-type:none">
+        <li>
+            <input id="bldLayerChk" type="checkbox" value="buildings"> Buildings
+            <input id="parcelLayerChk" type="checkbox" value="parcels"> Parcels
+        </li>
+    </ul>
+
+    <ul style="list-style-type:none">
         {{#each muniList}}
             <li>
                 <input class="muniChk" type="checkbox" value="{{this}}"> {{this}}

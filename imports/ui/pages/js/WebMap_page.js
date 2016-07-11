@@ -6,6 +6,7 @@ import {colorMap} from '../../../startup/client/mapFunctions.js';
 import {drawChart} from '../../../startup/client/mapFunctions.js';
 import {getDataFields} from '../../../ui/components/Global_helpers.js';
 import { measureNameMap } from '../../../ui/components/Global_helpers.js';
+import {drawBuildingsParcels} from '../../../startup/client/mapFunctions.js';
 
 export function findZoneData(zoneId, year){
     var selectedZoneArray = Session.get('selectedZone');
@@ -270,6 +271,7 @@ if(Meteor.isClient){
                 geo_class: "city"
             });
             drawMap(zoneParams);
+            drawBuildingsParcels();
 
         },  "click #downloads-li": function(event){
             event.preventDefault();
