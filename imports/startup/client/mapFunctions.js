@@ -78,7 +78,8 @@ export function drawMap(params){
                             });
                         }
                     });
-                }else if(bldChecked){
+                }
+                if(bldChecked){
                     var building_sub = Meteor.subscribe('buildings', bounds._southWest, bounds._northEast, {
                         onReady: function(){
                             var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
