@@ -97,7 +97,7 @@ export function drawBuildingsParcels() {
     var bounds = map.getBounds();
     var zoom = map.getZoom();
     if(zoom >= 17){
-        reset();
+        
 
 
         var parcel_sub = Meteor.subscribe('parcels', bounds._southWest, bounds._northEast, {
