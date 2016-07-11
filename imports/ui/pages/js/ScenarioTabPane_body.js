@@ -77,8 +77,17 @@ if(Meteor.isClient){
 
                 var sub = Meteor.subscribe('parcels_poly_selection', latLngs, {
                     onReady: function(){
-                        var test = parcels_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: latLngs}}}}).fetch();
-                        console.log(test);
+                        var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
+                        Meteor.call('find_parcels', ids, function(error, response){
+                            console.log(response);
+                            d3.selectAll('.parcels')
+                                .transition().duration(250)
+                                .style("fill", function(d){
+                                    if(d.properties.parcel_id == response.properties.parcel_id){
+                                        return "blue"
+                                    }
+                                });
+                        });
                     }
                 });
                 
