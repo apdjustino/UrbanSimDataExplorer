@@ -79,14 +79,13 @@ if(Meteor.isClient){
                     onReady: function(){
                         var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
                         this.stop();
-                        Meteor.call('findParcels', ids, function(error, response){
-                            console.log(response);
-                            d3.selectAll('.parcels')
-                                .transition().duration(250)
-                                .style("fill", function(d){
-                                    console.log(d);
-                                });
-                        });
+                        d3.selectAll('.parcels').transition()
+                            .duration(250)
+                            .style("fill", function(d){
+                                if(_.contains(ids, d.properties.parcel_id)){
+                                    return "blue"
+                                }
+                            });
                     }
                 });
                 
