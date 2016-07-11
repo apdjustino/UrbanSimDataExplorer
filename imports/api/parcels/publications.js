@@ -11,6 +11,6 @@ if(Meteor.isServer){
     });
 
     Meteor.publish('parcels_poly_selection', function(coordArr){
-        return parcels_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: coordArr}}}})
+        return parcels_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}})
     })
 }
