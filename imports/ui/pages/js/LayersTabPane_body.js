@@ -86,6 +86,12 @@ if(Meteor.isClient){
             }
             Session.set('checkedMunis', checkedMunis)
 
+        }, "change bldLayerChk": function(event, template){
+            if(event.target.checked){
+                d3.selectAll('.buildings').style('display', 'none');
+            }else{
+                d3.selectAll('.buildings').style('display', '');
+            }
         }
     });
 

@@ -56,43 +56,47 @@ export function drawMap(params){
         function drawBuildingsParcels() {
             var bounds = map.getBounds();
             var zoom = map.getZoom();
+            var bldChecked = $('#bldLayerChk').prop('checked');
+            var pChecked = $('#parcelLayerChk').prop('checked');
             if(zoom >= 17){
                 reset();
 
+                if(pChecked){
+                    var parcel_sub = Meteor.subscribe('parcels', bounds._southWest, bounds._northEast, {
+                        onReady: function(){
+                            var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
+                            this.stop();
+                            Meteor.call('findParcels', ids, function(error, response){
+                                d3.selectAll('.parcels').remove();
+                                parcel_feature = g.selectAll('.parcels')
+                                    .data(response)
+                                    .enter()
+                                    .append("path")
+                                    .attr("class", "parcels")
+                                    .attr("id", function(d){return d.properties.parcel_id})
+                                    .attr("d", path)
+                            });
+                        }
+                    });
+                }else if(bldChecked){
+                    var building_sub = Meteor.subscribe('buildings', bounds._southWest, bounds._northEast, {
+                        onReady: function(){
+                            var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
+                            this.stop();
+                            Meteor.call('findBuildings', ids, function(error, response){
+                                d3.selectAll('.buildings').remove();
+                                bldg_feature = g.selectAll('.buildings')
+                                    .data(response)
+                                    .enter()
+                                    .append("path")
+                                    .attr("class", 'buildings')
+                                    .attr("id", function(d){return d.properties.Building_I})
+                                    .attr("d", path);
+                            });
+                        }
+                    });
+                }
 
-                var parcel_sub = Meteor.subscribe('parcels', bounds._southWest, bounds._northEast, {
-                    onReady: function(){
-                        var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
-                        this.stop();
-                        Meteor.call('findParcels', ids, function(error, response){
-                            d3.selectAll('.parcels').remove();
-                            parcel_feature = g.selectAll('.parcels')
-                                .data(response)
-                                .enter()
-                                .append("path")
-                                .attr("class", "parcels")
-                                .attr("id", function(d){return d.properties.parcel_id})
-                                .attr("d", path)
-                        });
-                    }
-                });
-
-                var building_sub = Meteor.subscribe('buildings', bounds._southWest, bounds._northEast, {
-                    onReady: function(){
-                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
-                        this.stop();
-                        Meteor.call('findBuildings', ids, function(error, response){
-                            d3.selectAll('.buildings').remove();
-                            bldg_feature = g.selectAll('.buildings')
-                                .data(response)
-                                .enter()
-                                .append("path")
-                                .attr("class", 'buildings')
-                                .attr("id", function(d){return d.properties.Building_I})
-                                .attr("d", path);
-                        });
-                    }
-                });
                 
             }else{
                 d3.selectAll('.buildings').remove();

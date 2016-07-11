@@ -2,7 +2,7 @@
 
     <div class="row">
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-            <h4 class="text-left">Add Layers To Map</h4>
+            <h4 class="text-left">Toggle Buildings/Parcels</h4>
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
             <button class="btn btn-primary" id="btnReset" style="float:right;">Reset Map</button>
@@ -11,10 +11,21 @@
 
     <ul style="list-style-type:none">
         <li>
-            <input id="bldLayerChk" type="checkbox" value="buildings"> Buildings
-            <input id="parcelLayerChk" type="checkbox" value="parcels"> Parcels
+            <input id="bldLayerChk" type="checkbox" value="buildings" checked> Buildings
+        </li>
+        <li>
+            <input id="parcelLayerChk" type="checkbox" value="parcels" checked> Parcels
         </li>
     </ul>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4 class="text-left">Add Layers To Map</h4>
+        </div>
+
+    </div>
+
+
 
     <ul style="list-style-type:none">
         {{#each muniList}}
