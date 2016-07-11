@@ -30,6 +30,7 @@ if(Meteor.isClient){
         var counter = 0;
         var g = d3.select('.leaflet-zoom-hide');
         if(checked){
+            d3.select('#mapContainer').style("cursor", "default");
             g.on("mousedown", function(){
                 counter = counter + 1;
                 var mouse = d3.mouse(this);
@@ -66,18 +67,27 @@ if(Meteor.isClient){
                 var latLngs = coordinates.map(function(coord){
                     var point = L.point(coord.x, coord.y);
                     var latLng = map.layerPointToLatLng(point);
-                    return {lat: latLng.lat, lng: latLng.lng}
+                    return [latLng.lng, latLng.lat];
                 });
 
                 latLngs.pop();
                 latLngs.push(latLngs[0]);
 
                 console.log(latLngs);
+
+                var sub = Meteor.subscribe('parcels_poly_selection', latLngs, {
+                    onReady: function(){
+                        var test = parcels_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: latLngs}}}}).fetch();
+                        console.log(test);
+                    }
+                });
+                
                 g.on("mousedown", function(){}).on("dblclick", function(){});
 
 
             });
         }else{
+            d3.select('#mapContainer').style("cursor", "");
             g.on("mousedown", function(){}).on("mousemove", function(){}).on("dblclick", function(){});
         }
     }
