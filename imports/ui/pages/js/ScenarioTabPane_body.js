@@ -78,7 +78,7 @@ if(Meteor.isClient){
                 var sub = Meteor.subscribe('parcels_poly_selection', latLngs, {
                     onReady: function(){
                         var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
-                        Meteor.call('find_parcels', ids, function(error, response){
+                        Meteor.call('findParcels', ids, function(error, response){
                             console.log(response);
                             d3.selectAll('.parcels')
                                 .transition().duration(250)
