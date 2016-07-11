@@ -106,7 +106,7 @@ export function drawBuildingsParcels() {
                 this.stop();
                 Meteor.call('findParcels', ids, function(error, response){
                     d3.selectAll('.parcels').remove();
-                    parcel_feature = g.selectAll('.parcels')
+                    parcel_feature = d3.selectAll('.parcels')
                         .data(response)
                         .enter()
                         .append("path")
@@ -123,7 +123,7 @@ export function drawBuildingsParcels() {
                 this.stop();
                 Meteor.call('findBuildings', ids, function(error, response){
                     d3.selectAll('.buildings').remove();
-                    bldg_feature = g.selectAll('.buildings')
+                    bldg_feature = d3.selectAll('.buildings')
                         .data(response)
                         .enter()
                         .append("path")
