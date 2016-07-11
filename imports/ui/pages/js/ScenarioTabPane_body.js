@@ -84,9 +84,7 @@ if(Meteor.isClient){
                             d3.selectAll('.parcels')
                                 .transition().duration(250)
                                 .style("fill", function(d){
-                                    if(d.properties.parcel_id == response.properties.parcel_id){
-                                        return "blue"
-                                    }
+                                    console.log(d);
                                 });
                         });
                     }
