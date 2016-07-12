@@ -108,9 +108,9 @@ if(Meteor.isClient){
                     if($('#queryDiffs').prop('checked')){
                         var baseData = zoneData.find({sim_year: 2010}, {fields: fieldObj}).fetch();
                         var mappedData = data.map(function(row, idx){
-                            var rowData = _.keys(row).map(function(col){
-                                return row[col] - baseData[idx][col]
-                            });
+                            
+                            var rowData = row;
+                            rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
                             console.log(rowData);
                             return rowData
                         });
