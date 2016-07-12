@@ -56,23 +56,7 @@ export function subscribeToZone(year, selectedZoneArray){
                     return {measure: key, value:parseInt(value[key]), diff: parseInt(value[key]) - parseInt(baseValue[key])};
                 });
             }
-
-
-
-            //imperative programming way of creating the right data object
-
-            // for(var prop in data[0]){
-            //     if(data[0].hasOwnProperty(prop)){
-            //         var obj = {};
-            //         obj["measure"] = prop;
-            //         obj["value"] = 0;
-            //         for(var i=0; i< data.length; i++){
-            //             var val = parseInt(data[i][prop]) || 0;
-            //             obj["value"] += val;
-            //         }
-            //         dataArr.push(obj);
-            //     }
-            // }
+            
 
             var dataDict = {};
             var chartData;

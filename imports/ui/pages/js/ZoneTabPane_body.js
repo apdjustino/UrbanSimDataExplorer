@@ -105,6 +105,17 @@ if(Meteor.isClient){
                     fieldObj[selectedVar] = 1;
                     fieldObj['zone_id'] = 1;
                     var data = zoneData.find({sim_year: selectedYear}, {fields: fieldObj}).fetch();
+                    if($('#queryDiffs').prop('checked')){
+                        var baseData = zoneData.find({sim_year: 2010}, {fields: fieldObj}).fetch();
+                        var mappedData = data.map(function(row, idx){
+                            var rowData = _.keys(row).map(function(col){
+                                return row[col] - baseData[idx][col]
+                            });
+                            console.log(rowData);
+                            return rowData
+                        });
+                        console.log(mappedData);
+                    }
                     colorMap(data, selectedVar, 'zone');
                     this.stop();
                 }
