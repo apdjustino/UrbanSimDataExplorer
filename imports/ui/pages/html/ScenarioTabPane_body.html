@@ -1,5 +1,53 @@
 <template name="ScenarioTabPane_body">
+    {{>sAlert}}
     <h3>Scenario Manager</h3>
-    <input id="chkDrawTool" type="checkbox">Draw Selection
-    <button class="btn btn-primary" id="clearSelection" style="float:right;">Clear Selection</button>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <form id="newScenario">
+                <label for="newScenarioName">Add New Scenario
+                    <input type="text" id="newScenarioName" class="form-control" placeholder="Scenario Name" required>
+                </label>
+                <input class="btn btn-primary" id="btnAddNewScenario" style="display:inline;" type="submit" value="Add">
+            </form>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>Editor Tools</h3>
+            <input class="chkDrawTool" type="checkbox">Draw Selection
+            <button class="btn btn-primary clearSelection">Clear Selection</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>Scenarios <span class="badge" style="float:right;">{{selectionCount selection}}</span></h3>
+            <ul class="list-group">
+                {{#each scenarios}}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <h5 class="text-left">{{this.name}}</h5>
+                            </div>
+                            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                <h5 class="text-right">
+                                    <a href="#" data-target="#scenario{{@index}}" data-toggle="collapse">Edit</a>
+                                    |
+                                    <a href="#" id="remove-{{this.name}}" class="removeScenario">Delete</a>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row collapse" id="scenario{{@index}}">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                Content goes here
+                            </div>
+                        </div>
+                    </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+
+
+
 </template>

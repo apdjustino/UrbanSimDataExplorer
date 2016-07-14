@@ -111,10 +111,8 @@ if(Meteor.isClient){
                             
                             var rowData = row;
                             rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
-                            console.log(rowData);
                             return rowData
                         });
-                        console.log(mappedData);
                     }
                     colorMap(data, selectedVar, 'zone');
                     this.stop();

@@ -4,23 +4,54 @@
 if(Meteor.isClient){
     
     Template.ScenarioTabPane_body.onCreated(function(){
-
+        this.selection = new ReactiveVar(undefined);
     });
     
     Template.ScenarioTabPane_body.helpers({
+        scenarios: function(){
+            var currentUserProfile = Meteor.users.findOne({_id: Meteor.userId()}).profile;
+            if(currentUserProfile.scenarios){
+                return currentUserProfile.scenarios;
+            }
+        }, selection: function(){
+            return Template.instance().selection.get();
+        }, selectionCount: function(selection){
+            if(selection){
+                return selection.length;
+            }else{
+                return 0;
+            }
+        }
         
     });
 
     Template.ScenarioTabPane_body.events({
-        "change #chkDrawTool": function(event, template){
+        "change .chkDrawTool": function(event, template){
             var checked = event.target.checked;
             defineMouseEvents(checked);
 
-        }, "click #clearSelection": function(event, template){
+        }, "click .clearSelection": function(event, template){
             event.preventDefault();
             d3.selectAll('.selectionLine').remove();
+            template.selection.set(undefined);
             var checked = $('#chkDrawTool').prop("checked");
             defineMouseEvents(checked);
+        }, "submit #newScenario": function(event, template){
+            event.preventDefault();
+            var scenarioName = $('#newScenarioName').val();
+            Meteor.call("addNewScenario", scenarioName, function(error, result){
+                if(error){
+                    sAlert.error(error.reason, {position: 'bottom'});
+                }
+            });
+            $('#newScenarioName').val("");
+        }, "click .removeScenario": function(event, template){
+            var scenarioName = event.target.id.split('-')[1];
+            Meteor.call("removeScenario", scenarioName, function(error, result){
+                if(error){
+                    sAlert.error(error.reason, {position: 'bottom'});
+                }
+            });
         }
     });
 
@@ -73,11 +104,10 @@ if(Meteor.isClient){
                 latLngs.pop();
                 latLngs.push(latLngs[0]);
 
-                console.log(latLngs);
-
                 var sub = Meteor.subscribe('parcels_poly_selection', latLngs, {
                     onReady: function(){
                         var ids = parcels_centroids.find({}).fetch().map(function(x){ return x.properties.parcel_id});
+
                         this.stop();
                         d3.selectAll('.parcels').transition()
                             .duration(250)
@@ -86,6 +116,14 @@ if(Meteor.isClient){
                                     return "blue"
                                 }
                             });
+
+                        Meteor.call("findParcels", ids, function(error, response){
+                            if(error){
+                                sAlert.error(error.reason, {position:"bottom"});
+                            }else{
+                                Template.instance().selection.set(response);
+                            }
+                        });
                     }
                 });
                 

@@ -34,3 +34,4 @@ harrison:papa-parse
 pfafman:filesaver
 reactive-var
 arkham:comments-ui@=1.0.2
+aldeed:simple-schema
