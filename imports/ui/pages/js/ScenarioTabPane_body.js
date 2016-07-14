@@ -35,7 +35,7 @@ if(Meteor.isClient){
             d3.selectAll('.selectionLine').remove();
             template.selection.set(undefined);
             var checked = $('#chkDrawTool').prop("checked");
-            defineMouseEvents(checked);
+            defineMouseEvents(checked ,template);
         }, "submit #newScenario": function(event, template){
             event.preventDefault();
             var scenarioName = $('#newScenarioName').val();
@@ -55,7 +55,7 @@ if(Meteor.isClient){
         }
     });
 
-    function defineMouseEvents(checked){
+    function defineMouseEvents(checked, template){
         var line;
         var coordinates =[];
         var counter = 0;
@@ -121,7 +121,8 @@ if(Meteor.isClient){
                             if(error){
                                 sAlert.error(error.reason, {position:"bottom"});
                             }else{
-                                Template.instance().selection.set(response);
+                                console.log(response);
+                                template.selection.set(response);
                             }
                         });
                     }
