@@ -28,7 +28,7 @@ if(Meteor.isClient){
     Template.ScenarioTabPane_body.events({
         "change .chkDrawTool": function(event, template){
             var checked = event.target.checked;
-            defineMouseEvents(checked);
+            defineMouseEvents(checked, template);
 
         }, "click .clearSelection": function(event, template){
             event.preventDefault();
