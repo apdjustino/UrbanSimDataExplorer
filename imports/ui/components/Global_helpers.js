@@ -37,7 +37,7 @@ if(Meteor.isClient){
         var str = measure.substr(measure.length - 3);
         if(str !='_id' || measure == 'year_built'){
             var format = d3.format("0,000");
-            if(!isNan(format(value))){
+            if(!isNaN(format(value))){
                 return format(val);
             }else{
                 return val;
