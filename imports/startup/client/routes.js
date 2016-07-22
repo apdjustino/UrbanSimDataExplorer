@@ -12,6 +12,7 @@ import '../../ui/components/html/Tab_pane.html';
 import '../../ui/components/html/Result_table.html'
 import '../../ui/components/Global_helpers.js';
 import '../../ui/styles.css';
+import '../../ui/widgets.css';
 import '../../ui/components/Result_table.js';
 import '../../ui/components/html/AdminBlockHelper.html';
 
@@ -36,6 +37,7 @@ import '../../ui/pages/html/LayersTabPane_body.html';
 import '../../ui/pages/html/DownloadsTabPane_body.html';
 import '../../ui/pages/html/SetPassword_page.html';
 import '../../ui/pages/html/ScenarioTabPane_body.html';
+import '../../ui/pages/html/CesiumPage.html';
 
 //import client page js
 
@@ -52,6 +54,7 @@ import '../../ui/pages/js/LayersTabPane_body.js';
 import '../../ui/pages/js/DownloadsTabPane_body.js';
 import '../../ui/pages/js/SetPassword_page.js';
 import '../../ui/pages/js/ScenarioTabPane_body.js';
+import '../../ui/pages/js/CesiumPage.js';
 
 //declare routs
 
@@ -60,6 +63,13 @@ FlowRouter.route('/', {
     name: 'home',
     action: function(){
         BlazeLayout.render('Home_layout_page', {main: 'Login_page'});
+    }
+});
+
+FlowRouter.route('/cesium', {
+    name: 'cesium',
+    action: function(){
+        BlazeLayout.render('Home_layout_page', {main: 'CesiumPage'});
     }
 });
 
