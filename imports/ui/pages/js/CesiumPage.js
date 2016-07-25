@@ -3,7 +3,7 @@
  */
 if(Meteor.isClient){
     Template.CesiumPage.onRendered(function(){
-        $.getScript('http://localhost:3000/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
+        $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
             var viewer = new Cesium.Viewer('cesiumContainer');
         });
 
