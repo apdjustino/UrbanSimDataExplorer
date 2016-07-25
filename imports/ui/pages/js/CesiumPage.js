@@ -34,10 +34,10 @@ if(Meteor.isClient){
 
                 Meteor.subscribe('buildings_poly_selection', boxArray, {
                     onReady: function(){
-                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x._id._str});
-                        console.log(ids);
+                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
                         this.stop();
-                        Meteor.call('findBuildings_test', ids, function(error, response){
+                        console.log(ids);
+                        Meteor.call('findBuildings', ids, function(error, response){
                             var source = new Cesium.GeoJsonDataSource("buildings");
                             viewer.dataSources.removeAll(true);
                             viewer.dataSources.add(source);
