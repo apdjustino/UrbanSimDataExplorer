@@ -34,8 +34,24 @@ if(Meteor.isClient){
 
                 Meteor.subscribe('buildings_poly_selection', boxArray, {
                     onReady: function(){
-                        var ids = buildings_centroids.find({}).fetch();
-                        console.log(ids);
+                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x.properties.Building_I});
+                        this.stop();
+                        Meteor.call('findBuildings', ids, function(error, response){
+                            var promise = Cesium.GeoJsonDataSource.load(response);
+                            promise.then(function(dataSource){
+                                viewer.dataSources.add(dataSource);
+                                var entities = dataSource.entities.values;
+                                for(var i =0; i<entities.length; i++){
+                                    var entity = entities[i];
+                                    entity.polygon.extrudedHeight = entity.properties.Bldg_Heigh /3.2;
+                                    entity.polygon.material = Cesium.Color.BURLYWOOD;
+                                    entity.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                                }
+                            }).otherwise(function(error){
+                                //Display any errrors encountered while loading.
+                                window.alert(error);
+                            });
+                        })
                     }
                 });
 
