@@ -38,6 +38,7 @@ if(Meteor.isClient){
                         this.stop();
                         Meteor.call('findBuildings', ids, function(error, response){
                             var source = new Cesium.GeoJsonDataSource("buildings");
+                            viewer.dataSources.removeAll(true);
                             viewer.dataSources.add(source);
                             source.load({
                                 type: "FeatureCollection",
