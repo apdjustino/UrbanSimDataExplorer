@@ -10,7 +10,11 @@ if(Meteor.isServer){
         return urbansim_buildings.find({plan_id: id});
     });
 
+    // Meteor.publish('buildings_poly_selection', function(coordArr){
+    //     return buildings_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}})
+    // });
+
     Meteor.publish('buildings_poly_selection', function(coordArr){
-        return buildings_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}})
+        return buildings.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}})
     });
 }
