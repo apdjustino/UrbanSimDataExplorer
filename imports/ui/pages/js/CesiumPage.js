@@ -34,7 +34,7 @@ if(Meteor.isClient){
 
                 Meteor.subscribe('buildings_poly_selection', boxArray, {
                     onReady: function(){
-                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x._id});
+                        var ids = buildings_centroids.find({}).fetch().map(function(x){return x._id._str});
                         console.log(ids);
                         this.stop();
                         Meteor.call('findBuildings_test', ids, function(error, response){
