@@ -47,6 +47,10 @@ if(Meteor.isClient){
             return val;
         }
     });
+    
+    Template.registerHelper('isSpinning', function(){
+        return Session.get('spinning');
+    })
 
 }
 
