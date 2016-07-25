@@ -9,4 +9,8 @@ if(Meteor.isServer){
     Meteor.publish('selected_building', function(id){
         return urbansim_buildings.find({plan_id: id});
     });
+
+    Meteor.publish('buildings_poly_selection', function(coordArr){
+        return buildings_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}})
+    });
 }
