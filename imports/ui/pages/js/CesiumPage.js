@@ -53,8 +53,8 @@ if(Meteor.isClient){
                 console.log(heading);
 
                 if(position.height < 701){
-                    Session.set('spinning', true);
                     if(pitch < Cesium.Math.toRadians(-35)){
+                        Session.set('spinning', true);
                         var rect = viewer.camera.computeViewRectangle();
                         var boxArray = [];
                         boxArray.push([convert(rect.west), convert(rect.south)]); //southwest
