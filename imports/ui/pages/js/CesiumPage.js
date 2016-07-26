@@ -43,7 +43,7 @@ if(Meteor.isClient){
 
 
             function drawEntities() {
-                Session.set('spinning', true);
+
                 var position = viewer.camera.positionCartographic;
                 var pitch = viewer.camera.pitch;
                 var heading = viewer.camera.heading;
@@ -53,6 +53,7 @@ if(Meteor.isClient){
                 console.log(heading);
 
                 if(position.height < 701){
+                    Session.set('spinning', true);
                     if(pitch < Cesium.Math.toRadians(-35)){
                         var rect = viewer.camera.computeViewRectangle();
                         var boxArray = [];

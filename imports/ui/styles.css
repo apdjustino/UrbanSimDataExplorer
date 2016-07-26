@@ -15,6 +15,10 @@ html, body, #container{
     height: 93vh;
 }
 
+#cesiumContainer{
+    height: 93vh;
+}
+
 body {
     padding-top: 50px;
 }
