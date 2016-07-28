@@ -6,6 +6,8 @@ import '../imports/startup/client/mapFunctions.js';
 
 if(Meteor.isClient){
     Meteor.startup(function(){
+        Session.set('selectedZone', []);
+        Session.set('allowMultipleGeo', false);
         CESIUM_BASE_URL = "/scripts/Cesium-1.23/Build/CesiumUnminified/";
         WebFontConfig = {
             google: {families: ['Lato:400', 'Lato:300', 'Mouse Memoirs']}
