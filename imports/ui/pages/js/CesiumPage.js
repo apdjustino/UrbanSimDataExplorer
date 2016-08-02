@@ -35,55 +35,120 @@ if(Meteor.isClient){
                 window.alert(error);
             });
             
-            // viewer.camera.flyTo({
-            //     destination : Cesium.Cartesian3.fromRadians(-1.8323722004377674, 0.6937453713039814, 595.3912663897179),
-            //     orientation : {
-            //         heading : 3.066103356080265,
-            //         pitch : Cesium.Math.toRadians(-40.0),
-            //         roll : 0.0
-            //     },
-            //     duration: 5.5,
-            //     complete: function(){
-            //
-            //     }
-            // });
-            
             drawEntities();
 
+
+            //event handlers
+
             viewer.camera.moveStart.addEventListener(function() {
-                // the camera started to move
+
             });
             viewer.camera.moveEnd.addEventListener(function() {
                 drawEntities();
             });
             
+            // var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+            // handler.setInputAction(function(click){
+            //     var pickedObject = viewer.scene.pick(click.position);
+            //     var entity = pickedObject.id;
+            //     var zoneId = entity.properties.ZONE_ID;
+            //
+            //     var ds = viewer.dataSources.get(0);
+            //     var selectedZones = Session.get('selectedZone');
+            //     if(Session.equals('allowMultipleGeo', false)){
+            //         if(selectedZones.length > 0){
+            //             var prior = _.find(ds.entities.values, function(entity){return entity.properties.ZONE_ID == selectedZones[0]});
+            //             prior.polygon.material = new Cesium.Color(0.1,0.1,0.1,0.1);
+            //
+            //         }
+            //         entity.polygon.material = new Cesium.Color(1,1,0,0.5);
+            //     }else{
+            //         if(_.contains(selectedZones, zoneId)){
+            //             entity.polygon.material = new Cesium.Color(0.1,0.1,0.1,0.1);
+            //         }else{
+            //             entity.polygon.material = new Cesium.Color(1,1,0,0.5);
+            //         }
+            //
+            //     }
+            //
+            //
+            //     findZoneData(zoneId, 2040)
+            // }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            var counter = 0;
+            var lat;
+            var long;
+            var originLat;
+            var originLong;
+            var scenario = true;
+
             var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
             handler.setInputAction(function(click){
-                var pickedObject = viewer.scene.pick(click.position);
-                var entity = pickedObject.id;
-                var zoneId = entity.properties.ZONE_ID;
-
-                var ds = viewer.dataSources.get(0);
-                var selectedZones = Session.get('selectedZone');
-                if(Session.equals('allowMultipleGeo', false)){
-                    if(selectedZones.length > 0){
-                        var prior = _.find(ds.entities.values, function(entity){return entity.properties.ZONE_ID == selectedZones[0]});
-                        prior.polygon.material = new Cesium.Color(0.1,0.1,0.1,0.1);
-
+                if(scenario){
+                    counter = counter + 1;
+                    var cartesian = viewer.camera.pickEllipsoid(click.position, viewer.scene.globe.ellipsoid);
+                    if(cartesian){
+                        var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                        long = Cesium.Math.toDegrees(cartographic.longitude);
+                        lat = Cesium.Math.toDegrees(cartographic. latitude);
+                        if(counter == 1){
+                            originLong = Cesium.Math.toDegrees(cartographic.longitude);
+                            originLat = Cesium.Math.toDegrees(cartographic. latitude);
+                        }
                     }
-                    entity.polygon.material = new Cesium.Color(1,1,0,0.5);
-                }else{
-                    if(_.contains(selectedZones, zoneId)){
-                        entity.polygon.material = new Cesium.Color(0.1,0.1,0.1,0.1);
-                    }else{
-                        entity.polygon.material = new Cesium.Color(1,1,0,0.5);
-                    }
+                    viewer.entities.add({
+                        id: counter,
+                        polyline: {
+                            positions: Cesium.Cartesian3.fromDegreesArray([long, lat, long, lat]),
+                            width: 2,
+                            material: Cesium.Color.RED
+                        }
 
+
+                    });
                 }
 
-
-                findZoneData(zoneId, 2040)
             }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            handler.setInputAction(function(movement){
+                if(scenario){
+                    var line = viewer.entities.getById(counter);
+                    // line.positions = Cesium.Cartesian.fromDegreesArray([long, lat])
+                    var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, viewer.scene.globe.ellipsoid);
+                    if(cartesian){
+                        var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                        newLong = Cesium.Math.toDegrees(cartographic.longitude);
+                        newLat = Cesium.Math.toDegrees(cartographic. latitude);
+
+                    }
+
+                    line.polyline.positions = Cesium.Cartesian3.fromDegreesArray([long, lat, newLong, newLat ])
+                }
+
+            }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+            handler.setInputAction(function(dblClick){
+                if(scenario){
+                    counter = counter + 1;
+                    var cartesian = viewer.camera.pickEllipsoid(dblClick.position, viewer.scene.globe.ellipsoid);
+                    if(cartesian){
+                        var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                        newlong = Cesium.Math.toDegrees(cartographic.longitude);
+                        newLat = Cesium.Math.toDegrees(cartographic. latitude);
+                    }
+
+                    viewer.entities.add({
+                        id: counter,
+                        polyline: {
+                            positions: Cesium.Cartesian3.fromDegreesArray([newLong, newLat, originLong, originLat]),
+                            width: 2,
+                            material: Cesium.Color.RED
+                        }
+                    });
+                    scenario = false;
+                }
+
+            }, Cesium.ScreenSpaceEventType.RIGHT_CLICK);
 
 
             function drawEntities() {
