@@ -1,6 +1,7 @@
 /**
  * Created by jmartinez on 4/5/16.
  */
+
 export function getDataFields(admin){
     if(admin){
         return {zone_id:0, _id:0, sim_year:0};
@@ -23,7 +24,42 @@ export function getDataFields(admin){
         }
     }
 }
+
+
+
 if(Meteor.isClient){
+
+    export function getNavObject(navLinkId){
+        var navObject = {
+            navInfo: {
+                icon: "info",
+                title: "Info",
+                nodes: [
+                    {template: "InfoBody_page", data:undefined}
+                ]
+            }, navLogIn: {
+                icon: "person",
+                title: "Log In",
+                nodes: [
+                    {template: "CredentialsModal_body", data:undefined}
+                ]
+            }, navSignUp: {
+                icon: "input",
+                title: "Create New Account",
+                nodes: [
+                    {template: "SignUp_body", data:undefined}
+                ]
+            }, navLayers: {
+                icon: "layers",
+                title: "Layers",
+                nodes: [
+                    {template: "LayersMenu_body", data:undefined}
+                ]
+            }
+        };
+        console.log(navLinkId);
+        return navObject[navLinkId];
+    }
     
     Template.registerHelper('GLOBAL_years', function(){
         return [2010,2015,2020,2025,2030,2035,2040]
@@ -50,6 +86,14 @@ if(Meteor.isClient){
     
     Template.registerHelper('isSpinning', function(){
         return Session.get('spinning');
+    });
+    
+    Template.registerHelper('SlideOut_args', function(id){
+        return getNavObject(id);
+    });
+    
+    Template.registerHelper('selectedNavItem', function(){
+        return Session.get('selectedNavItem');
     })
 
 }

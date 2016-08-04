@@ -15,6 +15,8 @@ import '../../ui/styles.css';
 import '../../ui/widgets.css';
 import '../../ui/components/Result_table.js';
 import '../../ui/components/html/AdminBlockHelper.html';
+import '../../ui/components/html/Material_side_nav.html';
+import '../../ui/components/Material_side_nav.js';
 
 //import client layouts
 import '../../ui/layouts/Home_layout_page.html';
@@ -38,6 +40,9 @@ import '../../ui/pages/html/DownloadsTabPane_body.html';
 import '../../ui/pages/html/SetPassword_page.html';
 import '../../ui/pages/html/ScenarioTabPane_body.html';
 import '../../ui/pages/html/CesiumPage.html';
+import '../../ui/pages/html/InfoBody_page.html';
+import '../../ui/pages/html/CesiumMap_page.html';
+import '../../ui/pages/html/LayersMenu_body.html';
 
 //import client page js
 
@@ -55,6 +60,8 @@ import '../../ui/pages/js/DownloadsTabPane_body.js';
 import '../../ui/pages/js/SetPassword_page.js';
 import '../../ui/pages/js/ScenarioTabPane_body.js';
 import '../../ui/pages/js/CesiumPage.js';
+import '../../ui/pages/js/CesiumMap_page.js';
+import '../../ui/pages/js/LayersMenu_body.js';
 
 //declare routs
 
@@ -83,7 +90,7 @@ FlowRouter.route('/enroll-account/:token', {
 FlowRouter.route('/map', {
     name: 'webMap',
     action: function(){
-        BlazeLayout.render('Home_layout_page', {main: 'WebMap_page'});
+        BlazeLayout.render('Home_layout_page', {main: 'CesiumMap_page'});
     }
 });
 

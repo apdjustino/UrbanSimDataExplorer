@@ -54,7 +54,7 @@
     {{>Modal_fade (LoginModal_args)}}
 </template>
 
-<template name="LoginModal_body">
+<template name="SignUp_body">
     <form id="addNewPublicUser" role="form">
         <div class="form-group">
             <label for="firstName">First Name: </label>
@@ -87,19 +87,22 @@
 <template name="CredentialsModal_body">
 
     <form id="loginForm">
-        <div class="form-group">
-            <label for="userEmail" class="control-label">Email</label>
-            <input type="text" class="form-control email required" id="userEmail" name="userEmail" title="Please enter you username" placeholder="example@gmail.com">
-            <span class="help-block"></span>
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="email" class="validate" required id="userEmail" name="userEmail">
+                <label for="userEmail" class="active">Email</label>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password" class="control-label">Password</label>
-            <input type="password" class="form-control required" id="password" name="password" value="" required="" title="Please enter your password">
-            <span class="help-block"></span>
+        <div class="row">
+            <div class="input-field col s12">
+                <input type="password" class="validate" required id="password" name="password">
+                <label for="password" class="active">Password</label>
+            </div>
         </div>
-        <input type="submit" id="submitLoginForm" class="btn btn-success btn-block" value="Login">
+        <input type="submit" id="submitLoginForm" class="btn" value="Login">
     </form>
-    <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target="#createPublicAccountModal">Create New Account</a>
+
+
 
 
 </template>
