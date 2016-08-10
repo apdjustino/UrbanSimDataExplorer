@@ -7,6 +7,7 @@ if(Meteor.isClient){
         "click .layerBtn": function(event, template){
             event.preventDefault();
             Session.set('spinning', true);
+            Session.set('selectedLayer', event.target.id);
             var path = "/data/" + event.target.id + ".json";
             if(viewer){
                 viewer.dataSources.removeAll(true);

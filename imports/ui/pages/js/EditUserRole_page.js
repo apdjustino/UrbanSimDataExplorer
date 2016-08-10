@@ -43,13 +43,57 @@ if(Meteor.isClient){
             return Meteor.users.findOne({_id:userId}).roles;
         }, selectedUser: function(){
             return Session.get('selectedUser');
+        }, UserSelect_args: function(){
+            var users = Meteor.users.find({}).fetch();
+            var data = users.map(function(user){
+                return {value: user._id, name: user.emails[0].address}
+            });
+            return {
+                selectId: "userDropDownSelect",
+                multiple: "",
+                label: "Email",
+                selectData: data
+            }
+        }, RoleSelect_args: function(selectedUser) {
+
+            return {
+                selectId: "newRole",
+                multiple: "",
+                label: "New Role",
+                selectData: [
+                    {value: "admin", name: "Admin"},
+                    {value: "drcog" , name: "DRCOG (internal)"},
+                    {value: "public", name: "Public"}
+                ]
+
+            }
+        }, UserRolesSelect_args: function(selectedUser) {
+            Tracker.afterFlush(function(){
+                $('select').material_select();
+            });
+            var roles = Meteor.users.findOne({_id: selectedUser}).roles;
+            var data = roles.map(function (role) {
+                return {value: role, name: role}
+            });
+            return {
+                selectId: "roleList",
+                multiple: "multiple",
+                label: "User Roles",
+                selectData: data
+            }
         }
+
     });
 
     Template.EditUserRole_page.onCreated(function(){
         var self = this;
         self.autorun(function(){
-            self.subscribe('users');
+            self.subscribe('users', {
+                onReady: function(){
+                    var selectedUser = Meteor.users.findOne()._id;
+                    Session.set('selectedUser', selectedUser);
+                }
+            });
         });
     });
 }

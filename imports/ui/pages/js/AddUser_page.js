@@ -56,6 +56,24 @@ if(Meteor.isClient){
             });
         }
     });
+    
+    Template.AddUser_page.helpers({
+        SelectRole_args: function(){
+            var test = {
+                selectId: "role",
+                multiple: "",
+                label: "Role",
+                selectData: [
+                    {value: "admin", name: "Admin"},
+                    {value: "drcog", name: "DRCOG User (internal)"},
+                    {value: "public", name: "Public"}
+                ]
+            };
+
+            console.log(test);
+            return test;
+        }
+    });
 
     Template.AddUser_page.rendered = function(){
         $('#addNewUser').validate({

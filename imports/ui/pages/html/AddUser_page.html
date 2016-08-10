@@ -2,39 +2,41 @@
     {{#AdminBlockHelper}}
         {{>sAlert}}
         <div class="row">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">
+            <div class="col s12 m12 l12">
                 <form id="addNewUser" role="form">
-                    <div class="form-group">
-                        <label for="firstName">First Name: </label>
-                        <input type="text" id="firstName" name="firstName" class="form-control required">
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input type="text" id="firstName" name="firstName" class="validate" required="required">
+                            <label for="firstName">First Name</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="lastName">Last Name: </label>
-                        <input type="text" id="lastName" name="lastName" class="form-control required">
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input type="text" id="lastName" name="lastName" class="validate" required="required">
+                            <label for="lastName">Last Name</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="organization">Organization: </label>
-                        <input type="text" id="organization" name="organization" class="form-control required">
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input type="text" id="organization" name="organization" class="validate" required="required">
+                            <label for="organization">Organization</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email: </label>
-                        <input type="email" id="email" name="email" class="form-control required email">
+                    <div class="row">
+                        <div class="col s12 input-field">
+                            <input type="email" id="email" name="email" class="validate" required="required">
+                            <label for="email">Email</label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="role">Role: </label>
-                        <select id="role" class="form-control">
-                            <option value="admin">Admin</option>
-                            <option value="drcog">DRCOG User (Internal)</option>
-                            <option value="public">Public</option>
-                        </select>
+                    <div class="row">
+                        {{>Material_select (SelectRole_args)}}
                     </div>
+
                     <div class="form-group">
-                        <button id="btnSendEmail" class="btn btn-primary">Send Invite</button>
+                        <a id="btnSendEmail" class="waves-effect waves-light btn" href="#">Send Invite</a>
                     </div>
                 </form>
             </div>
-            <div class="col-lg-4"></div>
         </div>
     {{/AdminBlockHelper}}
 

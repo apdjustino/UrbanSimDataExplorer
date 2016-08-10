@@ -17,6 +17,8 @@ import '../../ui/components/Result_table.js';
 import '../../ui/components/html/AdminBlockHelper.html';
 import '../../ui/components/html/Material_side_nav.html';
 import '../../ui/components/Material_side_nav.js';
+import '../../ui/components/html/Material_select.html';
+import '../../ui/components/Material_select.js';
 
 //import client layouts
 import '../../ui/layouts/Home_layout_page.html';
@@ -43,6 +45,8 @@ import '../../ui/pages/html/CesiumPage.html';
 import '../../ui/pages/html/InfoBody_page.html';
 import '../../ui/pages/html/CesiumMap_page.html';
 import '../../ui/pages/html/LayersMenu_body.html';
+import '../../ui/pages/html/NavigationOptions_page.html'
+import '../../ui/pages/html/Chloropleth_body.html';
 
 //import client page js
 
@@ -62,6 +66,8 @@ import '../../ui/pages/js/ScenarioTabPane_body.js';
 import '../../ui/pages/js/CesiumPage.js';
 import '../../ui/pages/js/CesiumMap_page.js';
 import '../../ui/pages/js/LayersMenu_body.js';
+import '../../ui/pages/js/NavigationOptions_page.js';
+import '../../ui/pages/js/Chloropleth_body.js';
 
 //declare routs
 

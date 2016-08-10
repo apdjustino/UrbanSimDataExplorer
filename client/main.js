@@ -8,6 +8,7 @@ if(Meteor.isClient){
     Meteor.startup(function(){
         Session.set('selectedZone', []);
         Session.set('allowMultipleGeo', false);
+        Session.set("selectedLayer", "noLayer");
         
         viewer = undefined;
         CESIUM_BASE_URL = "/scripts/Cesium-1.23/Build/CesiumUnminified/";

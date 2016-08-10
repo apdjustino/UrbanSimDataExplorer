@@ -1,0 +1,10 @@
+<template name="Material_select">
+    <div class="input-field col s12">
+        <select {{this.multiple}} id="{{this.selectId}}">
+            {{#each this.selectData}}
+                <option value="{{this.value}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+        <label for="{{this.selectId}}">{{this.label}}</label>
+    </div>
+</template>
