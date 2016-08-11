@@ -12,3 +12,6 @@ import '/imports/api/parcels/methods.js';
 import '/imports/api/parcels/collections.js';
 import '/imports/api/comments/methods.js';
 import '/imports/api/users/collection.js'
+import '/imports/api/ucData/collections.js';
+import '/imports/api/muniData/collections.js';
+import '/imports/api/zoneGeoData/methods.js';

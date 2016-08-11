@@ -1,5 +1,9 @@
 <template name="Home_layout_page">
 
+    {{#if isSpinning}}
+        {{>spinner}}
+    {{/if}}
+
     {{#if isInRole 'admin'}}
         {{>adminNavBar}}
     {{/if}}

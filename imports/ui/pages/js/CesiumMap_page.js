@@ -3,12 +3,13 @@
  */
 if(Meteor.isClient){
     Template.CesiumMap_page.onRendered(function(){
+        Session.set('spinning', true);
+        Session.set('selectedLayer', 'zonesGeo');
         $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
             var west = -105.5347;
             var south = 39.2663;
             var east = -104.4301;
             var north = 40.246;
-            Session.set('spinning', false);
             var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
 
             Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
@@ -58,7 +59,6 @@ if(Meteor.isClient){
             });
 
 
-
             viewer.baseLayerPicker.viewModel.imageryProviderViewModels = imageryViewModels;
             viewer.baseLayerPicker.viewModel.terrainProviderViewModels = [];
             viewer.selectedImageryProviderViewModel = imageryViewModels[0];
@@ -69,6 +69,31 @@ if(Meteor.isClient){
             viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
             viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
 
+
+            viewer.dataSources.removeAll(true);
+            var promise = Cesium.GeoJsonDataSource.load('/data/zonesGeo.json', {
+                stroke: Cesium.Color.BLACK,
+                fill: new Cesium.Color(0.01,0.01,0.01,0.01)
+            });
+            promise.then(function(dataSource){
+                viewer.dataSources.add(dataSource);
+                Session.set('spinning', false);
+            }).otherwise(function(error){
+                //Display any errrors encountered while loading.
+                window.alert(error);
+            });
+
         })
+    });
+
+    Template.CesiumMap_page.helpers({
+        InfoModal_args: function(){
+            return {
+                modalId: "infoModal",
+                modalHeader: "Data",
+                modalBodyTemplate: "InfoModal_body",
+                data: undefined
+            }
+        }
     })
 }

@@ -1,6 +1,9 @@
 <template name="CesiumMap_page">
-    {{#if isSpinning}}
-        {{>spinner}}
-    {{/if}}
+    {{>sAlert}}
     <div id="cesiumContainer"></div>
+    <a class="btn-floating btn waves-effect waves-light modal-trigger" style="position:absolute; top:70px; left:10px;" href="#infoModal">
+        <i class="material-icons">info</i>
+    </a>
+    {{>Material_modal (InfoModal_args)}}
 </template>
+

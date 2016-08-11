@@ -1,0 +1,9 @@
+<template name="Material_ul">
+    <ul class="collection">
+        {{#each this.listData}}
+            <li class="collection-item">
+                {{>Template.dynamic template=../listItemTemplate data=this}}
+            </li>
+        {{/each}}
+    </ul>
+</template>

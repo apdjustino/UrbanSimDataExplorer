@@ -6,6 +6,8 @@ if(Meteor.isClient){
     Template.LayersMenu_body.events({
         "click .layerBtn": function(event, template){
             event.preventDefault();
+            $('#sidenav-overlay').remove();
+            $('.navLink').sideNav('hide');
             Session.set('spinning', true);
             Session.set('selectedLayer', event.target.id);
             var path = "/data/" + event.target.id + ".json";

@@ -1,0 +1,99 @@
+{
+  "name": "jszip",
+  "version": "3.0.0",
+  "author": {
+    "name": "Stuart Knightley",
+    "email": "stuart@stuartk.com"
+  },
+  "description": "Create, read and edit .zip files with Javascript http://stuartk.com/jszip",
+  "scripts": {
+    "test": "npm run test-node && npm run test-browser",
+    "test-node": "qunit-cli -c test/helpers/test-utils.js test/helpers/node-test-utils.js test/asserts/*.js",
+    "test-browser": "grunt build && grunt test",
+    "lint": "grunt jshint"
+  },
+  "contributors": [
+    {
+      "name": "Franz Buchinger"
+    },
+    {
+      "name": "António Afonso"
+    },
+    {
+      "name": "David Duponchel"
+    },
+    {
+      "name": "yiminghe"
+    }
+  ],
+  "main": "./lib/index",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stuk/jszip.git"
+  },
+  "keywords": [
+    "zip",
+    "deflate",
+    "inflate"
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~1.1.0",
+    "grunt-saucelabs": "~8.6.2",
+    "grunt-contrib-connect": "1.0.0",
+    "jshint": "~2.9.1",
+    "browserify": "~13.0.0",
+    "grunt-browserify": "~5.0.0",
+    "grunt-contrib-jshint": "~1.0.0",
+    "grunt-contrib-uglify": "~1.0.0",
+    "jszip-utils": "~0.0.2",
+    "qunit-cli": "~0.2.0",
+    "qunitjs": "~1.23.0",
+    "tmp": "0.0.28"
+  },
+  "dependencies": {
+    "es6-promise": "~3.0.2",
+    "pako": "~1.0.0",
+    "readable-stream": "~2.0.6",
+    "asap": "~2.0.3"
+  },
+  "license": "(MIT OR GPL-3.0)",
+  "gitHead": "dbc084115a2f5c88d2ebda16c7e019d2b5d547d8",
+  "bugs": {
+    "url": "https://github.com/Stuk/jszip/issues"
+  },
+  "homepage": "https://github.com/Stuk/jszip#readme",
+  "_id": "jszip@3.0.0",
+  "_shasum": "bc14156ae59d9eb3bf8598c3e5f079cd3b16f958",
+  "_from": "jszip@latest",
+  "_npmVersion": "3.8.6",
+  "_nodeVersion": "5.10.1",
+  "_npmUser": {
+    "name": "dduponchel",
+    "email": "d.duponchel@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "cwmma",
+      "email": "calvin.metcalf@gmail.com"
+    },
+    {
+      "name": "dduponchel",
+      "email": "d.duponchel@gmail.com"
+    },
+    {
+      "name": "stuk",
+      "email": "stuart@stuartk.com"
+    }
+  ],
+  "dist": {
+    "shasum": "bc14156ae59d9eb3bf8598c3e5f079cd3b16f958",
+    "tarball": "https://registry.npmjs.org/jszip/-/jszip-3.0.0.tgz"
+  },
+  "_npmOperationalInternal": {
+    "host": "packages-12-west.internal.npmjs.com",
+    "tmp": "tmp/jszip-3.0.0.tgz_1460575953453_0.060532084200531244"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/jszip/-/jszip-3.0.0.tgz"
+}
