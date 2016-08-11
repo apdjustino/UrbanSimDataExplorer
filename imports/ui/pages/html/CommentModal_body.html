@@ -1,3 +1,7 @@
 <template name="CommentModal_body">
-    {{>commentsBox id=(commentId measure year zone)}}
+    {{>commentsBox id=(commentId this.data.measure this.data.year this.data.zone)}}
+</template>
+
+<template name="CommentModal_header">
+    <h5>{{this.modalHeader}}</h5>
 </template>

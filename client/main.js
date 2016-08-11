@@ -3,6 +3,7 @@
  */
 import '../imports/startup/client/routes.js';
 import '../imports/startup/client/mapFunctions.js';
+import '../imports/ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
     Meteor.startup(function(){

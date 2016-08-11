@@ -1,3 +1,41 @@
 <template name="InfoModal_body">
-    <p>THis is a test</p>
+    <div class="row">
+        <div class="col s5 m5 l5">
+            <div id="popChartContainer">
+                <h5 class="text-center">Population</h5>
+            </div>
+        </div>
+        <div class="col s5 m5 l5">
+            <div id="hhChartContainer">
+                <h5 class="text-center">Employment</h5>
+            </div>
+        </div>
+        <div class="col s2 m2 l2">
+            <h5 class="right-align">{{this.modalHeader}}</h5>
+        </div>
+        <div class="row">
+            <div class="col s12 m12 l12">
+                {{>Result_table}}
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="InfoModal_header">
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large">
+            {{selectedYear}}
+        </a>
+        <ul>
+            <li><a id="2010" class="yearOption btn-floating green">2010</a></li>
+            <li><a id="2015" class="yearOption btn-floating">2015</a></li>
+            <li><a id="2020" class="yearOption btn-floating">2020</a></li>
+            <li><a id="2025" class="yearOption btn-floating">2025</a></li>
+            <li><a id="2030" class="yearOption btn-floating">2030</a></li>
+            <li><a id="2035" class="yearOption btn-floating">2035</a></li>
+            <li><a id="2040" class="yearOption btn-floating">2040</a></li>
+
+        </ul>
+    </div>
 </template>

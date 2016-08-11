@@ -1,6 +1,7 @@
 /**
  * Created by jmartinez on 8/10/16.
  */
+import {findZoneData} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
     Template.FindZoneControl_body.events({
@@ -16,6 +17,8 @@ if(Meteor.isClient){
                         destination: Cesium.Cartesian3.fromDegrees(response[0], response[1], 4000),
                         duration: 4,
                         complete: function(){
+                            
+                            findZoneData(parseInt(zoneId), 2040);
                             $('#infoModal').openModal();
                         }
                     });

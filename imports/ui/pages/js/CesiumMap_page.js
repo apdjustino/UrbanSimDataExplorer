@@ -1,6 +1,11 @@
 /**
  * Created by jmartinez on 8/4/16.
  */
+
+
+import {measureNameMap} from '../../components/Global_helpers.js';
+import {setZoneClickEvents} from '../../components/CesiumMapFunctions.js';
+
 if(Meteor.isClient){
     Template.CesiumMap_page.onRendered(function(){
         Session.set('spinning', true);
@@ -83,6 +88,9 @@ if(Meteor.isClient){
                 window.alert(error);
             });
 
+            setZoneClickEvents();
+            
+
         })
     });
 
@@ -90,9 +98,24 @@ if(Meteor.isClient){
         InfoModal_args: function(){
             return {
                 modalId: "infoModal",
-                modalHeader: "Data",
+                bottom: "bottom-sheet",
+                modalHeader: "Zone: " + Session.get("selectedZone"),
+                modalHeaderTemplate: "InfoModal_header",
                 modalBodyTemplate: "InfoModal_body",
-                data: undefined
+                data: Session.get('selectedData')
+            }
+        }, CommentModal_args: function(){
+            var measure = Session.get('commentMeasure');
+            var year = Session.get('selectedYear');
+            var zone = Session.get('selectedZone');
+            
+            return {
+                modalId: "commentModal",
+                bottom: "",
+                modalHeader: year + " " + measureNameMap(measure) + " Comments for Zone(s): " + zone,
+                modalHeaderTemplate: "CommentModal_header",
+                modalBodyTemplate: "CommentModal_body",
+                data: {measure: measure, year: year, zone: zone}
             }
         }
     })

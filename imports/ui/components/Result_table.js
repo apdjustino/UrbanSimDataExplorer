@@ -6,6 +6,10 @@ import '../../ui/pages/html/CommentModal_body.html';
 import '../../ui/pages/js/CommentModal_body.js';
 
 if(Meteor.isClient){
+
+    Template.Result_table.onRendered(function(){
+        $('.modal-trigger').leanModal();
+    })
     
     Template.Result_table.helpers({
         tableData: function(){
@@ -30,7 +34,7 @@ if(Meteor.isClient){
                 return true
             }
         }, commentCount: function(measure){
-            var year = parseInt($('#yearSelectZone option:selected').val());
+            var year = Session.get('selectedYear');
             var zone = Session.get('selectedZone')[0];
             var id = zone + '-' + measure + '-' + year;
             return Comments.getCollection().find({referenceId: id}).count();
@@ -40,11 +44,13 @@ if(Meteor.isClient){
     commentSub = undefined;
     Template.Result_table.events({
         'click .commentLink': function(){
+            $('#commentModal').openModal();
             var measure = this.measure;
             Session.set('commentMeasure', measure);
-            var year = parseInt($('#yearSelectZone option:selected').val());
+            var year = Session.get('selectedYear');
             var zone = Session.get('selectedZone')[0];
             var id = zone + '-' + measure + '-' + year;
+            console.log(id);
             if(commentSub){
                 commentSub.stop();
                 commentSub = Meteor.subscribe('commentById', id)

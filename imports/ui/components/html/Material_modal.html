@@ -1,9 +1,9 @@
 <template name="Material_modal">
 
-    <div id="{{this.modalId}}" class="modal bottom-sheet">
+    <div id="{{this.modalId}}" class="modal {{this.bottom}}">
         <div class="modal-content">
-            <h4>{{this.modalHeader}}</h4>
-            {{>Template.dynamic template=this.modalBodyTemplate data=this.data}}
+            {{>Template.dynamic template=this.modalHeaderTemplate data=this}}
+            {{>Template.dynamic template=this.modalBodyTemplate data=this}}
         </div>
     </div>
 
