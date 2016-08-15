@@ -4,6 +4,19 @@
 import {findZoneData} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
+    Template.FindZoneControl_body.helpers({
+        label: function(data){
+            var layerMap = {
+                zonesGeo: "Zone ID (4-digit)",
+                municipalities: "Municipality",
+                county_web: "County",
+                urban_centers: "Urban Center Name"
+            };
+
+            return layerMap[data];
+        }
+    });
+    
     Template.FindZoneControl_body.events({
         "submit #findAZone": function(event, template){
             event.preventDefault();

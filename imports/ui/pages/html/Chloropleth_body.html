@@ -1,3 +1,11 @@
 <template name="Chloropleth_body">
-
+    {{>Material_select (YearSelect_args)}}
+    {{>Material_select (VariableSelect_args)}}
+    <div class="row">
+        <div class="col s12">
+            <input type="checkbox" id="queryDiff">
+            <label for="queryDiff">Query Differences</label>
+            <a href="#" class="btn waves-effect waves-light">Query</a>
+        </div>
+    </div>
 </template>

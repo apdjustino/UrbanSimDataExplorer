@@ -1,0 +1,28 @@
+<template name="OptionsControl_body">
+    <div class="row">
+        <div class="col s12">
+            <ul style="list-style:none;">
+                <li>
+                    <input type="checkbox" id="chkMultiple">
+                    <label for="chkMultiple">Allow Multiple Selections</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="showLegend">
+                    <label for="showLegend">Display Legend</label>
+                </li>
+                <li>
+                    {{#if isInRole 'admin'}}
+                        <input type="checkbox" id="showCommentZones">
+                        <label for="showCommentZones">Show Areas w/Comments</label>
+                    {{/if}}
+                    {{#if isInRole 'drcog'}}
+                        <input type="checkbox" id="showCommentZones">
+                        <label for="showCommentZones">Show Areas w/Comments</label>
+                    {{/if}}
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+</template>
