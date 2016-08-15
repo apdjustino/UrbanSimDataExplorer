@@ -1,16 +1,8 @@
 <template name="WebMap_page">
     <div class="row" id="container">
         <div class="col-sm-4 col-lg-4" id="sidebar" style="padding: 10px; overflow: auto;">
-            <ul class="nav nav-tabs" id="myTab">
-                {{#each TabPanes selectedAreas selectedData}}
-                    <li id="{{this.paneId}}-li"><a href="#{{this.paneId}}" data-toggle="tab"><span class="glyphicon glyphicon-check"></span>&nbsp;{{this.paneName}}</a></li>
-                {{/each}}
-            </ul>
-            <div class="tab-content" style="padding-top: 10px;">
-                {{#each TabPanes selectedAreas selectedData}}
-                    {{>Tab_pane (TabPane_args this)}}
-                {{/each}}
-            </div>
+            <h5>{{selectedLayer}}</h5>
+            {{>Material_collapsible (Options_args)}}
         </div>
         <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><span class="glyphicon glyphicon-chevron-left"></span></a>
         <div class="col-sm-8 col-lg-8" id="cesiumContainer">

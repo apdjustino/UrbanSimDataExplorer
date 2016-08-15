@@ -20,20 +20,17 @@ if(Meteor.isClient){
             return Session.get('selectedZone');
         }, isSpinning: function(){
             return Session.get('spinning');
-        }, TabPane_args: function(tabPane){
+        }, Tab_args: function(){
+            var tabData = [
+                {id: 'zoneResults', name: 'Zones', body: 'ZoneTabPane_body', data: undefined},
+                {id: 'countyResults', name: 'Counties', body: 'CountyTabPane_body', data: undefined},
+                {id: 'cityResults', name: 'Cities', body: '', data: undefined},
+                {id: 'ucResults', name: 'Urban Centers', body: '', data: undefined},
+                {id: 'downloads', name: 'Downloads', body: 'DownloadsTabPane_body', data: undefined}
+            ];
             return {
-                paneId: tabPane.paneId,
-                paneBody: tabPane.paneBody,
-                paneData: tabPane.paneData
+                tabs: tabData
             };
-        }, TabPanes: function(selectedAreas, selectedData){
-            return [
-                {paneName: 'Zone', paneId: 'zoneResults', paneBody: 'ZoneTabPane_body', paneData:{selectedAreas:selectedAreas, selectedData:selectedData}},
-                {paneName: 'County', paneId: 'countyResults', paneBody: 'CountyTabPane_body', paneData:{}},
-                {paneName: 'Layers', paneId: 'layers', paneBody: 'LayersTabPane_body', paneData:{}},
-                {paneName: 'Downloads', paneId: 'downloads', paneBody:'DownloadsTabPane_body', paneData:{}},
-                {paneName: 'Scenarios', paneId: 'scenarios', paneBody:'ScenarioTabPane_body', paneData:{}}
-            ]
         }, selectedZone: function(){
             return Session.get('selectedZone');
         }, buildingData: function(){
@@ -52,6 +49,26 @@ if(Meteor.isClient){
                 modalData: {measure: measure, year: selectedYear, zone:selectedZones}
             }
             
+        }, selectedLayer: function(){
+            var layer = Session.get('selectedLayer');
+            var layerMap = {
+                zonesGeo: 'ZONES',
+                municipalities: 'MUNICIPALITIES',
+                county_web: 'COUNTIES',
+                urban_centers: 'URBAN CENTERS'
+            };
+            
+            return layerMap[layer];
+        }, Options_args: function(){
+            return {
+                type: "accordion",
+                data: [
+                    {icon: "dashboard", headerText: "Chloropleth", active: "", body: "Chloropleth_body", bodyData: undefined},
+                    {icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
+                    {icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
+                    {icon: "view_list", headerText: "Results", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}
+                ]
+            }
         }
     });
     
@@ -115,6 +132,7 @@ if(Meteor.isClient){
     });
     
     Template.WebMap_page.onRendered(function(){
+        Session.set('selectedLayer', 'zonesGeo');
         $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
             loadCesiumMap();
         })

@@ -55,43 +55,6 @@ if(Meteor.isClient){
                 nodes: [
                     {template: "LayersMenu_body", data:undefined}
                 ]
-            }, navMapColor: {
-                icon: "language",
-                title: "Style Map",
-                nodes: [
-                    {template: "Chloropleth_body", data:undefined}
-                ]
-            }, zonesGeo: {
-                icon: "explore",
-                title: "Zones",
-                nodes: [
-                    {template: "FindZoneControl_body", data:undefined},
-                    {template: "ZoneList_body", data: undefined}
-                ]
-            }, noLayer: {
-                icon: "info",
-                title: "No Layer Selected",
-                nodes: [
-                    {template: "NoLayerSelected_body", data:undefined}
-                ]
-            }, municipalities: {
-                icon: "explore",
-                title: "Municipalities",
-                nodes: [
-                    {template: "CitiesList_body", data:undefined}
-                ]
-            }, county_web: {
-                icon: "explore",
-                title: "Counties",
-                nodes: [
-                    {template: "CountyList_body", data:undefined}
-                ]
-            }, urban_centers: {
-                icon: "explore",
-                title: "Urban Centers",
-                nodes: [
-                    {template: "UrbanCenter_body", data:undefined}
-                ]
             }, addUser: {
                 icon: "person",
                 title: "Create New User",

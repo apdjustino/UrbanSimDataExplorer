@@ -23,7 +23,10 @@ import '../../ui/components/html/Material_ul.html'
 import '../../ui/components/Material_ul.js';
 import '../../ui/components/html/Material_modal.html';
 import '../../ui/components/Material_modal.js';
-
+import '../../ui/components/html/Material_tabs.html';
+import '../../ui/components/Material_tabs.js';
+import '../../ui/components/html/Material_collapsible.html';
+import '../../ui/components/Material_collapsible.js';
 //import client layouts
 import '../../ui/layouts/Home_layout_page.html';
 import '../../ui/layouts/Home_layout_page.js';
@@ -53,6 +56,7 @@ import '../../ui/pages/html/NavigationOptions_page.html'
 import '../../ui/pages/html/Chloropleth_body.html';
 import '../../ui/pages/html/FindZoneControl_body.html';
 import '../../ui/pages/html/InfoModal_body.html';
+import '../../ui/pages/html/ResultsControl_body.html';
 //import client page js
 
 import '../../ui/pages/js/AddUser_page.js';

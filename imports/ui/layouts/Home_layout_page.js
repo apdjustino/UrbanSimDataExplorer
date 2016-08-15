@@ -50,21 +50,24 @@ if(Meteor.isClient){
 
         $('.navLink').sideNav({
             menuWidth: 420,
-            edge: 'right'
+            edge: 'right',
+            closeOnClick: true
         });
     });
     
     Template.userNavBar.onRendered(function(){
         $('.navLink').sideNav({
             menuWidth: 420,
-            edge: 'right'
+            edge: 'right',
+            closeOnClick: true
         });
     });
     
     Template.publicNavBar.onRendered(function(){
         $('.navLink').sideNav({
             menuWidth: 420,
-            edge: 'right'
+            edge: 'right',
+            closeOnClick: true
         });
     })
 

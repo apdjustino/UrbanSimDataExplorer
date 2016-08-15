@@ -204,10 +204,8 @@ if(Meteor.isClient){
 
                 dataDict["allYears"] = chartData;
                 Session.set("selectedData", dataDict);
-
-                $('#infoModal').openModal();
-
-
+                
+                
                 drawChart(dataDict.allYears);
 
             }
