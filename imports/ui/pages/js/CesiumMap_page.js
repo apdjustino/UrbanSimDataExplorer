@@ -1,8 +1,6 @@
 /**
  * Created by jmartinez on 8/4/16.
  */
-
-
 import {measureNameMap} from '../../components/Global_helpers.js';
 import {setZoneClickEvents} from '../../components/CesiumMapFunctions.js';
 

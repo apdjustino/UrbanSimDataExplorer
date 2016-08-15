@@ -13,48 +13,11 @@
             </div>
         </div>
         <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><span class="glyphicon glyphicon-chevron-left"></span></a>
-        <div class="col-sm-8 col-lg-8" id="mapContainer">
+        <div class="col-sm-8 col-lg-8" id="cesiumContainer">
             {{#if isSpinning}}
                 {{>spinner}}
             {{/if}}
-            <a href="http://mapbox.com/about/maps" class='mapbox-maplogo' target="_blank">Mapbox</a>
-            <div class="container mapTileLayerImagery well well-sm">
-                <ul class="list-inline">
-                    <li>
-                        <label class="radio-inline">
-                            <input type="radio" name="tile" value="street" class="tileRadio" checked>Street
-                        </label>
-                    </li>
-                    <li>
-                        <label class="radio-inline">
-                            <input type="radio" name="tile" value="imagery" class="tileRadio">Satellite
-                        </label>
-                    </li>
-                </ul>
-            </div>
-            <div id="legendList" class="container well well-sm legendContainer">
-                <h5 class="text-center">Legend</h5>
-            </div>
-            <div id="editor" class="container well well-sm editorContainer">
-                <button id="closeEditDiv" type="button" class="close">&times;</button>
-                <table class="table table-condensed table-striped">
-                    <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {{#each buildingData}}
-                            <tr>
-                                <td>{{this.prop}}</td>
-                                <td>{{formattedValue this.value this.prop}}</td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-            <div id="chartsContainer" class="container well well-sm chartsContainer">
+            <div id="chartsContainer" class="chartsContainer">
                 <button id="toggleCharts" title="Open/close the charts panel.">Charts & Statistics</button>
                 <div class="row">
                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">

@@ -16,7 +16,8 @@ html, body, #container{
 }
 
 #cesiumContainer{
-    height: 93vh;
+    height: 92vh;
+    overflow:hidden;
 }
 
 body {
@@ -435,12 +436,10 @@ input.commentChk{
 .chartsContainer {
     z-index: 10000;
     position: absolute;
-    width: 104%;
-    left:-15px;
+    width: 100% !important;
     top: 100%;
     border-top: 2px solid;
     background-color: #fff;
-    height:285px;
 
 }
 

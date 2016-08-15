@@ -102,7 +102,7 @@ FlowRouter.route('/enroll-account/:token', {
 FlowRouter.route('/map', {
     name: 'webMap',
     action: function(){
-        BlazeLayout.render('Home_layout_page', {main: 'CesiumMap_page'});
+        BlazeLayout.render('Home_layout_page', {main: 'WebMap_page'});
     }
 });
 
