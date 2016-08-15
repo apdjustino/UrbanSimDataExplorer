@@ -1,62 +1,21 @@
 <template name="Home_layout_page">
-    <div class="navbar navbar-inverse navbar-fixed-top homeNav">
-        <div class="navbar-header">
-            <div class="navbar-brand" id="logo"><img src="/images/drcoglogowhitenew.png" height="50px" width="111px" /></div>
-            <a class="navbar-brand" href="#">Land Use Explorer</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                {{#if currentUser}}
-                    <li id="logOutUserNav"><a href="#"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp; Log Out</a></li>
-                    <li><a href="/map"><span class="glyphicon glyphicon-globe" style="color:white"></span>&nbsp;&nbsp; Result Map</a></li>
-                    {{#if isInRole 'admin'}}
-                        <li class="dropdown">
-                            <a id="adminDrop" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-lock" style="color:white;"></span>&nbsp;&nbsp; Admin <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="/admin/adduser">Create New User</a></li>
-                                <li><a href="/admin/changeroles">Edit User Roles</a></li>
-                                <li><a href="/admin/changepassword">Change User Password</a></li>
-                                <li><a href="/admin/deleteuser">Delete User</a></li>
-                            </ul>
-                        </li>
-                    {{/if}}
-                {{else}}
-                    <li><a href="#" data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp; Log In</a></li>
-                {{/if}}
-                <li><a href="#" data-toggle="modal" data-target="#aboutModal"><span class="glyphicon glyphicon-question-sign" style="color:white;"></span>&nbsp;&nbsp;About</a></li>
-            </ul>
-        </div>
-    </div>
-    <div id="aboutModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">About this Application</h4>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        The DRCOG Land Use Explorer give you the ability to review and comment on the latest land use
-                        forecast for the Denver region. Demographic and employment forecasts are available at county and
-                        traffic analysis zone (TAZ) levels. Query results by year and variable of interest. Add comments
-                        at the TAZ level. Satellite imagery is available to better help you understand the results
-                        in a planning context.
-                    </p>
-                    <p>
-                        The land use forecast is prepared using the UrbanSim model platform. UrbanSim supports urban
-                        development planning and analysis, incorporating the interactions between land use, transportation,
-                        and the economy. UrbanSim is currently used by a large number of metropolitan planning organizations
-                        in the U.S. as well as in Europe, Asia, and Africa.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
 
-        </div>
-    </div>
+    {{#if isSpinning}}
+        {{>spinner}}
+    {{/if}}
+
+    {{#if isInRole 'admin'}}
+        {{>adminNavBar}}
+    {{/if}}
+
+    {{#if user}}
+        {{>userNavBar}}
+    {{/if}}
+
+    {{#if public}}
+        {{>publicNavBar}}
+    {{/if}}
+
     {{#if currentUser}}
         {{>Template.dynamic template=main}}
     {{else}}
@@ -65,3 +24,168 @@
 
 </template>
 
+<template name="adminNavBar">
+    <div id="primaryNav" class="navbar-fixed">
+
+        <ul id="AdminDropDown" class="dropdown-content">
+            <li><a href="#" id="addUser" class="navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'addUser')">Create New User</a></li>
+            <li><a href="#" id="editUser" class="navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'editUser')">Edit User Roles</a></li>
+            <li><a href="/admin/changepassword">Change User Password</a></li>
+            <li><a href="/admin/deleteuser">Delete User</a></li>
+        </ul>
+
+        <ul id="MapDropDown" class="dropdown-content">
+            <li><a href="/map">View Map</a></li>
+            <li><a href="#" id="navMapColor" class="navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navMapColor')">Style Map</a></li>
+        </ul>
+
+        <nav class="grey darken-4">
+            <div style="display:inline-block; width:175px; height:100%; background: url('/images/drcoglogowhitenew.png') no-repeat;">
+                <a style="display: table-cell; width:175px; height:64px; !important;" href="http://www.drcog.org" target="_blank"></a>
+            </div>
+            <a href="#" class="brand-logo">Land Use Explorer</a>
+
+            <div class="nav-wrapper right">
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li>
+                        <a id="navInfo" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navInfo')">
+                            <i class="correctSize material-icons test">info</i>
+                            <span class="valign">Info</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="navMap" href="#" class="valign-wrapper dropdown-button" data-activates="MapDropDown">
+                            <i class="correctSize material-icons">language</i>
+                            <span class="valign">Map</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="navNavigate" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="var layer = Session.get('selectedLayer'); Session.set('selectedNavItem', layer)">
+                            <i class="correctSize material-icons">explore</i>
+                            <span class="valign">Navigate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="navLayers" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navLayers');">
+                            <i class="correctSize material-icons">layers</i>
+                            <span class="valign">Layers</span>
+                        </a>
+                    </li>
+
+                        <li>
+                            <a id="navAdmin" href="#" class="valign-wrapper dropdown-button" data-activates="AdminDropDown">
+                                <i class="correctSize material-icons">work</i>
+                                <span class="valign">Admin</span>
+                            </a>
+                        </li>
+
+
+                    <li>
+                        <a id="navLogOut" href="#" class="valign-wrapper" data-activates="slide-out">
+                            <i class="correctSize material-icons">person</i>
+                            <span class="valign">Log Out</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <div id="navSlide">
+        {{>Material_side_nav (SlideOut_args selectedNavItem)}}
+    </div>
+</template>
+
+<template name="userNavBar">
+    <div id="primaryNav" class="navbar-fixed">
+
+        <nav class="grey darken-4">
+            <div style="display:inline-block; width:175px; height:100%; background: url('/images/drcoglogowhitenew.png') no-repeat;">
+                <a style="display: table-cell; width:175px; height:64px; !important;" href="http://www.drcog.org" target="_blank"></a>
+            </div>
+            <a href="#" class="brand-logo">Land Use Explorer</a>
+
+            <div class="nav-wrapper right">
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li>
+                        <a id="navInfo" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navInfo')">
+                            <i class="correctSize material-icons test">info</i>
+                            <span class="valign">Info</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="navMap" href="/map" class="valign-wrapper">
+                            <i class="correctSize material-icons">language</i>
+                            <span class="valign">Map</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="navNavigate" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navNavigate')">
+                            <i class="correctSize material-icons">explore</i>
+                            <span class="valign">Navigate</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="navLayers" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navLayers')">
+                            <i class="correctSize material-icons">layers</i>
+                            <span class="valign">Layers</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a id="navLogOut" href="#" class="valign-wrapper" data-activates="slide-out">
+                            <i class="correctSize material-icons">person</i>
+                            <span class="valign">Log Out</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="navSlide">
+        {{>Material_side_nav (SlideOut_args selectedNavItem)}}
+    </div>
+</template>
+
+<template name="publicNavBar">
+    <div id="primaryNav" class="navbar-fixed">
+
+        <nav class="grey darken-4">
+            <div style="display:inline-block; width:175px; height:100%; background: url('/images/drcoglogowhitenew.png') no-repeat;">
+                <a style="display: table-cell; width:175px; height:64px; !important;" href="http://www.drcog.org" target="_blank"></a>
+            </div>
+            <a href="#" class="brand-logo">Land Use Explorer</a>
+
+            <div class="nav-wrapper right">
+                <ul id="nav-mobile" class="left hide-on-med-and-down">
+                    <li>
+                        <a id="navInfo" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navInfo')">
+                            <i class="correctSize material-icons test">info</i>
+                            <span class="valign">Info</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="navSignUp" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navSignUp')">
+                            <i class="correctSize material-icons test">input</i>
+                            <span class="valign">Sign Up</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a id="navLogIn" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navLogIn')">
+                            <i class="correctSize material-icons">person</i>
+                            <span class="valign">Log In</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div id="navSlide">
+        {{>Material_side_nav (SlideOut_args selectedNavItem)}}
+    </div>
+</template>

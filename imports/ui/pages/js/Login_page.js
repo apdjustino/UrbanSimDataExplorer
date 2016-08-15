@@ -35,9 +35,8 @@ if(Meteor.isClient){
                     }
                 }else{
 
-                    $('#loginModal').modal('hide');
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
+                    $('#sidenav-overlay').remove();
+                    $('.navLink').sideNav('hide');
                     FlowRouter.go('/map');
                 }
             });
@@ -45,7 +44,8 @@ if(Meteor.isClient){
         }
     });
 
-    Template.LoginModal_body.events({
+
+    Template.SignUp_body.events({
         "submit #addNewPublicUser": function(event, template){
             event.preventDefault();
             var dataToSend = {};
@@ -77,7 +77,7 @@ if(Meteor.isClient){
     });
 
 
-    Template.LoginModal_body.rendered = function(){
+    Template.SignUp_body.rendered = function(){
         $('#addNewPublicUser').validate({
             rules: {
                 password1: {

@@ -1,0 +1,75 @@
+// If you want to override materialize sass variables you can uncomment the following:
+@import "{poetic:materialize-scss}/sass/components/_color.scss";
+$primary-color: color("indigo", "base") !default;
+$primary-color-light: color("indigo", "lighten-2") !default;
+$primary-color-dark: color("indigo", "darken-2") !default;
+$secondary-color: #1D4E89 !default;
+$success-color: color("green", "base") !default;
+$error-color: color("red", "base") !default;
+
+$link-color: #1D4E89 !default;
+
+/*** More variables not shown here.. ***/
+
+// import main scss file
+@import "{poetic:materialize-scss}/sass/materialize.scss";
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+a, a:link, a:visited, a:hover, a:active {
+  text-decoration:none !important;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1440px;
+  width: 98% !important;
+}
+@media only screen and (min-width: 601px) {
+  .container {
+    width: 95% !important;
+  }
+}
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 90% !important;
+  }
+}
+
+i.correctSize{
+  font-size: 1.8rem !important;
+  display: inline-block !important;
+}
+
+a.side-nav-anchor-override{
+  display: inline-block !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  margin: 10px 0 0 0 !important;
+}
+
+a.chevronClose{
+  color: #000;
+}
+
+li.side-nav {
+  padding: 0 16px 16px;
+  float: none;
+}
+
+li.side-nav-border-bottom{
+  border-bottom: #ccc solid 1px !important;
+  height: 78px;
+}
+
+.side-nav p{
+  line-height:18px;
+}

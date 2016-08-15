@@ -18,8 +18,8 @@
                 <td>
                     {{#if multiZones}}
                         {{#if isInRole 'admin, drcog'}}
-                            <a href="#" class="commentLink" data-toggle="modal" data-target="#commentModal">Comment</a>
-                            <span class="badge">{{commentCount this.measure}}</span>
+                            <a class="commentLink modal-trigger" href="#commentModal">Comment</a>
+                            <span>{{commentCount this.measure}}</span>
                         {{/if}}
                     {{/if}}
                 </td>

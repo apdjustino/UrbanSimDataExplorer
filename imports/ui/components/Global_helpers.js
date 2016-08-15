@@ -1,6 +1,7 @@
 /**
  * Created by jmartinez on 4/5/16.
  */
+
 export function getDataFields(admin){
     if(admin){
         return {zone_id:0, _id:0, sim_year:0};
@@ -23,7 +24,91 @@ export function getDataFields(admin){
         }
     }
 }
+
+
+
 if(Meteor.isClient){
+
+    export function getNavObject(navLinkId){
+        var navObject = {
+            navInfo: {
+                icon: "info",
+                title: "Info",
+                nodes: [
+                    {template: "InfoBody_page", data:undefined}
+                ]
+            }, navLogIn: {
+                icon: "person",
+                title: "Log In",
+                nodes: [
+                    {template: "CredentialsModal_body", data:undefined}
+                ]
+            }, navSignUp: {
+                icon: "input",
+                title: "Create New Account",
+                nodes: [
+                    {template: "SignUp_body", data:undefined}
+                ]
+            }, navLayers: {
+                icon: "layers",
+                title: "Layers",
+                nodes: [
+                    {template: "LayersMenu_body", data:undefined}
+                ]
+            }, navMapColor: {
+                icon: "language",
+                title: "Style Map",
+                nodes: [
+                    {template: "Chloropleth_body", data:undefined}
+                ]
+            }, zonesGeo: {
+                icon: "explore",
+                title: "Zones",
+                nodes: [
+                    {template: "FindZoneControl_body", data:undefined},
+                    {template: "ZoneList_body", data: undefined}
+                ]
+            }, noLayer: {
+                icon: "info",
+                title: "No Layer Selected",
+                nodes: [
+                    {template: "NoLayerSelected_body", data:undefined}
+                ]
+            }, municipalities: {
+                icon: "explore",
+                title: "Municipalities",
+                nodes: [
+                    {template: "CitiesList_body", data:undefined}
+                ]
+            }, county_web: {
+                icon: "explore",
+                title: "Counties",
+                nodes: [
+                    {template: "CountyList_body", data:undefined}
+                ]
+            }, urban_centers: {
+                icon: "explore",
+                title: "Urban Centers",
+                nodes: [
+                    {template: "UrbanCenter_body", data:undefined}
+                ]
+            }, addUser: {
+                icon: "person",
+                title: "Create New User",
+                nodes: [
+                    {template: "AddUser_page", data: undefined}
+                ]
+            }, editUser: {
+                icon: "person",
+                title: "Edit User Roles",
+                nodes: [
+                    {template: "EditUserRole_page", data: undefined}
+                ]
+            }
+        };
+
+        return navObject[navLinkId];
+    }
     
     Template.registerHelper('GLOBAL_years', function(){
         return [2010,2015,2020,2025,2030,2035,2040]
@@ -50,6 +135,14 @@ if(Meteor.isClient){
     
     Template.registerHelper('isSpinning', function(){
         return Session.get('spinning');
+    });
+    
+    Template.registerHelper('SlideOut_args', function(id){
+        return getNavObject(id);
+    });
+    
+    Template.registerHelper('selectedNavItem', function(){
+        return Session.get('selectedNavItem');
     })
 
 }

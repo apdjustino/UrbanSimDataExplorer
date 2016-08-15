@@ -3,11 +3,15 @@
  */
 import '../imports/startup/client/routes.js';
 import '../imports/startup/client/mapFunctions.js';
+import '../imports/ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
     Meteor.startup(function(){
         Session.set('selectedZone', []);
         Session.set('allowMultipleGeo', false);
+        Session.set("selectedLayer", "noLayer");
+        
+        viewer = undefined;
         CESIUM_BASE_URL = "/scripts/Cesium-1.23/Build/CesiumUnminified/";
         WebFontConfig = {
             google: {families: ['Lato:400', 'Lato:300', 'Mouse Memoirs']}

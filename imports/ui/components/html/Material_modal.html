@@ -1,0 +1,10 @@
+<template name="Material_modal">
+
+    <div id="{{this.modalId}}" class="modal {{this.bottom}}">
+        <div class="modal-content">
+            {{>Template.dynamic template=this.modalHeaderTemplate data=this}}
+            {{>Template.dynamic template=this.modalBodyTemplate data=this}}
+        </div>
+    </div>
+
+</template>

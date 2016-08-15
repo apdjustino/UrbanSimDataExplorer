@@ -1,0 +1,17 @@
+<template name="Material_side_nav">
+    <ul id="slide-out" class="side-nav right-aligned">
+        <li class="side-nav-border-bottom valign-wrapper">
+            <div style="display:inline-block" class="valign">
+                <h5 class="black-text valign-wrapper">
+                    <i class="correctSize material-icons">{{this.icon}}</i>
+                    <span class="valign"> {{this.title}}</span>
+                </h5>
+            </div>
+        </li>
+        {{#each this.nodes}}
+            <li style="line-height:15px; padding:15px;">
+                {{>Template.dynamic template=this.template data=this.data}}
+            </li>
+        {{/each}}
+    </ul>
+</template>
