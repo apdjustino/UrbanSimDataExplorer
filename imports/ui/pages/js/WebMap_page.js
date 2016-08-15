@@ -133,6 +133,7 @@ if(Meteor.isClient){
     
     Template.WebMap_page.onRendered(function(){
         Session.set('selectedLayer', 'zonesGeo');
+        Session.set('selectedYear', 2010);
         $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
             loadCesiumMap();
         })

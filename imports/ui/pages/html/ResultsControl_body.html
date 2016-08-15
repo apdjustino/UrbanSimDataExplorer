@@ -1,5 +1,6 @@
 <template name="ResultsControl_body">
-    {{#if hasData}}
+    {{#if hasData selectedData}}
+        {{>Material_select (YearSelect_args)}}
         {{>Result_table}}
     {{else}}
         <p>To view results, click on a geography or use the find tool above.</p>

@@ -79,6 +79,7 @@ import '../../ui/pages/js/NavigationOptions_page.js';
 import '../../ui/pages/js/Chloropleth_body.js';
 import '../../ui/pages/js/FindZoneControl_body.js';
 import '../../ui/pages/js/InfoModal_body.js'
+import '../../ui/pages/js/ResultsControl_body.js';
 //declare routs
 
 
