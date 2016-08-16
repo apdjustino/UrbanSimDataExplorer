@@ -1,13 +1,14 @@
 /**
  * Created by jmartinez on 8/8/16.
  */
+import {colorCesiumMap} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
     Template.Chloropleth_body.helpers({
         YearSelect_args: function(){
             return {
                 multiple: "",
-                selectId: "yearSelect",
+                selectId: "queryYearSelect",
                 selectData: [
                     {value: 2010, name: 2010},
                     {value: 2015, name: 2015},
@@ -51,6 +52,40 @@ if(Meteor.isClient){
                 label: "Variable",
                 selectData: data
             }
+        }
+    });
+
+    Template.Chloropleth_body.events({
+        "click #btnQuery": function(event, template){
+            event.preventDefault();
+            Session.set('spinning', true);
+            var selectedYear = parseInt($('#queryYearSelect option:selected').val());
+            var selectedVar = $('#variableSelect option:selected').val();
+
+            if(Session.equals('selectedLayer', 'zonesGeo')){
+                Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
+                    onReady: function () {
+                        Session.set('spinning', false);
+                        var fieldObj = {};
+                        fieldObj[selectedVar] = 1;
+                        fieldObj['zone_id'] = 1;
+                        var data = zoneData.find({sim_year: selectedYear}, {sort: {zone_id:1}}).fetch();
+                        if($('#queryDiff').prop('checked')){
+                            var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
+
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                        }
+                        colorCesiumMap(data, selectedVar);
+                        this.stop();
+                    }
+                });
+            }
+
+
         }
     })
     

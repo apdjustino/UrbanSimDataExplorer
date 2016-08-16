@@ -5,6 +5,7 @@ import {getDataFields} from '../components/Global_helpers.js';
 if(Meteor.isClient){
     
     export function loadCesiumMap() {
+        Session.set('spinning', true);
         var west = -105.5347;
         var south = 39.2663;
         var east = -104.4301;
@@ -70,7 +71,7 @@ if(Meteor.isClient){
 
 
         viewer.dataSources.removeAll(true);
-        var promise = Cesium.GeoJsonDataSource.load('/data/zonesGeo.json', {
+        var promise = Cesium.GeoJsonDataSource.load('/data/zonesGeo.geojson', {
             stroke: Cesium.Color.BLACK,
             fill: new Cesium.Color(0.01,0.01,0.01,0.01)
         });
@@ -81,6 +82,7 @@ if(Meteor.isClient){
             //Display any errrors encountered while loading.
             window.alert(error);
         });
+
 
         setZoneClickEvents();
         
@@ -302,6 +304,43 @@ if(Meteor.isClient){
             .datum(data)
             .attr("class", "lineEmp")
             .attr("d", line_emp)
+
+
+    }
+
+    export function colorCesiumMap(data, measure){
+
+        var max = _.max(data, function (x) {
+            return x[measure]
+        })[measure];
+
+
+        var quantize = d3.scale.quantize()
+            .domain([0, max])
+            .range(d3.range(7).map(function (i) {
+                return i;
+            }));
+
+        var colorMap = {
+            0: "#eff3ff",
+            1: "#85B3D4",
+            2: "#6C9DC7",
+            3: "#5387BA",
+            4: "#3A71AD",
+            5: "#215BA0",
+            6: "#084594"
+        };
+
+        var ds = viewer.dataSources.get(0);
+        data.forEach(function(cv, idx, arr){
+            var entity = _.find(ds.entities.values, function(x){return x.properties.ZONE_ID == cv.zone_id});
+            var quantized = quantize(cv[measure]);
+            var color = colorMap[quantized];
+            entity.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
+            
+        });
+
+
 
 
     }

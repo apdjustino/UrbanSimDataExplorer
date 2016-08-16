@@ -8,4 +8,8 @@ if(Meteor.isServer){
         return zoneGeoData.find({});
     });
     
+    Meteor.publish('allZonesGeo', function(){
+        return zoneEntities.find({});
+    })
+    
 }
