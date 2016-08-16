@@ -97,11 +97,24 @@ if(Meteor.isClient){
 
             var ds = viewer.dataSources.get(0);
             var selectedZones = Session.get('selectedZone');
+
+            //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
+            //it accounts for if the chloropleth is active
             if(Session.equals('allowMultipleGeo', false)){
                 if(selectedZones.length > 0){
+                    var colorData = Session.get('colorData');
+                    var oldColor;
                     entity.polygon.material = new Cesium.Color(1,1,0,0.5);
                     var prior = _.find(ds.entities.values, function(entity){return entity.properties.ZONE_ID == selectedZones[0]});
-                    prior.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
+                    if(colorData){
+                        oldColor = _.find(colorData, function(x){return x.zone_id == selectedZones[0]}).color;
+                        prior.polygon.material = Cesium.Color.fromCssColorString(oldColor).withAlpha(0.5);
+                    }else{
+                        oldColor = new Cesium.Color(0.01,0.01,0.01,0.01);
+                        prior.polygon.material = oldColor;
+                    }
+
+
 
                 }else{
                     entity.polygon.material = new Cesium.Color(1,1,0,0.5);
@@ -117,7 +130,6 @@ if(Meteor.isClient){
             }
 
             var year = Session.get('selectedYear');
-            console.log(year);
             findZoneData(zoneId, year);
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
@@ -339,9 +351,15 @@ if(Meteor.isClient){
             var entity = _.find(ds.entities.values, function(x){return x.properties.ZONE_ID == cv.zone_id});
             var quantized = quantize(cv[measure]);
             var color = colorMap[quantized];
+            cv['color'] = color;
             entity.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
 
+
         });
+
+        Session.set('colorData', data.map(function(x){return {zone_id: x.zone_id, color: x.color}}));
+
+
 
 
 
