@@ -36,25 +36,7 @@ if(Meteor.isClient){
             }else{
                 Materialize.toast("Zone: " + zoneId + " not found.", 4000);
             }
-
             
-            
-            // Meteor.call("getZoneCentroid", zoneId, function(error, response){
-            //     if(error){
-            //         sAlert.error(error.response, {position:"bottom"});
-            //     }else{
-            //         $('.navLink').sideNav('hide');
-            //         viewer.camera.flyTo({
-            //             destination: Cesium.Cartesian3.fromDegrees(response[0], response[1], 4000),
-            //             duration: 4,
-            //             complete: function(){
-            //
-            //                 findZoneData(parseInt(zoneId), 2040);
-            //                 $('#infoModal').openModal();
-            //             }
-            //         });
-            //     }
-            // })
         }
     })
     
