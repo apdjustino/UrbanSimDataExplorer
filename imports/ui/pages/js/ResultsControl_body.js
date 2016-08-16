@@ -30,6 +30,17 @@ if(Meteor.isClient){
 
                 ], label: "Year"
             }
+        }, selectedZone: function(){
+            return Session.get('selectedZone');
+        }, selectedLayer: function(){
+            var layer = Session.get('selectedLayer');
+            var layerDict = {
+                zonesGeo: "Selected Zone(s): ",
+                municipalities: "Selected Cities: ",
+                county_web: "Selected Counties: ",
+                urban_centers: "Selected Urban Center(s): "
+            }
+            return layerDict[layer];
         }
     });
 
