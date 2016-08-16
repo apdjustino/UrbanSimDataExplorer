@@ -71,7 +71,7 @@ if(Meteor.isClient){
 
 
         viewer.dataSources.removeAll(true);
-        var promise = Cesium.GeoJsonDataSource.load('/data/zonesGeo.geojson', {
+        var promise = Cesium.GeoJsonDataSource.load('/data/zonesGeo.json', {
             stroke: Cesium.Color.BLACK,
             fill: new Cesium.Color(0.01,0.01,0.01,0.01)
         });
@@ -99,11 +99,14 @@ if(Meteor.isClient){
             var selectedZones = Session.get('selectedZone');
             if(Session.equals('allowMultipleGeo', false)){
                 if(selectedZones.length > 0){
+                    entity.polygon.material = new Cesium.Color(1,1,0,0.5);
                     var prior = _.find(ds.entities.values, function(entity){return entity.properties.ZONE_ID == selectedZones[0]});
                     prior.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
 
+                }else{
+                    entity.polygon.material = new Cesium.Color(1,1,0,0.5);
                 }
-                entity.polygon.material = new Cesium.Color(1,1,0,0.5);
+
             }else{
                 if(_.contains(selectedZones, zoneId)){
                     entity.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
@@ -337,7 +340,7 @@ if(Meteor.isClient){
             var quantized = quantize(cv[measure]);
             var color = colorMap[quantized];
             entity.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
-            
+
         });
 
 

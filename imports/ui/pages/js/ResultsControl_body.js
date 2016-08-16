@@ -6,7 +6,7 @@ if(Meteor.isClient){
     
     Template.ResultsControl_body.helpers({
         hasData: function(data){
-            if(data == undefined){
+            if(data == undefined || data.oneYear.length == 0){
                 return false;
             }else{
                 return true;
