@@ -2,6 +2,7 @@
  * Created by jmartinez on 8/8/16.
  */
 import {colorCesiumMap} from '../../components/CesiumMapFunctions.js';
+import {subscribeToZone} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
     Template.Chloropleth_body.helpers({
@@ -85,6 +86,18 @@ if(Meteor.isClient){
                 });
             }
 
+
+        }, "change #queryYearSelect": function(event, template){
+            var year = parseInt($('#queryYearSelect option:selected').val());
+            Session.set('selectedYear', year);
+            var selector = '#yearSelect option[value=' + year + ']';
+            debugger;
+            $(selector).prop('selected', true);
+            $('select').material_select();
+            var zone = Session.get('selectedZone');
+            if(zone.length > 0){
+                subscribeToZone(year, zone);
+            }
 
         }
     })

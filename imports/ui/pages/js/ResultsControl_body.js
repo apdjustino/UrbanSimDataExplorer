@@ -16,17 +16,18 @@ if(Meteor.isClient){
         }, selectedYear: function(){
             return Session.get('selectedYear');
         }, YearSelect_args: function(){
+            var selectedYear = Session.get('selectedYear');
             return {
                 multiple: "",
                 selectId: "yearSelect",
                 selectData: [
-                    {value: 2010, name: 2010},
-                    {value: 2015, name: 2015},
-                    {value: 2020, name: 2020},
-                    {value: 2025, name: 2025},
-                    {value: 2030, name: 2030},
-                    {value: 2035, name: 2035},
-                    {value: 2040, name: 2040}
+                    {value: 2010, name: 2010, selected: ((selectedYear == 2010) ? "selected" : "")},
+                    {value: 2015, name: 2015, selected: ((selectedYear == 2015) ? "selected" : "")},
+                    {value: 2020, name: 2020, selected: ((selectedYear == 2020) ? "selected" : "")},
+                    {value: 2025, name: 2025, selected: ((selectedYear == 2025) ? "selected" : "")},
+                    {value: 2030, name: 2030, selected: ((selectedYear == 2030) ? "selected" : "")},
+                    {value: 2035, name: 2035, selected: ((selectedYear == 2035) ? "selected" : "")},
+                    {value: 2040, name: 2040, selected: ((selectedYear == 2040) ? "selected" : "")}
 
                 ], label: "Year"
             }
@@ -46,7 +47,6 @@ if(Meteor.isClient){
 
     Template.ResultsControl_body.events({
         "change #yearSelect": function(event, template){
-            event.preventDefault();
             var year = parseInt(event.target.value);
             var zone = Session.get('selectedZone');
             subscribeToZone(year, zone);
