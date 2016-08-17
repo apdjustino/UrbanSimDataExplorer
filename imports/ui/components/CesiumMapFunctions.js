@@ -88,6 +88,7 @@ if(Meteor.isClient){
         
     }
 
+    zoneComments = undefined;
     export function setZoneClickEvents() {
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         handler.setInputAction(function(click){
@@ -131,11 +132,22 @@ if(Meteor.isClient){
 
             var year = Session.get('selectedYear');
             findZoneData(zoneId, year);
+            if(zoneComments){
+                zoneComments.stop();
+                zoneComments = Meteor.subscribe('commentsByZone', year);
+            }else{
+                zoneComments = Meteor.subscribe('commentsByZone', year);
+            }
+
+
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
 
     export function findZoneData(zoneId, year){
         var selectedZoneArray = Session.get('selectedZone');
+        if(!selectedZoneArray){
+            selectedZoneArray = [];
+        }
         if($.inArray(parseInt(zoneId), selectedZoneArray) !== -1){
             selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == zoneId;}));
         }else{
@@ -146,8 +158,9 @@ if(Meteor.isClient){
             }
 
         }
-        console.log(year);
-        
+
+
+        debugger;
         Session.set('selectedZone', selectedZoneArray);
         var zoneSubscription = subscribeToZone(year, selectedZoneArray);
     }

@@ -69,6 +69,19 @@ if(Meteor.isClient){
                     {icon: "view_list", headerText: "Results", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}
                 ]
             }
+        }, CommentModal_args: function(){
+            var measure = Session.get('commentMeasure');
+            var year = Session.get('selectedYear');
+            var zone = Session.get('selectedZone');
+
+            return {
+                modalId: "commentModal",
+                bottom: "",
+                modalHeader: year + " " + measureNameMap(measure) + " Comments for Zone(s): " + zone,
+                modalHeaderTemplate: "CommentModal_header",
+                modalBodyTemplate: "CommentModal_body",
+                data: {measure: measure, year: year, zone: zone}
+            }
         }
     });
     
@@ -116,15 +129,7 @@ if(Meteor.isClient){
         }
 
     });
-
-
-    Template.WebMap_page.onRendered(function(){
-
-        $('#myTab li').first().addClass('active');
-        $('.tab-pane').first().addClass('active');
-        
-    });
-
+    
     Template.WebMap_page.onCreated(function(){
         this.chartToggle = new ReactiveVar(false);
         this.buildingData = new ReactiveVar(false);

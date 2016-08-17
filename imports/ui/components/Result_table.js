@@ -28,11 +28,14 @@ if(Meteor.isClient){
             }
         }, multiZones: function(){
             var selectedZones = Session.get('selectedZone');
-            if(selectedZones.length > 1){
-                return false;
-            }else{
-                return true
+            if(selectedZones){
+                if(selectedZones.length > 1){
+                    return false;
+                }else{
+                    return true
+                }
             }
+
         }, commentCount: function(measure){
             var year = Session.get('selectedYear');
             var zone = Session.get('selectedZone')[0];
