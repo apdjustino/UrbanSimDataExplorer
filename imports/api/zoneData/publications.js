@@ -93,6 +93,6 @@ if(Meteor.isServer){
         fieldsToGet['zone_id'] = 1;
         fieldsToGet['sim_year'] = 1;
         
-        return zoneData.find({sim_year:{$in:[2010, year]}}, {fields: fieldsToGet});
+        return zoneData.find({sim_year:{$in:[2010, year]}}, {fields: fieldsToGet}, {sort: {zone_id:1}});
     });
 }

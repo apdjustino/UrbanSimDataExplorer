@@ -5,7 +5,6 @@ import {getDataFields} from '../components/Global_helpers.js';
 if(Meteor.isClient){
     
     export function loadCesiumMap() {
-        Session.set('spinning', true);
         var west = -105.5347;
         var south = 39.2663;
         var east = -104.4301;
@@ -83,12 +82,10 @@ if(Meteor.isClient){
             window.alert(error);
         });
 
-
         setZoneClickEvents();
         
     }
 
-    zoneComments = undefined;
     export function setZoneClickEvents() {
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         handler.setInputAction(function(click){
@@ -98,29 +95,13 @@ if(Meteor.isClient){
 
             var ds = viewer.dataSources.get(0);
             var selectedZones = Session.get('selectedZone');
-
-            //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
-            //it accounts for if the chloropleth is active
             if(Session.equals('allowMultipleGeo', false)){
                 if(selectedZones.length > 0){
-                    var colorData = Session.get('colorData');
-                    var oldColor;
-                    entity.polygon.material = new Cesium.Color(1,1,0,0.5);
                     var prior = _.find(ds.entities.values, function(entity){return entity.properties.ZONE_ID == selectedZones[0]});
-                    if(colorData){
-                        oldColor = _.find(colorData, function(x){return x.zone_id == selectedZones[0]}).color;
-                        prior.polygon.material = Cesium.Color.fromCssColorString(oldColor).withAlpha(0.5);
-                    }else{
-                        oldColor = new Cesium.Color(0.01,0.01,0.01,0.01);
-                        prior.polygon.material = oldColor;
-                    }
+                    prior.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
 
-
-
-                }else{
-                    entity.polygon.material = new Cesium.Color(1,1,0,0.5);
                 }
-
+                entity.polygon.material = new Cesium.Color(1,1,0,0.5);
             }else{
                 if(_.contains(selectedZones, zoneId)){
                     entity.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
@@ -131,23 +112,13 @@ if(Meteor.isClient){
             }
 
             var year = Session.get('selectedYear');
+            console.log(year);
             findZoneData(zoneId, year);
-            if(zoneComments){
-                zoneComments.stop();
-                zoneComments = Meteor.subscribe('commentsByZone', year);
-            }else{
-                zoneComments = Meteor.subscribe('commentsByZone', year);
-            }
-
-
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
 
     export function findZoneData(zoneId, year){
         var selectedZoneArray = Session.get('selectedZone');
-        if(!selectedZoneArray){
-            selectedZoneArray = [];
-        }
         if($.inArray(parseInt(zoneId), selectedZoneArray) !== -1){
             selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == zoneId;}));
         }else{
@@ -158,9 +129,8 @@ if(Meteor.isClient){
             }
 
         }
-
-
-        debugger;
+        console.log(year);
+        
         Session.set('selectedZone', selectedZoneArray);
         var zoneSubscription = subscribeToZone(year, selectedZoneArray);
     }
@@ -332,49 +302,6 @@ if(Meteor.isClient){
             .datum(data)
             .attr("class", "lineEmp")
             .attr("d", line_emp)
-
-
-    }
-
-    export function colorCesiumMap(data, measure){
-
-        var max = _.max(data, function (x) {
-            return x[measure]
-        })[measure];
-
-
-        var quantize = d3.scale.quantize()
-            .domain([0, max])
-            .range(d3.range(7).map(function (i) {
-                return i;
-            }));
-
-        var colorMap = {
-            0: "#eff3ff",
-            1: "#85B3D4",
-            2: "#6C9DC7",
-            3: "#5387BA",
-            4: "#3A71AD",
-            5: "#215BA0",
-            6: "#084594"
-        };
-
-        var ds = viewer.dataSources.get(0);
-        data.forEach(function(cv, idx, arr){
-            var entity = _.find(ds.entities.values, function(x){return x.properties.ZONE_ID == cv.zone_id});
-            var quantized = quantize(cv[measure]);
-            var color = colorMap[quantized];
-            cv['color'] = color;
-            entity.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
-
-
-        });
-
-        Session.set('colorData', data.map(function(x){return {zone_id: x.zone_id, color: x.color}}));
-
-
-
-
 
 
     }

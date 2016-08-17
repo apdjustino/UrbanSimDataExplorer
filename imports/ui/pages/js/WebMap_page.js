@@ -69,19 +69,6 @@ if(Meteor.isClient){
                     {icon: "view_list", headerText: "Results", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}
                 ]
             }
-        }, CommentModal_args: function(){
-            var measure = Session.get('commentMeasure');
-            var year = Session.get('selectedYear');
-            var zone = Session.get('selectedZone');
-
-            return {
-                modalId: "commentModal",
-                bottom: "",
-                modalHeader: year + " " + measureNameMap(measure) + " Comments for Zone(s): " + zone,
-                modalHeaderTemplate: "CommentModal_header",
-                modalBodyTemplate: "CommentModal_body",
-                data: {measure: measure, year: year, zone: zone}
-            }
         }
     });
     
@@ -114,9 +101,9 @@ if(Meteor.isClient){
             newTop = newTop.toString() + 'px';
 
             if(toggle){
-                $('#chartsContainer').animate({'top': "-290px"}, 500);
+                $('#chartsContainer').animate({'top': newTop}, 500);
             }else{
-                $('#chartsContainer').animate({'top': '0px'}, 500);
+                $('#chartsContainer').animate({'top': '100%'}, 500);
             }
 
 
@@ -129,31 +116,18 @@ if(Meteor.isClient){
         }
 
     });
-    
+
+
+    Template.WebMap_page.onRendered(function(){
+
+        $('#myTab li').first().addClass('active');
+        $('.tab-pane').first().addClass('active');
+        
+    });
+
     Template.WebMap_page.onCreated(function(){
         this.chartToggle = new ReactiveVar(false);
         this.buildingData = new ReactiveVar(false);
-        var self = this;
-        this.autorun(function(){
-            self.subscribe('counties', {
-                onReady: function(){
-                    var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
-                    var regionalChartData = _.keys(counties).map(function(key){
-                        var simData = counties[key].reduce(function(a,b){
-                            return {
-                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
-                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
-                                sim_year: a.sim_year
-                            };
-                        });
-                        return simData;
-                    });
-
-                    drawChart(regionalChartData);
-
-                }
-            });
-        });
         
     });
     

@@ -1,6 +1,5 @@
 <template name="ResultsControl_body">
     {{#if hasData selectedData}}
-        {{selectedLayer}} {{selectedZone}}
         {{>Material_select (YearSelect_args)}}
         {{>Result_table}}
     {{else}}

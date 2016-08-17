@@ -5,7 +5,6 @@
 html, body, #container{
     height: 100%;
     margin: 0px;
-    overflow:hidden !important;
 }
 
 #sidebar{
@@ -18,7 +17,7 @@ html, body, #container{
 
 #cesiumContainer{
     height: 92vh;
-    overflow:hidden !important;
+    overflow:hidden;
 }
 
 body {
@@ -436,8 +435,9 @@ input.commentChk{
 
 .chartsContainer {
     z-index: 10000;
-    position: relative;
+    position: absolute;
     width: 100% !important;
+    top: 100%;
     border-top: 2px solid;
     background-color: #fff;
 

@@ -16,6 +16,7 @@ es5-shim                # ECMAScript 5 compatibility for older browsers.
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 
 d3js:d3
+twbs:bootstrap
 fortawesome:fontawesome
 bevanhunt:leaflet
 sacha:spin
