@@ -93,64 +93,61 @@ if(Meteor.isClient){
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         handler.setInputAction(function(click){
             var pickedObject = viewer.scene.pick(click.position);
+            var test = viewer.scene.drillPick(click.position);
+            console.log(test);
             var entity = pickedObject.id;
             var zoneId = entity.properties.ZONE_ID;
-            //entity.polygon.material = new Cesium.Color(1,1,0,0.5);
-            console.log(entity);
-            viewer.entities.add({
-                // position: Cesium.Cartesian3.fromDegrees(entity.properties.Long, entity.properties.Lat),
-                // point:{
-                //     pixelSize: 10,
-                //     color: Cesium.Color.RED
-                // }
-                polygon: {
-                    hierarchy: entity.polygon.hierarchy,
-                    material: new Cesium.Color(1,1,0,0.5)
+
+
+            var selectedZones = Session.get('selectedZone');
+
+            //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
+            //it accounts for if the chloropleth is active
+            if(Session.equals('allowMultipleGeo', false)){
+                if(selectedZones.length > 0){
+                    viewer.entities.removeAll();
+
+                    if(zoneId != selectedZones[0]){
+                        viewer.entities.add({
+                            polygon: {
+                                hierarchy: entity.polygon.hierarchy,
+                                material: new Cesium.Color(1,1,0,1)
+                            }
+                        });
+                    }
+                }else{
+                    viewer.entities.add({
+                        polygon: {
+                            hierarchy: entity.polygon.hierarchy,
+                            material: new Cesium.Color(1,1,0,1)
+                        }
+                    });
                 }
-            });
-            //
-            // var ds = viewer.dataSources.get(0);
-            // var selectedZones = Session.get('selectedZone');
-            //
-            // //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
-            // //it accounts for if the chloropleth is active
-            // if(Session.equals('allowMultipleGeo', false)){
-            //     if(selectedZones.length > 0){
-            //         var colorData = Session.get('colorData');
-            //         var oldColor;
-            //         entity.polygon.material = new Cesium.Color(1,1,0,0.5);
-            //         var prior = _.find(ds.entities.values, function(entity){return entity.properties.ZONE_ID == selectedZones[0]});
-            //         if(colorData){
-            //             oldColor = _.find(colorData, function(x){return x.zone_id == selectedZones[0]}).color;
-            //             prior.polygon.material = Cesium.Color.fromCssColorString(oldColor).withAlpha(0.5);
-            //         }else{
-            //             oldColor = new Cesium.Color(0.01,0.01,0.01,0.01);
-            //             prior.polygon.material = oldColor;
-            //         }
-            //
-            //
-            //
-            //     }else{
-            //         entity.polygon.material = new Cesium.Color(1,1,0,0.5);
-            //     }
-            //
-            // }else{
-            //     if(_.contains(selectedZones, zoneId)){
-            //         entity.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
-            //     }else{
-            //         entity.polygon.material = new Cesium.Color(1,1,0,0.5);
-            //     }
-            //
-            // }
-            //
-            // var year = Session.get('selectedYear');
-            // findZoneData(zoneId, year);
-            // if(zoneComments){
-            //     zoneComments.stop();
-            //     zoneComments = Meteor.subscribe('commentsByZone', year);
-            // }else{
-            //     zoneComments = Meteor.subscribe('commentsByZone', year);
-            // }
+
+            }else{
+                if(_.contains(selectedZones, zoneId)){
+                    var drillPick = viewer.scene.drillPick(click.position);
+                    var topEntity = drillPick[drillPick.length -1].id;
+                    viewer.entities.remove(topEntity);
+                }else{
+                    viewer.entities.add({
+                        polygon: {
+                            hierarchy: entity.polygon.hierarchy,
+                            material: new Cesium.Color(1,1,0,1)
+                        }
+                    });
+                }
+
+            }
+
+            var year = Session.get('selectedYear');
+            findZoneData(zoneId, year);
+            if(zoneComments){
+                zoneComments.stop();
+                zoneComments = Meteor.subscribe('commentsByZone', year);
+            }else{
+                zoneComments = Meteor.subscribe('commentsByZone', year);
+            }
 
 
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -173,7 +170,6 @@ if(Meteor.isClient){
         }
 
 
-        debugger;
         Session.set('selectedZone', selectedZoneArray);
         var zoneSubscription = subscribeToZone(year, selectedZoneArray);
     }
