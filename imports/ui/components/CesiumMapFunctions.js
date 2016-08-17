@@ -95,7 +95,19 @@ if(Meteor.isClient){
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
             var zoneId = entity.properties.ZONE_ID;
-            entity.polygon.material = new Cesium.Color(1,1,0,0.5);
+            //entity.polygon.material = new Cesium.Color(1,1,0,0.5);
+            console.log(entity);
+            viewer.entities.add({
+                // position: Cesium.Cartesian3.fromDegrees(entity.properties.Long, entity.properties.Lat),
+                // point:{
+                //     pixelSize: 10,
+                //     color: Cesium.Color.RED
+                // }
+                polygon: {
+                    hierarchy: entity.polygon.hierarchy,
+                    material: new Cesium.Color(1,1,0,0.5)
+                }
+            });
             //
             // var ds = viewer.dataSources.get(0);
             // var selectedZones = Session.get('selectedZone');
