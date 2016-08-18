@@ -93,8 +93,6 @@ if(Meteor.isClient){
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         handler.setInputAction(function(click){
             var pickedObject = viewer.scene.pick(click.position);
-            var test = viewer.scene.drillPick(click.position);
-            console.log(test);
             var entity = pickedObject.id;
             var zoneId = entity.properties.ZONE_ID;
 
@@ -148,6 +146,67 @@ if(Meteor.isClient){
             }else{
                 zoneComments = Meteor.subscribe('commentsByZone', year);
             }
+
+
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+    export function setCityClickEvents(){
+        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.setInputAction(function(click){
+            var pickedObject = viewer.scene.pick(click.position);
+            var entity = pickedObject.id;
+            var city_name = entity.properties.CITY;
+
+
+            var selectedZones = Session.get('selectedZone');
+
+            //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
+            //it accounts for if the chloropleth is active
+            if(Session.equals('allowMultipleGeo', false)){
+                if(selectedZones.length > 0){
+                    viewer.entities.removeAll();
+
+                    if(city_name != selectedZones[0]){
+                        viewer.entities.add({
+                            polygon: {
+                                hierarchy: entity.polygon.hierarchy,
+                                material: new Cesium.Color(1,1,0, .7)
+                            }
+                        });
+                    }
+                }else{
+                    viewer.entities.add({
+                        polygon: {
+                            hierarchy: entity.polygon.hierarchy,
+                            material: new Cesium.Color(1,1,0, .7)
+                        }
+                    });
+                }
+
+            }else{
+                if(_.contains(selectedZones, city_name)){
+                    var drillPick = viewer.scene.drillPick(click.position);
+                    var topEntity = drillPick[drillPick.length -1].id;
+                    viewer.entities.remove(topEntity);
+                }else{
+                    viewer.entities.add({
+                        polygon: {
+                            hierarchy: entity.polygon.hierarchy,
+                            material: new Cesium.Color(1,1,0,1, .7)
+                        }
+                    });
+                }
+
+            }
+
+            var year = Session.get('selectedYear');
+            findMuniData(city_name, year);
+            // if(zoneComments){
+            //     zoneComments.stop();
+            //     zoneComments = Meteor.subscribe('commentsByZone', year);
+            // }else{
+            //     zoneComments = Meteor.subscribe('commentsByZone', year);
+            // }
 
 
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);

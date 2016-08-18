@@ -2,6 +2,7 @@
  * Created by jmartinez on 8/4/16.
  */
 import {drawMap} from '../../../startup/client/mapFunctions.js';
+import {setCityClickEvents} from '../../components/CesiumMapFunctions.js'; 
 if(Meteor.isClient){
 
     Template.LayersMenu_body.events({
@@ -65,6 +66,7 @@ if(Meteor.isClient){
                     promise.then(function(dataSource){
                         Session.set('spinning', false);
                         viewer.dataSources.add(dataSource);
+                        setCityClickEvents();
                     }).otherwise(function(error){
                         //Display any errrors encountered while loading.
                         window.alert(error);
