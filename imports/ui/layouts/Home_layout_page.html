@@ -36,7 +36,10 @@
 
         <ul id="MapDropDown" class="dropdown-content">
             <li><a href="/map">View Map</a></li>
-            <li><a href="#" id="navMapColor" class="navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navMapColor')">Style Map</a></li>
+            {{#if isInRole 'admin'}}
+                <li><a href="/3dmap">3D Map</a></li>
+            {{/if}}
+
         </ul>
 
         <nav class="grey darken-4">

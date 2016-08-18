@@ -113,6 +113,13 @@ FlowRouter.route('/map', {
     }
 });
 
+FlowRouter.route('/3dmap', {
+    name: '3dmap',
+    action: function(){
+        BlazeLayout.render('Home_layout_page', {main: 'CesiumMap_page'})
+    }
+});
+
 AdminGroup = FlowRouter.group({
     prefix: '/admin'
 });

@@ -238,12 +238,12 @@ path.empty{
     fill:none;
 }
 
-path.zones:hover{
+path.entity:hover{
     stroke:black;
     stroke-width: 2;
 }
 
-path.zones{
+path.entity{
     stroke:black;
     stroke-width:0.5;
     fill:rgba(0,0,0,0);

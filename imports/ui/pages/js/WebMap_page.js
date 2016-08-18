@@ -1,11 +1,13 @@
 /**
  * Created by jmartinez on 4/5/16.
  */
-import {loadCesiumMap} from '../../components/CesiumMapFunctions.js';
+import {drawMap} from '../../../startup/client/mapFunctions.js';
+import {colorMap} from '../../../startup/client/mapFunctions.js';
 import {drawChart} from '../../../startup/client/mapFunctions.js';
 import {getDataFields} from '../../../ui/components/Global_helpers.js';
 import { measureNameMap } from '../../../ui/components/Global_helpers.js';
-
+import {findZoneData} from '../../../ui/components/CesiumMapFunctions.js';
+import {subscribeToZone} from '../../../ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
 
@@ -16,21 +18,6 @@ if(Meteor.isClient){
     Template.WebMap_page.helpers({
         selectedData: function(){
             return Session.get('selectedData');
-        }, selectedAreas: function(){
-            return Session.get('selectedZone');
-        }, isSpinning: function(){
-            return Session.get('spinning');
-        }, Tab_args: function(){
-            var tabData = [
-                {id: 'zoneResults', name: 'Zones', body: 'ZoneTabPane_body', data: undefined},
-                {id: 'countyResults', name: 'Counties', body: 'CountyTabPane_body', data: undefined},
-                {id: 'cityResults', name: 'Cities', body: '', data: undefined},
-                {id: 'ucResults', name: 'Urban Centers', body: '', data: undefined},
-                {id: 'downloads', name: 'Downloads', body: 'DownloadsTabPane_body', data: undefined}
-            ];
-            return {
-                tabs: tabData
-            };
         }, selectedZone: function(){
             return Session.get('selectedZone');
         }, buildingData: function(){
@@ -160,9 +147,30 @@ if(Meteor.isClient){
     Template.WebMap_page.onRendered(function(){
         Session.set('selectedLayer', 'zonesGeo');
         Session.set('selectedYear', 2010);
-        $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
-            loadCesiumMap();
-        })
+        L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
+
+        map = L.map("mapContainer").setView([39.75, -104.95], 10);
+        var streets = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: 'abcd',
+            id: 'mapbox.outdoors',
+            accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
+        });
+
+        map.addLayer(streets);
+
+
+
+
+        var zoneParams = {
+            pathString: "/data/zonesGeo.json",
+            obj_name: "zonesGeo",
+            label_string: "ZoneId: ",
+            geo_property: "ZONE_ID",
+            tazId: "TAZ_ID",
+            geo_class: "entity"
+        };
+        drawMap(zoneParams);
     })
 
 }
