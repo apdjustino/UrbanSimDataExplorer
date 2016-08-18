@@ -154,7 +154,15 @@ export function drawMap(params){
     });
 }
 
-export function colorMap(data, measure, juris){
+export function colorMap(data, measure, layer){
+
+    var layerMap = {
+        zonesGeo: {sim_name:'zone_id', geo_name: 'ZONE_ID'},
+        county_web: {sim_name:'county_name', geo_name: 'COUNTY'},
+        municipalities: {sim_name: 'city_name', geo_name: 'CITY'},
+        urban_cen: {sim_name: 'NAME', geo_name: 'NAME'}
+    };
+
     var max = _.max(data, function (x) {
         return x[measure]
     })[measure];
@@ -166,19 +174,15 @@ export function colorMap(data, measure, juris){
             return "q" + i + "-7";
         }));
 
-    var feature = d3.selectAll('.zones');
+    var feature = d3.selectAll('.entity');
 
 
     feature.attr("class", function (d) {
         var val = _.find(data, function (x) {
-            if(juris === 'county'){
-                return x['county_name'] == d.properties['COUNTY']
-            }else{
-                return x['zone_id'] == d.properties['ZONE_ID']
-            }
+            return x[layerMap[layer].sim_name] == d.properties[layerMap[layer].geo_name];
         })[measure];
         try {
-            return quantize(val) + " zones";
+            return quantize(val) + " entity";
         } catch (e) {
             return "empty";
         }
@@ -186,43 +190,43 @@ export function colorMap(data, measure, juris){
 
     //draw legend
 
-    var quantizeRange = [];
-    d3.range(7).forEach(function(cv){
-        quantizeRange.push("q" + cv + "-7");
-    });
-    var range = [];
-    quantizeRange.forEach(function(cv){
-        var obj = {};
-        obj["cssClass"] = cv;
-        obj["range"] = quantize.invertExtent(cv);
-        range.push(obj)
-    });
-
-    d3.selectAll(".legendItemContainer").remove();
-    var legendDiv = d3.select('#legendList');
-
-    var listItems = legendDiv.selectAll("div")
-        .data(range)
-        .enter()
-        .append("div")
-        .attr("class", "legendItemContainer row");
-
-    var containers = d3.selectAll(".legendItemContainer");
-    containers.append("div").attr("class", "col-xs-3 col-sm-3 col-md-3 col-lg-3 leftCol");
-    containers.append("div").attr("class", "col-xs-9 col-sm-9 col-md-9 col-lg-9 rightCol");
-
-    var leftCols = d3.selectAll(".leftCol")
-        .append("div")
-        .attr("class", function(d){
-            return d.cssClass + " legendItem"
-        });
-
-    var rightCols = d3.selectAll(".rightCol")
-        .append("h5")
-        .attr("class","text-center")
-        .text(function(d){
-            return parseInt(d.range[0]) + ' - ' + parseInt(d.range[1]);
-        });
+    // var quantizeRange = [];
+    // d3.range(7).forEach(function(cv){
+    //     quantizeRange.push("q" + cv + "-7");
+    // });
+    // var range = [];
+    // quantizeRange.forEach(function(cv){
+    //     var obj = {};
+    //     obj["cssClass"] = cv;
+    //     obj["range"] = quantize.invertExtent(cv);
+    //     range.push(obj)
+    // });
+    //
+    // d3.selectAll(".legendItemContainer").remove();
+    // var legendDiv = d3.select('#legendList');
+    //
+    // var listItems = legendDiv.selectAll("div")
+    //     .data(range)
+    //     .enter()
+    //     .append("div")
+    //     .attr("class", "legendItemContainer row");
+    //
+    // var containers = d3.selectAll(".legendItemContainer");
+    // containers.append("div").attr("class", "col-xs-3 col-sm-3 col-md-3 col-lg-3 leftCol");
+    // containers.append("div").attr("class", "col-xs-9 col-sm-9 col-md-9 col-lg-9 rightCol");
+    //
+    // var leftCols = d3.selectAll(".leftCol")
+    //     .append("div")
+    //     .attr("class", function(d){
+    //         return d.cssClass + " legendItem"
+    //     });
+    //
+    // var rightCols = d3.selectAll(".rightCol")
+    //     .append("h5")
+    //     .attr("class","text-center")
+    //     .text(function(d){
+    //         return parseInt(d.range[0]) + ' - ' + parseInt(d.range[1]);
+    //     });
 
 
 

@@ -74,12 +74,6 @@ if(Meteor.isClient){
     Template.CesiumMap_page.events({
         "click #btnReset":function(event, template) {
 
-        }, "click #countyResults-li": function(event, template){
-
-        }, "click #zoneResults-li": function(event, template){
-
-        },  "click #downloads-li": function(event){
-            event.preventDefault();
         }, "click #toggleCharts": function(event, template){
             event.preventDefault();
             var toggle = template.chartToggle.get();
@@ -108,8 +102,6 @@ if(Meteor.isClient){
         }, "click #closeEditDiv": function(event, template){
             event.preventDefault();
             $('#editor').animate({'left': '125%'}, 250);
-
-        }, "click #scenarios-li": function(event, template){
 
         }
 

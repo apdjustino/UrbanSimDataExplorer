@@ -3,6 +3,7 @@
  */
 import {colorCesiumMap} from '../../components/CesiumMapFunctions.js';
 import {subscribeToZone} from '../../components/CesiumMapFunctions.js';
+import {colorMap} from '../../../startup/client/mapFunctions.js';
 if(Meteor.isClient){
     
     Template.Chloropleth_body.helpers({
@@ -58,10 +59,12 @@ if(Meteor.isClient){
 
     Template.Chloropleth_body.events({
         "click #btnQuery": function(event, template){
+            var mapName = FlowRouter.getRouteName();
             event.preventDefault();
             Session.set('spinning', true);
             var selectedYear = parseInt($('#queryYearSelect option:selected').val());
             var selectedVar = $('#variableSelect option:selected').val();
+            var selectedLayer = Session.get('selectedLayer');
 
             if(Session.equals('selectedLayer', 'zonesGeo')){
                 Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
@@ -80,7 +83,12 @@ if(Meteor.isClient){
                                 return rowData
                             });
                         }
-                        colorCesiumMap(data, selectedVar);
+                        if(mapName == 'webMap'){
+                            colorMap(data, selectedVar, selectedLayer)
+                        }else{
+                            colorCesiumMap(data, selectedVar);
+                        }
+
                         this.stop();
                     }
                 });
