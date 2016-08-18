@@ -12,14 +12,76 @@ if(Meteor.isClient){
             }
         }, "click #btnReset": function(event,template){
             event.preventDefault();
+            var mapName = FlowRouter.getRouteName();
             Session.set('colorData', undefined);
             Session.set('selectedData', undefined);
-            var ds = viewer.dataSources.get(0);
-            var entities = ds.entities.values;
-            entities.forEach(function(cv){
-                cv.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
-                cv.polygon.extrudedHeight = 0;
-            });
+            Session.set('selectedZone', []);
+
+            if(mapName == 'webMap'){
+                d3.selectAll('.entity').attr("class", "entity");
+            }else{
+                var ds = viewer.dataSources.get(0);
+                var entities = ds.entities.values;
+                entities.forEach(function(cv){
+                    cv.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
+                    cv.polygon.extrudedHeight = 0;
+                });
+            }
+
+        }, "click #showCommentZones": function(event, template){
+            var mapName = FlowRouter.getRouteName();
+            if(event.target.checked){
+                if(mapName == 'webMap'){
+                    Meteor.call("getCommentZones", function(error, result){
+                        if(error){
+                            sAlert.error(error.reason);
+                        }else{
+                            d3.selectAll('.entity').transition().duration(500)
+                                .style("fill", function(d){
+                                    if(_.contains(result, d.properties.ZONE_ID)){
+                                        return "red"
+                                    }
+                                });
+                        }
+                    });
+                }else{
+                    Meteor.call("getCommentZones", function(error, result){
+                        if(error){
+                            sAlert.error(error.reason);
+                        }else{
+                            var ds = viewer.dataSources.get(0);
+                            var entities = ds.entities.values;
+                            entities.forEach(function(cv){
+                                if(_.contains(result, cv.properties.ZONE_ID)){
+                                    viewer.entities.add({
+                                        polygon: {
+                                            hierarchy: cv.polygon.hierarchy,
+                                            material: new Cesium.Color(1,0,0, .7)
+                                        }
+                                    });
+                                }
+                            })
+                        }
+                    });
+
+
+
+                }
+            }else{
+                if(mapName == 'webMap'){
+                    d3.selectAll(".entity").transition().duration(500)
+                        .style("fill", "");
+                }else{
+                    debugger;
+                    viewer.entities.removeAll();
+                }
+            }
+
+            if(event.target.checked){
+
+            }else{
+
+            }
         }
     })
 
