@@ -119,18 +119,16 @@ if(Meteor.isClient){
                         this.stop();
                     }
                 });
-            }
-
-            if(Session.equals('selectedLayer', 'zonesGeo')){
-                Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
+            }else if(selectedLayer == 'county_web'){
+                Meteor.subscribe("counties_by_year", selectedYear, selectedVar, {
                     onReady: function () {
                         Session.set('spinning', false);
                         var fieldObj = {};
                         fieldObj[selectedVar] = 1;
-                        fieldObj['zone_id'] = 1;
-                        var data = zoneData.find({sim_year: selectedYear}, {sort: {zone_id:1}}).fetch();
+                        fieldObj['county_name'] = 1;
+                        var data = countyData.find({sim_year: selectedYear}, {sort: {county_name:1}}).fetch();
                         if($('#queryDiff').prop('checked')){
-                            var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                            var baseData = countyData.find({sim_year: 2010}, {sort: {county_name:1}}).fetch();
                             var mappedData = data.map(function(row, idx){
 
                                 var rowData = row;
@@ -148,6 +146,7 @@ if(Meteor.isClient){
                     }
                 });
             }
+                
 
 
         }, "change #queryYearSelect": function(event, template){

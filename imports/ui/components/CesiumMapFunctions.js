@@ -211,6 +211,67 @@ if(Meteor.isClient){
 
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
+    export function setCountyClickEvents(){
+        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.setInputAction(function(click){
+            var pickedObject = viewer.scene.pick(click.position);
+            var entity = pickedObject.id;
+            var county_name = entity.properties.COUNTY;
+
+
+            var selectedZones = Session.get('selectedZone');
+
+            //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
+            //it accounts for if the chloropleth is active
+            if(Session.equals('allowMultipleGeo', false)){
+                if(selectedZones.length > 0){
+                    viewer.entities.removeAll();
+
+                    if(county_name != selectedZones[0]){
+                        viewer.entities.add({
+                            polygon: {
+                                hierarchy: entity.polygon.hierarchy,
+                                material: new Cesium.Color(1,1,0, .7)
+                            }
+                        });
+                    }
+                }else{
+                    viewer.entities.add({
+                        polygon: {
+                            hierarchy: entity.polygon.hierarchy,
+                            material: new Cesium.Color(1,1,0, .7)
+                        }
+                    });
+                }
+
+            }else{
+                if(_.contains(selectedZones, county_name)){
+                    var drillPick = viewer.scene.drillPick(click.position);
+                    var topEntity = drillPick[drillPick.length -1].id;
+                    viewer.entities.remove(topEntity);
+                }else{
+                    viewer.entities.add({
+                        polygon: {
+                            hierarchy: entity.polygon.hierarchy,
+                            material: new Cesium.Color(1,1,0,1, .7)
+                        }
+                    });
+                }
+
+            }
+
+            var year = Session.get('selectedYear');
+            findCountyData(county_name, year);
+            // if(zoneComments){
+            //     zoneComments.stop();
+            //     zoneComments = Meteor.subscribe('commentsByZone', year);
+            // }else{
+            //     zoneComments = Meteor.subscribe('commentsByZone', year);
+            // }
+
+
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
 
     export function findZoneData(zoneId, year){
         var selectedZoneArray = Session.get('selectedZone');
@@ -252,6 +313,27 @@ if(Meteor.isClient){
 
         Session.set('selectedZone', selectedZoneArray);
         var citySubscription = subscribeToCity(year, selectedZoneArray);
+    }
+    
+    export function findCountyData(county_name, year){
+        var selectedZoneArray = Session.get('selectedZone');
+        if(!selectedZoneArray){
+            selectedZoneArray = [];
+        }
+        if($.inArray(county_name, selectedZoneArray) !== -1){
+            selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == county_name;}));
+        }else{
+            if(Session.get('allowMultipleGeo') == false){
+                selectedZoneArray = [county_name];
+            }else{
+                selectedZoneArray.push(county_name);
+            }
+
+        }
+
+
+        Session.set('selectedZone', selectedZoneArray);
+        var countySubscription = subscribeToCounty(year, selectedZoneArray);
     }
 
     export function subscribeToZone(year, selectedZoneArray){
@@ -406,6 +488,82 @@ if(Meteor.isClient){
             }
         });
     }
+    
+    export function subscribeToCounty(year, selectedZoneArray){
+        return Meteor.subscribe('grouped_counties', selectedZoneArray, {
+            onReady: function(){
+                var data = countyData.find({sim_year: year, county_name:{$in:selectedZoneArray}}, {fields:{county_name: 0, _id:0, sim_year:0}}).fetch();
+                var baseData = countyData.find({sim_year: 2010, county_name:{$in:selectedZoneArray}}, {fields:{county_name: 0, _id:0, sim_year:0}}).fetch();
+                this.stop();
+                var dataArr =[];
+
+                //functional programming way of creating the right data object
+                if(data.length > 0){
+                    dataArr = _.keys(data[0]).map(function(key){
+                        var value = data.reduce(function(a, b){
+                            var obj = {};
+                            obj[key] = a[key] + b[key];
+                            return obj
+                        });
+
+                        var baseValue = baseData.reduce(function(a, b){
+                            var obj = {};
+                            obj[key] = a[key] + b[key];
+                            return obj
+                        });
+
+                        return {measure: key, value:parseInt(value[key]), diff: parseInt(value[key]) - parseInt(baseValue[key])};
+                    });
+                }
+
+
+                var dataDict = {};
+                var chartData;
+
+
+
+                dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
+                var allYears = _.groupBy(countyData.find().fetch(), 'sim_year');
+                var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+
+
+                //this if statement determines if the chart draws the generic all region series
+                //or the series for that particular zone. selectedZone will be length 0 when nothing is selected
+                if(Session.get('selectedZone').length > 0){
+                    chartData = _.keys(allYears).map(function(key){
+                        var simData = allYears[key].reduce(function(a,b){
+                            return {
+                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                                sim_year: a.sim_year
+                            };
+                        });
+                        return simData;
+                    });
+                }else{
+                    chartData = _.keys(counties).map(function(key){
+                        var simData = counties[key].reduce(function(a,b){
+                            return {
+                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                                sim_year: a.sim_year
+                            };
+                        });
+                        return simData;
+                    });
+                }
+
+
+
+                dataDict["allYears"] = chartData;
+                Session.set("selectedData", dataDict);
+
+
+                drawChart(dataDict.allYears);
+
+            }
+        });
+    }
 
     export function drawChart(data){
         d3.selectAll(".svgChart").remove();
@@ -543,10 +701,16 @@ if(Meteor.isClient){
                         ent.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
                     }
                 });
-
-
-
-
+            }else if(layer == 'county_web'){
+                var entity = undefined;
+                ds.entities.values.forEach(function(ent){
+                    if(ent.properties.COUNTY == cv.county_name){
+                        var quantized = quantize(cv[measure]);
+                        var color = colorMap[quantized];
+                        cv['color'] = color;
+                        ent.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
+                    }
+                });
             }
 
 
