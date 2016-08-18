@@ -66,6 +66,61 @@ if(Meteor.isClient){
             var selectedVar = $('#variableSelect option:selected').val();
             var selectedLayer = Session.get('selectedLayer');
 
+            if(selectedLayer == 'zonesGeo'){
+                Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
+                    onReady: function () {
+                        Session.set('spinning', false);
+                        var fieldObj = {};
+                        fieldObj[selectedVar] = 1;
+                        fieldObj['zone_id'] = 1;
+                        var data = zoneData.find({sim_year: selectedYear}, {sort: {zone_id:1}}).fetch();
+                        if($('#queryDiff').prop('checked')){
+                            var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
+
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                        }
+                        if(mapName == 'webMap'){
+
+                            colorMap(data, selectedVar, selectedLayer)
+                        }else{
+                            colorCesiumMap(data, selectedVar);
+                        }
+
+                        this.stop();
+                    }
+                });
+            }else if(selectedLayer == 'municipalities'){
+                Meteor.subscribe("cities_by_year", selectedYear, selectedVar, {
+                    onReady: function () {
+                        Session.set('spinning', false);
+                        var fieldObj = {};
+                        fieldObj[selectedVar] = 1;
+                        fieldObj['city_name'] = 1;
+                        var data = muniSummary.find({sim_year: selectedYear}, {sort: {city_name:1}}).fetch();
+                        if($('#queryDiff').prop('checked')){
+                            var baseData = muniSummary.find({sim_year: 2010}, {sort: {city_name:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
+
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                        }
+                        if(mapName == 'webMap'){
+                            colorMap(data, selectedVar, selectedLayer)
+                        }else{
+                            colorCesiumMap(data, selectedVar);
+                        }
+
+                        this.stop();
+                    }
+                });
+            }
+
             if(Session.equals('selectedLayer', 'zonesGeo')){
                 Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
                     onReady: function () {
@@ -99,7 +154,6 @@ if(Meteor.isClient){
             var year = parseInt($('#queryYearSelect option:selected').val());
             Session.set('selectedYear', year);
             var selector = '#yearSelect option[value=' + year + ']';
-            debugger;
             $(selector).prop('selected', true);
             $('select').material_select();
             var zone = Session.get('selectedZone');

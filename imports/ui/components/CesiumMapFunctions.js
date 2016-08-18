@@ -173,6 +173,27 @@ if(Meteor.isClient){
         Session.set('selectedZone', selectedZoneArray);
         var zoneSubscription = subscribeToZone(year, selectedZoneArray);
     }
+    
+    export function findMuniData(city_name, year){
+        var selectedZoneArray = Session.get('selectedZone');
+        if(!selectedZoneArray){
+            selectedZoneArray = [];
+        }
+        if($.inArray(city_name, selectedZoneArray) !== -1){
+            selectedZoneArray = _.without(selectedZoneArray, _.find(selectedZoneArray, function(x){return x == city_name;}));
+        }else{
+            if(Session.get('allowMultipleGeo') == false){
+                selectedZoneArray = [city_name];
+            }else{
+                selectedZoneArray.push(city_name);
+            }
+
+        }
+
+
+        Session.set('selectedZone', selectedZoneArray);
+        var citySubscription = subscribeToCity(year, selectedZoneArray);
+    }
 
     export function subscribeToZone(year, selectedZoneArray){
         return Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
@@ -245,6 +266,82 @@ if(Meteor.isClient){
                 Session.set("selectedData", dataDict);
                 
                 
+                drawChart(dataDict.allYears);
+
+            }
+        });
+    }
+    
+    export function subscribeToCity(year, selectedZoneArray){
+        return Meteor.subscribe('grouped_cities', selectedZoneArray, {
+            onReady: function(){
+                var data = muniSummary.find({sim_year: year, city_name:{$in:selectedZoneArray}}, {fields:{city_name: 0, _id:0, sim_year:0}}).fetch();
+                var baseData = muniSummary.find({sim_year: 2010, city_name:{$in:selectedZoneArray}}, {fields:{city_name: 0, _id:0, sim_year:0}}).fetch();
+                this.stop();
+                var dataArr =[];
+
+                //functional programming way of creating the right data object
+                if(data.length > 0){
+                    dataArr = _.keys(data[0]).map(function(key){
+                        var value = data.reduce(function(a, b){
+                            var obj = {};
+                            obj[key] = a[key] + b[key];
+                            return obj
+                        });
+
+                        var baseValue = baseData.reduce(function(a, b){
+                            var obj = {};
+                            obj[key] = a[key] + b[key];
+                            return obj
+                        });
+
+                        return {measure: key, value:parseInt(value[key]), diff: parseInt(value[key]) - parseInt(baseValue[key])};
+                    });
+                }
+
+
+                var dataDict = {};
+                var chartData;
+
+
+
+                dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
+                var allYears = _.groupBy(muniSummary.find().fetch(), 'sim_year');
+                var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+
+
+                //this if statement determines if the chart draws the generic all region series
+                //or the series for that particular zone. selectedZone will be length 0 when nothing is selected
+                if(Session.get('selectedZone').length > 0){
+                    chartData = _.keys(allYears).map(function(key){
+                        var simData = allYears[key].reduce(function(a,b){
+                            return {
+                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                                sim_year: a.sim_year
+                            };
+                        });
+                        return simData;
+                    });
+                }else{
+                    chartData = _.keys(counties).map(function(key){
+                        var simData = counties[key].reduce(function(a,b){
+                            return {
+                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                                sim_year: a.sim_year
+                            };
+                        });
+                        return simData;
+                    });
+                }
+
+
+
+                dataDict["allYears"] = chartData;
+                Session.set("selectedData", dataDict);
+                
+
                 drawChart(dataDict.allYears);
 
             }
@@ -369,12 +466,30 @@ if(Meteor.isClient){
         };
 
         var ds = viewer.dataSources.get(0);
+        var layer = Session.get('selectedLayer');
         data.forEach(function(cv, idx, arr){
-            var entity = _.find(ds.entities.values, function(x){return x.properties.ZONE_ID == cv.zone_id});
-            var quantized = quantize(cv[measure]);
-            var color = colorMap[quantized];
-            cv['color'] = color;
-            entity.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
+            if(layer == 'zonesGeo'){
+                var entity = _.find(ds.entities.values, function(x){return x.properties.ZONE_ID == cv.zone_id});
+                var quantized = quantize(cv[measure]);
+                var color = colorMap[quantized];
+                cv['color'] = color;
+                entity.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
+            }else if(layer == 'municipalities'){
+                var entity = undefined;
+                ds.entities.values.forEach(function(ent){
+                    if(ent.properties.CITY == cv.city_name){
+                        var quantized = quantize(cv[measure]);
+                        var color = colorMap[quantized];
+                        cv['color'] = color;
+                        ent.polygon.material = Cesium.Color.fromCssColorString(color).withAlpha(0.5);
+                    }
+                });
+
+
+
+
+            }
+
 
 
         });
@@ -387,5 +502,6 @@ if(Meteor.isClient){
 
 
     }
+    
 
 }

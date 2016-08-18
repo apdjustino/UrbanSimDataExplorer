@@ -2,6 +2,7 @@
  * Created by jmartinez on 8/15/16.
  */
 import {subscribeToZone} from '../../components/CesiumMapFunctions.js';
+import {subscribeToCity} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
     Template.ResultsControl_body.helpers({
@@ -48,8 +49,16 @@ if(Meteor.isClient){
     Template.ResultsControl_body.events({
         "change #yearSelect": function(event, template){
             var year = parseInt(event.target.value);
-            var zone = Session.get('selectedZone');
-            subscribeToZone(year, zone);
+            var entity = Session.get('selectedZone');
+            Session.set('selectedYear', year);
+            var mapName = FlowRouter.getRouteName();
+            var layerName = Session.get('selectedLayer');
+            if(layerName == 'zonesGeo'){
+                subscribeToZone(year, entity);
+            }else if(layerName == 'municipalities'){
+                subscribeToCity(year, entity);
+            }
+
         }
     });
     

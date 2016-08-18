@@ -7,6 +7,7 @@ import {drawChart} from '../../../startup/client/mapFunctions.js';
 import {getDataFields} from '../../../ui/components/Global_helpers.js';
 import { measureNameMap } from '../../../ui/components/Global_helpers.js';
 import {findZoneData} from '../../../ui/components/CesiumMapFunctions.js';
+import {findMuniData} from '../../../ui/components/CesiumMapFunctions.js';
 import {subscribeToZone} from '../../../ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
@@ -106,21 +107,34 @@ if(Meteor.isClient){
 
         }, "click .entity": function(event, template){
             var id = event.target.id;
-            var zoneId = id.split('-')[1];
+            var entityId = id.split('-')[1];
             var year = Session.get('selectedYear');
+            var layer = Session.get('selectedLayer');
+            console.log(year);    
+            if(layer == 'zonesGeo'){
+                findZoneData(entityId, year);
+                if(zoneComments){
+                    zoneComments.stop();
+                    zoneComments = Meteor.subscribe('commentsByZone', year);
+                }else{
+                    zoneComments = Meteor.subscribe('commentsByZone', year);
+                }
 
-            findZoneData(zoneId, year);
-            if(zoneComments){
-                zoneComments.stop();
-                zoneComments = Meteor.subscribe('commentsByZone', year);
+                var selectedZoneArray = Session.get('selectedZone');
+                d3.selectAll(".entity").classed("selected", function(d){
+                    return ($.inArray(d.properties['ZONE_ID'], selectedZoneArray) !== -1);
+                });
+            }else if(layer == 'municipalities'){
+                findMuniData(entityId, year);
+                var selectedZoneArray = Session.get('selectedZone');
+                d3.selectAll(".entity").classed("selected", function(d){
+                    return ($.inArray(d.properties['CITY'], selectedZoneArray) !== -1);
+                });
             }else{
-                zoneComments = Meteor.subscribe('commentsByZone', year);
+
             }
 
-            var selectedZoneArray = Session.get('selectedZone');
-            d3.selectAll(".entity").classed("selected", function(d){
-                return ($.inArray(d.properties['ZONE_ID'], selectedZoneArray) !== -1);
-            });
+
         }
 
     });

@@ -8,6 +8,7 @@ import '../imports/api/countyData/publications.js';
 import '../imports/api/comments/publications.js';
 import '../imports/api/buildings/publications.js';
 import '../imports/api/parcels/publications.js';
+import '../imports/api/muniData/publications.js';
 
 if(Meteor.isServer){
     Accounts.onCreateUser(function(options, user){

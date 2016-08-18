@@ -13,6 +13,8 @@ export function drawMap(params){
             .attr("class", "leaflet-zoom-hide");
     }
 
+    d3.selectAll('.entity').remove();
+
 
 
     d3.json(params.pathString, function(error, zones){
@@ -30,7 +32,7 @@ export function drawMap(params){
             .data(shape.features)
             .enter()
             .append("path")
-            .attr("class", params.geo_class)
+            .attr("class", "entity")
             .attr("id", function(d){return "id-" + d.properties[params.geo_property];});
         var title = feature.append("svg:title")
             .attr("class", "pathTitle")
@@ -178,13 +180,21 @@ export function colorMap(data, measure, layer){
 
 
     feature.attr("class", function (d) {
-        var val = _.find(data, function (x) {
-            return x[layerMap[layer].sim_name] == d.properties[layerMap[layer].geo_name];
-        })[measure];
+        var obj = _.find(data, function (x) {
+            if(x.hasOwnProperty(layerMap[layer].sim_name)){
+                return x[layerMap[layer].sim_name] == d.properties[layerMap[layer].geo_name];
+            }
+
+        });
+        var val;
+        if(obj){
+            val = obj[measure]
+        }
+
         try {
             return quantize(val) + " entity";
         } catch (e) {
-            return "empty";
+            return "entity";
         }
     });
 
