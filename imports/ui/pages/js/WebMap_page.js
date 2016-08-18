@@ -105,7 +105,8 @@ if(Meteor.isClient){
             $('#editor').animate({'left': '125%'}, 250);
 
         }, "click .entity": function(event, template){
-            var zoneId = event.target.id;
+            var id = event.target.id;
+            var zoneId = id.split('-')[1];
             var year = Session.get('selectedYear');
 
             findZoneData(zoneId, year);

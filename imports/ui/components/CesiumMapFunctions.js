@@ -111,7 +111,7 @@ if(Meteor.isClient){
                         viewer.entities.add({
                             polygon: {
                                 hierarchy: entity.polygon.hierarchy,
-                                material: new Cesium.Color(1,1,0,1)
+                                material: new Cesium.Color(1,1,0, .7)
                             }
                         });
                     }
@@ -119,7 +119,7 @@ if(Meteor.isClient){
                     viewer.entities.add({
                         polygon: {
                             hierarchy: entity.polygon.hierarchy,
-                            material: new Cesium.Color(1,1,0,1)
+                            material: new Cesium.Color(1,1,0, .7)
                         }
                     });
                 }
@@ -133,7 +133,7 @@ if(Meteor.isClient){
                     viewer.entities.add({
                         polygon: {
                             hierarchy: entity.polygon.hierarchy,
-                            material: new Cesium.Color(1,1,0,1)
+                            material: new Cesium.Color(1,1,0,1, .7)
                         }
                     });
                 }

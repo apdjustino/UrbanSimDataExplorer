@@ -31,7 +31,7 @@ export function drawMap(params){
             .enter()
             .append("path")
             .attr("class", params.geo_class)
-            .attr("id", function(d){return d.properties[params.geo_property];});
+            .attr("id", function(d){return "id-" + d.properties[params.geo_property];});
         var title = feature.append("svg:title")
             .attr("class", "pathTitle")
             .text(function(d){
