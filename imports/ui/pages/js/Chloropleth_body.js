@@ -145,6 +145,32 @@ if(Meteor.isClient){
                         this.stop();
                     }
                 });
+            }else{
+                Meteor.subscribe("uc_by_year", selectedYear, selectedVar, {
+                    onReady: function () {
+                        Session.set('spinning', false);
+                        var fieldObj = {};
+                        fieldObj[selectedVar] = 1;
+                        fieldObj['NAME'] = 1;
+                        var data = ucSummary.find({sim_year: selectedYear}, {sort: {NAME:1}}).fetch();
+                        if($('#queryDiff').prop('checked')){
+                            var baseData = ucSummary.find({sim_year: 2010}, {sort: {NAME:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
+
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                        }
+                        if(mapName == 'webMap'){
+                            colorMap(data, selectedVar, selectedLayer)
+                        }else{
+                            colorCesiumMap(data, selectedVar);
+                        }
+
+                        this.stop();
+                    }
+                });
             }
                 
 

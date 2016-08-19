@@ -4,6 +4,7 @@
 import {subscribeToZone} from '../../components/CesiumMapFunctions.js';
 import {subscribeToCity} from '../../components/CesiumMapFunctions.js';
 import {subscribeToCounty} from '../../components/CesiumMapFunctions.js';
+import {subscribeToUrbanCenter} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
     Template.ResultsControl_body.helpers({
@@ -60,6 +61,8 @@ if(Meteor.isClient){
                 subscribeToCity(year, entity);
             }else if(layerName == 'county_web'){
                 subscribeToCounty(year, entity);
+            }else{
+                subscribeToUrbanCenter(year, entity);
             }
 
         }

@@ -9,6 +9,7 @@ import { measureNameMap } from '../../../ui/components/Global_helpers.js';
 import {findZoneData} from '../../../ui/components/CesiumMapFunctions.js';
 import {findMuniData} from '../../../ui/components/CesiumMapFunctions.js';
 import {findCountyData} from '../../../ui/components/CesiumMapFunctions.js';
+import {findUrbanCenterData} from '../../../ui/components/CesiumMapFunctions.js';
 import {subscribeToZone} from '../../../ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
@@ -108,7 +109,7 @@ if(Meteor.isClient){
 
         }, "click .entity": function(event, template){
             var id = event.target.id;
-            var entityId = id.split('-')[1];
+            var entityId = id.split('.')[1];
             var year = Session.get('selectedYear');
             var layer = Session.get('selectedLayer');
             if(layer == 'zonesGeo'){
@@ -135,6 +136,12 @@ if(Meteor.isClient){
                 var selectedZoneArray = Session.get('selectedZone');
                 d3.selectAll(".entity").classed("selected", function(d){
                     return ($.inArray(d.properties['COUNTY'], selectedZoneArray) !== -1);
+                });
+            }else{
+                findUrbanCenterData(entityId, year);
+                var selectedZoneArray = Session.get('selectedZone');
+                d3.selectAll(".entity").classed("selected", function(d){
+                    return ($.inArray(d.properties['NAME'], selectedZoneArray) !== -1);
                 });
             }
 

@@ -5,6 +5,7 @@ import {drawMap} from '../../../startup/client/mapFunctions.js';
 import {setCityClickEvents} from '../../components/CesiumMapFunctions.js';
 import {setZoneClickEvents} from '../../components/CesiumMapFunctions.js';
 import {setCountyClickEvents} from '../../components/CesiumMapFunctions.js';
+import {setUrbanCenterClickEvents} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
 
     Template.LayersMenu_body.events({
@@ -74,6 +75,8 @@ if(Meteor.isClient){
                             setCityClickEvents();
                         }else if(layer == 'county_web'){
                             setCountyClickEvents();
+                        }else{
+                            setUrbanCenterClickEvents();
                         }
 
                     }).otherwise(function(error){

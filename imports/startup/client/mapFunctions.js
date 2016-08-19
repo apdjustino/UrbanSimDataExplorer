@@ -27,13 +27,15 @@ export function drawMap(params){
         var transform = d3.geo.transform({point: projectPoint});
         var path = d3.geo.path().projection(transform);
 
-
+        var selectedLayer = Session.get('selectedLayer');
         var feature = g.selectAll(params.geo_property)
             .data(shape.features)
             .enter()
             .append("path")
             .attr("class", "entity")
-            .attr("id", function(d){return "id-" + d.properties[params.geo_property];});
+            .attr("id", function(d){
+                return "id." + d.properties[params.geo_property];
+            });
         var title = feature.append("svg:title")
             .attr("class", "pathTitle")
             .text(function(d){
@@ -162,7 +164,7 @@ export function colorMap(data, measure, layer){
         zonesGeo: {sim_name:'zone_id', geo_name: 'ZONE_ID'},
         county_web: {sim_name:'county_name', geo_name: 'COUNTY'},
         municipalities: {sim_name: 'city_name', geo_name: 'CITY'},
-        urban_cen: {sim_name: 'NAME', geo_name: 'NAME'}
+        urban_centers: {sim_name: 'NAME', geo_name: 'NAME'}
     };
 
     var max = _.max(data, function (x) {
