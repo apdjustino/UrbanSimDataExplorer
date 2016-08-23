@@ -10,16 +10,25 @@
                     <input type="checkbox" id="showLegend">
                     <label for="showLegend">Display Legend</label>
                 </li>
-                <li>
-                    {{#if isInRole 'admin'}}
+                {{#if isInRole 'admin'}}
+                    <li>
                         <input type="checkbox" id="showCommentZones">
                         <label for="showCommentZones">Show Areas w/Comments</label>
-                    {{/if}}
-                    {{#if isInRole 'drcog'}}
+                    </li>
+                {{#if is3dMap}}
+                    <li>
+                        <input type="checkbox" id="showBuildings">
+                        <label for="showBuildings">Show Buildings on Select</label>
+                    </li>
+                {{/if}}
+                {{/if}}
+                {{#if isInRole 'drcog'}}
+                    <li>
                         <input type="checkbox" id="showCommentZones">
                         <label for="showCommentZones">Show Areas w/Comments</label>
-                    {{/if}}
-                </li>
+                    </li>
+
+                {{/if}}
                 <li>
                     <a id="btnReset" class="btn waves-effect waves-light" href="#">Reset Map</a>
                 </li>

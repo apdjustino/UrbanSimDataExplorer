@@ -3,6 +3,17 @@
  */
 if(Meteor.isClient){
 
+    Template.OptionsControl_body.helpers({
+        is3dMap: function(){
+            var mapName = FlowRouter.getRouteName();
+            if(mapName != 'webMap'){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    });
+
     Template.OptionsControl_body.events({
         "change #chkMultiple": function(){
             if(event.target.checked){
@@ -76,13 +87,11 @@ if(Meteor.isClient){
                     viewer.entities.removeAll();
                 }
             }
-
-            if(event.target.checked){
-
-            }else{
-
-            }
+        }, "click #showBuildings": function(event, target){
+            Session.set('showBuildings', event.target.checked);
         }
     })
+
+
 
 }
