@@ -133,7 +133,7 @@ if(Meteor.isClient){
         });
 
     });
-
+    handler = undefined;
     Template.CesiumMap_page.onRendered(function(){
         Session.set('selectedLayer', 'zonesGeo');
         Session.set('selectedYear', 2010);

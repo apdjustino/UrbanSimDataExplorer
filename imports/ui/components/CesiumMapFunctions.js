@@ -91,6 +91,7 @@ if(Meteor.isClient){
     zoneComments = undefined;
     export function setZoneClickEvents() {
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         handler.setInputAction(function(click){
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
@@ -176,33 +177,40 @@ if(Meteor.isClient){
 
 
             var year = Session.get('selectedYear');
-            if(Session.equals('allowMultipleGeo', false)){
+            if(Session.equals('allowMultipleGeo', false) && Session.equals('selectedLayer', 'zonesGeo')){
                 viewer.camera.flyTo({
                     destination: Cesium.Cartesian3.fromDegrees(entity.properties.Long, entity.properties.Lat - .0005, 3200),
                     duration: 2,
                     complete: function(){
-                        findZoneData(zoneId, year);
-                        if(zoneComments){
-                            zoneComments.stop();
-                            zoneComments = Meteor.subscribe('commentsByZone', year);
-                        }else{
-                            zoneComments = Meteor.subscribe('commentsByZone', year);
+                        if(Session.equals('selectedLayer', 'zonesGeo')){
+                            findZoneData(zoneId, year);
+                            if(zoneComments){
+                                zoneComments.stop();
+                                zoneComments = Meteor.subscribe('commentsByZone', year);
+                            }else{
+                                zoneComments = Meteor.subscribe('commentsByZone', year);
+                            }
                         }
+                        
                     }
                 });
             }else{
-                findZoneData(zoneId, year);
-                if(zoneComments){
-                    zoneComments.stop();
-                    zoneComments = Meteor.subscribe('commentsByZone', year);
-                }else{
-                    zoneComments = Meteor.subscribe('commentsByZone', year);
+                if(Session.equals('selectedLayer', 'zonesGeo')){
+                    findZoneData(zoneId, year);
+                    if(zoneComments){
+                        zoneComments.stop();
+                        zoneComments = Meteor.subscribe('commentsByZone', year);
+                    }else{
+                        zoneComments = Meteor.subscribe('commentsByZone', year);
+                    }
                 }
+                
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
     export function setCityClickEvents(){
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         handler.setInputAction(function(click){
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
@@ -251,7 +259,10 @@ if(Meteor.isClient){
             }
 
             var year = Session.get('selectedYear');
-            findMuniData(city_name, year);
+            if(Session.equals('selectedLayer', 'municipalities')){
+                findMuniData(city_name, year);
+            }
+            
             // if(zoneComments){
             //     zoneComments.stop();
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
@@ -264,6 +275,7 @@ if(Meteor.isClient){
     }
     export function setCountyClickEvents(){
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         handler.setInputAction(function(click){
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
@@ -312,7 +324,10 @@ if(Meteor.isClient){
             }
 
             var year = Session.get('selectedYear');
-            findCountyData(county_name, year);
+            if(Session.equals('selectedLayer', 'county_web')){
+                findCountyData(county_name, year);
+            }
+            
             // if(zoneComments){
             //     zoneComments.stop();
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
@@ -325,21 +340,61 @@ if(Meteor.isClient){
     }
     export function setUrbanCenterClickEvents(){
         var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
+        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         handler.setInputAction(function(click){
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
             var NAME = entity.properties.NAME;
-
-
             var selectedZones = Session.get('selectedZone');
 
-            //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
-            //it accounts for if the chloropleth is active
-            if(Session.equals('allowMultipleGeo', false)){
-                if(selectedZones.length > 0){
-                    viewer.entities.removeAll();
+            if(Session.equals('showBuildings', true)){
+                Meteor.call('findBuildingsInUc', NAME, function(error, response){
+                    if(error){
+                        Materialize.toast(error.reason, 4000);
+                    }else{
+                        var source = new Cesium.GeoJsonDataSource('src-'+ NAME);
+                        if(Session.equals('allowMultipleGeo', false)){
+                            if(selectedZones.length > 0){
+                                viewer.dataSources.remove(viewer.dataSources.get(1), false);
+                                if(NAME != selectedZones[0]){
+                                    viewer.dataSources.add(source);
+                                    addSource(source, response);
+                                }
+                            }else{
+                                viewer.dataSources.add(source);
+                                addSource(source, response);
+                            }
+                        }else{
+                            if(_.contains(selectedZones, NAME)){
+                                viewer.dataSources._dataSources.forEach(function(src, idx){
+                                    if(src._name.split('-')[1] == NAME.toString()){
+                                        viewer.dataSources.remove(viewer.dataSources.get(idx), true);
+                                    }
+                                });
+                            }else{
+                                viewer.dataSources.add(source);
+                                addSource(source, response);
+                            }
+                        }
 
-                    if(NAME != selectedZones[0]){
+                    }
+                });
+            }else{
+                //this block of code deals with setting the color of the clicked zone and the color of the unclicked zone
+                //it accounts for if the chloropleth is active
+                if(Session.equals('allowMultipleGeo', false)){
+                    if(selectedZones.length > 0){
+                        viewer.entities.removeAll();
+
+                        if(NAME != selectedZones[0]){
+                            viewer.entities.add({
+                                polygon: {
+                                    hierarchy: entity.polygon.hierarchy,
+                                    material: new Cesium.Color(1,1,0, .7)
+                                }
+                            });
+                        }
+                    }else{
                         viewer.entities.add({
                             polygon: {
                                 hierarchy: entity.polygon.hierarchy,
@@ -347,41 +402,42 @@ if(Meteor.isClient){
                             }
                         });
                     }
-                }else{
-                    viewer.entities.add({
-                        polygon: {
-                            hierarchy: entity.polygon.hierarchy,
-                            material: new Cesium.Color(1,1,0, .7)
-                        }
-                    });
-                }
 
-            }else{
-                if(_.contains(selectedZones, NAME)){
-                    var drillPick = viewer.scene.drillPick(click.position);
-                    var topEntity = drillPick[drillPick.length -1].id;
-                    viewer.entities.remove(topEntity);
                 }else{
-                    viewer.entities.add({
-                        polygon: {
-                            hierarchy: entity.polygon.hierarchy,
-                            material: new Cesium.Color(1,1,0,1, .7)
-                        }
-                    });
-                }
+                    if(_.contains(selectedZones, NAME)){
+                        var drillPick = viewer.scene.drillPick(click.position);
+                        var topEntity = drillPick[drillPick.length -1].id;
+                        viewer.entities.remove(topEntity);
+                    }else{
+                        viewer.entities.add({
+                            polygon: {
+                                hierarchy: entity.polygon.hierarchy,
+                                material: new Cesium.Color(1,1,0,1, .7)
+                            }
+                        });
+                    }
 
+                }
             }
 
+
+
+
+
+
             var year = Session.get('selectedYear');
-            findUrbanCenterData(NAME, year);
+            
+            if(Session.equals('selectedLayer', 'urban_centers')){
+                findUrbanCenterData(NAME, year);
+            }
+            
             // if(zoneComments){
             //     zoneComments.stop();
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
             // }else{
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
             // }
-
-
+            
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
 
