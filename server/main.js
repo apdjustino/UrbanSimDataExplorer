@@ -3,7 +3,6 @@
  */
 import '../imports/api/zoneData/publications.js';
 import '../imports/api/users/publications.js';
-import '../imports/api/zoneGeoData/publications.js';
 import '../imports/api/countyData/publications.js';
 import '../imports/api/comments/publications.js';
 import '../imports/api/buildings/publications.js';
@@ -39,13 +38,10 @@ if(Meteor.isServer){
 
         //set index for buildings and buildings centroid collection
         //buildings_centroids._ensureIndex({'geometry.coordinates': '2dsphere'});
-        buildings_centroids._ensureIndex({'geometry': '2dsphere'});
+
         buildings._ensureIndex({'properties.zone_id': 1});
         buildings._ensureIndex({'properties.urban_cent': 1});
-        parcels_centroids._ensureIndex({'geometry': '2dsphere'});
         parcels._ensureIndex({'properties.parcel_id': 1});
-        urbansim_buildings._ensureIndex({'plan_id':1});
-        urbansim_parcels._ensureIndex({'parcel_id':1});
         
     });
 }
