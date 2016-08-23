@@ -40,7 +40,8 @@ if(Meteor.isServer){
         //set index for buildings and buildings centroid collection
         //buildings_centroids._ensureIndex({'geometry.coordinates': '2dsphere'});
         buildings_centroids._ensureIndex({'geometry': '2dsphere'});
-        buildings._ensureIndex({'properties.Building_I': 1});
+        buildings._ensureIndex({'properties.zone_id': 1});
+        buildings._ensureIndex({'properties.urban_cent': 1});
         parcels_centroids._ensureIndex({'geometry': '2dsphere'});
         parcels._ensureIndex({'properties.parcel_id': 1});
         urbansim_buildings._ensureIndex({'plan_id':1});
