@@ -22,7 +22,12 @@ if(Meteor.isServer){
     });
     
     Meteor.publish('grouped_counties', function(counties){
-        check(counties, [String]);
+        try{
+            check(counties, [String]);    
+        }catch(e){
+            //do nothing
+        }
+        
         var thisUser = Meteor.users.findOne({_id:this.userId});
 
 

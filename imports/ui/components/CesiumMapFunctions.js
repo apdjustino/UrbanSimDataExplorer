@@ -3,7 +3,7 @@
  */
 import {getDataFields} from '../components/Global_helpers.js';
 if(Meteor.isClient){
-    
+    hand = undefined;
     export function loadCesiumMap() {
         Session.set('spinning', true);
         var west = -105.5347;
@@ -83,16 +83,16 @@ if(Meteor.isClient){
             window.alert(error);
         });
 
-
+        hand = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         setZoneClickEvents();
         
     }
 
     zoneComments = undefined;
     export function setZoneClickEvents() {
-        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        handler.setInputAction(function(click){
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        hand.setInputAction(function(click){
+
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
             var zoneId = entity.properties.ZONE_ID;
@@ -171,11 +171,6 @@ if(Meteor.isClient){
                 }
             }
 
-
-
-
-
-
             var year = Session.get('selectedYear');
             if(Session.equals('allowMultipleGeo', false) && Session.equals('selectedLayer', 'zonesGeo')){
                 viewer.camera.flyTo({
@@ -195,23 +190,20 @@ if(Meteor.isClient){
                     }
                 });
             }else{
-                if(Session.equals('selectedLayer', 'zonesGeo')){
-                    findZoneData(zoneId, year);
-                    if(zoneComments){
-                        zoneComments.stop();
-                        zoneComments = Meteor.subscribe('commentsByZone', year);
-                    }else{
-                        zoneComments = Meteor.subscribe('commentsByZone', year);
-                    }
+                findZoneData(zoneId, year);
+                if(zoneComments){
+                    zoneComments.stop();
+                    zoneComments = Meteor.subscribe('commentsByZone', year);
+                }else{
+                    zoneComments = Meteor.subscribe('commentsByZone', year);
                 }
-                
             }
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
     export function setCityClickEvents(){
-        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        handler.setInputAction(function(click){
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        hand.setInputAction(function(click){
+
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
             var city_name = entity.properties.CITY;
@@ -259,10 +251,10 @@ if(Meteor.isClient){
             }
 
             var year = Session.get('selectedYear');
-            if(Session.equals('selectedLayer', 'municipalities')){
-                findMuniData(city_name, year);
-            }
-            
+
+            findMuniData(city_name, year);
+
+
             // if(zoneComments){
             //     zoneComments.stop();
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
@@ -271,12 +263,14 @@ if(Meteor.isClient){
             // }
 
 
+
+
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
     export function setCountyClickEvents(){
-        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        handler.setInputAction(function(click){
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        hand.setInputAction(function(click){
+
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
             var county_name = entity.properties.COUNTY;
@@ -324,10 +318,9 @@ if(Meteor.isClient){
             }
 
             var year = Session.get('selectedYear');
-            if(Session.equals('selectedLayer', 'county_web')){
-                findCountyData(county_name, year);
-            }
-            
+
+            findCountyData(county_name, year);
+
             // if(zoneComments){
             //     zoneComments.stop();
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
@@ -336,12 +329,14 @@ if(Meteor.isClient){
             // }
 
 
+
+
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
     export function setUrbanCenterClickEvents(){
-        var handler = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
-        handler.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
-        handler.setInputAction(function(click){
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        hand.setInputAction(function(click){
+
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
             var NAME = entity.properties.NAME;
@@ -426,18 +421,16 @@ if(Meteor.isClient){
 
 
             var year = Session.get('selectedYear');
-            
-            if(Session.equals('selectedLayer', 'urban_centers')){
-                findUrbanCenterData(NAME, year);
-            }
-            
+            findUrbanCenterData(NAME, year);
+
+
             // if(zoneComments){
             //     zoneComments.stop();
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
             // }else{
             //     zoneComments = Meteor.subscribe('commentsByZone', year);
             // }
-            
+
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }
 

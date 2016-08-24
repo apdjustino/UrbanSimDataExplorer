@@ -7,7 +7,14 @@
 import { check } from 'meteor/check';
 if(Meteor.isServer){
     Meteor.publish('grouped_urban_centers', function(uc){
-        check(uc, [String]);
+
+        try{
+            check(uc, [String]);
+        }catch(e){
+            //do nothing
+        }
+
+
         var fields;
         var thisUser = Meteor.users.findOne({_id:this.userId});
 

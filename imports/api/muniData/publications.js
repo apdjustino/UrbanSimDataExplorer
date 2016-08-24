@@ -4,7 +4,12 @@
 import { check } from 'meteor/check';
 if(Meteor.isServer){
     Meteor.publish('grouped_cities', function(city){
-        check(city, [String]);
+        try{
+            check(city, [String]);
+        }catch(e){
+            //do nothing
+        }
+        
         var fields;
         var thisUser = Meteor.users.findOne({_id:this.userId});
 
