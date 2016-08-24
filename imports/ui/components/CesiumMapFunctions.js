@@ -95,6 +95,7 @@ if(Meteor.isClient){
 
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
+            console.log(entity)
             var zoneId = entity.properties.ZONE_ID;
             var selectedZones = Session.get('selectedZone');
 
@@ -107,6 +108,7 @@ if(Meteor.isClient){
                         var source = new Cesium.GeoJsonDataSource('src-'+ zoneId);
                         if(Session.equals('allowMultipleGeo', false)){
                             if(selectedZones.length > 0){
+                                Session.set('spinning', false);
                                 viewer.dataSources.remove(viewer.dataSources.get(1), false);
                                 if(zoneId != selectedZones[0]){
                                     viewer.dataSources.add(source);
@@ -119,6 +121,7 @@ if(Meteor.isClient){
                         }else{
                             if(_.contains(selectedZones, zoneId)){
                                 viewer.dataSources._dataSources.forEach(function(src, idx){
+                                    Session.set('spinning', false);
                                     if(src._name.split('-')[1] == zoneId.toString()){
                                         viewer.dataSources.remove(viewer.dataSources.get(idx), true);
                                     }
