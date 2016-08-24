@@ -157,7 +157,11 @@ function measureNameMap(abv){
         non_res_price_diff: "Non-Res Price",
         sim_density_zone: "Zonal Density",
         building_count: "Building Count",
-        base_year_building_count: "Building Count"
+        base_year_building_count: "Building Count",
+        building_1: "Land Use Type",
+        residentia: "Residential Units",
+        non_reside: "Non Residential Sqft",
+        bldg_sq_ft: "Total Bldg Sqft"
     };
     return measureNames[abv];
 };

@@ -95,7 +95,31 @@ if(Meteor.isClient){
 
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
-            console.log(entity)
+            if(entity.properties.hasOwnProperty('Building_I')){
+
+                var dataSource = viewer.dataSources.get(viewer.dataSources.length - 1);
+                dataSource.entities.values.forEach(function(cv){
+                    cv.polygon.material = Cesium.Color.BURLYWOOD;
+                    cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                });
+
+                entity.polygon.material = Cesium.Color.BLUE;
+                entity.polygon.outlineColor = Cesium.Color.BLUE;
+                var resultData = [
+                    {measure: 'pop_sim', value: entity.properties.pop_sim, diff: 0},
+                    {measure: 'hh_sim', value: entity.properties.hh_sim, diff: 0},
+                    {measure: 'emp_sim', value: entity.properties.emp_sim, diff: 0},
+                    {measure: 'building_1', value: entity.properties.building_1, diff:0},
+                    {measure: 'residentia', value: entity.properties.residentia, diff:0},
+                    {measure: 'non_reside', value: entity.properties.non_reside, diff:0},
+                    {measure: 'bldg_sq_ft', vlaue: entity.properties.bldg_sq_ft, diff: 0}
+                ];
+                var selectedData = Session.get('selectedData');
+                selectedData.oneYear = resultData;
+                Session.set('selectedData', selectedData);
+                Session.set('oldEntityId', entity.id);
+                return;
+            }
             var zoneId = entity.properties.ZONE_ID;
             var selectedZones = Session.get('selectedZone');
 
@@ -343,6 +367,31 @@ if(Meteor.isClient){
 
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
+            if(entity.properties.hasOwnProperty('Building_I')){
+
+                var dataSource = viewer.dataSources.get(viewer.dataSources.length - 1);
+                dataSource.entities.values.forEach(function(cv){
+                    cv.polygon.material = Cesium.Color.BURLYWOOD;
+                    cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                });
+
+                entity.polygon.material = Cesium.Color.BLUE;
+                entity.polygon.outlineColor = Cesium.Color.BLUE;
+                var resultData = [
+                    {measure: 'pop_sim', value: entity.properties.pop_sim, diff: 0},
+                    {measure: 'hh_sim', value: entity.properties.hh_sim, diff: 0},
+                    {measure: 'emp_sim', value: entity.properties.emp_sim, diff: 0},
+                    {measure: 'building_1', value: entity.properties.building_1, diff:0},
+                    {measure: 'residentia', value: entity.properties.residentia, diff:0},
+                    {measure: 'non_reside', value: entity.properties.non_reside, diff:0},
+                    {measure: 'bldg_sq_ft', vlaue: entity.properties.bldg_sq_ft, diff: 0}
+                ];
+                var selectedData = Session.get('selectedData');
+                selectedData.oneYear = resultData;
+                Session.set('selectedData', selectedData);
+                Session.set('oldEntityId', entity.id);
+                return;
+            }
             var NAME = entity.properties.NAME;
             var selectedZones = Session.get('selectedZone');
 
@@ -355,6 +404,7 @@ if(Meteor.isClient){
                         var source = new Cesium.GeoJsonDataSource('src-'+ NAME);
                         if(Session.equals('allowMultipleGeo', false)){
                             if(selectedZones.length > 0){
+                                Session.set('spinning', false);
                                 viewer.dataSources.remove(viewer.dataSources.get(1), false);
                                 if(NAME != selectedZones[0]){
                                     viewer.dataSources.add(source);
@@ -367,6 +417,7 @@ if(Meteor.isClient){
                         }else{
                             if(_.contains(selectedZones, NAME)){
                                 viewer.dataSources._dataSources.forEach(function(src, idx){
+                                    Session.set('spinning', false);
                                     if(src._name.split('-')[1] == NAME.toString()){
                                         viewer.dataSources.remove(viewer.dataSources.get(idx), true);
                                     }
