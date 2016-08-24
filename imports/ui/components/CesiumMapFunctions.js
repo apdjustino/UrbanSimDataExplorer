@@ -99,6 +99,7 @@ if(Meteor.isClient){
             var selectedZones = Session.get('selectedZone');
 
             if(Session.equals('showBuildings', true)){
+                Session.set('spinning', true);
                 Meteor.call('findBuldingsInZone', zoneId, function(error, response){
                     if(error){
                         Materialize.toast(error.reason, 4000);
@@ -343,6 +344,7 @@ if(Meteor.isClient){
             var selectedZones = Session.get('selectedZone');
 
             if(Session.equals('showBuildings', true)){
+                Session.set('spinning', true);
                 Meteor.call('findBuildingsInUc', NAME, function(error, response){
                     if(error){
                         Materialize.toast(error.reason, 4000);
@@ -1013,6 +1015,7 @@ if(Meteor.isClient){
             entity.polygon.material = Cesium.Color.BURLYWOOD;
             entity.polygon.outlineColor = Cesium.Color.BURLYWOOD;
         }
+        Session.set('spinning', false);
     }
     
 
