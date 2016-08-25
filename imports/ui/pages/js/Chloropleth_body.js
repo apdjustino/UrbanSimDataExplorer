@@ -2,6 +2,8 @@
  * Created by jmartinez on 8/8/16.
  */
 import {colorCesiumMap} from '../../components/CesiumMapFunctions.js';
+import {colorBuildings} from '../../components/CesiumMapFunctions.js';
+import {resetBuildings} from '../../components/CesiumMapFunctions.js';
 import {subscribeToZone} from '../../components/CesiumMapFunctions.js';
 import {colorMap} from '../../../startup/client/mapFunctions.js';
 if(Meteor.isClient){
@@ -186,6 +188,15 @@ if(Meteor.isClient){
                 subscribeToZone(year, zone);
             }
 
+        }, "click #styleBuildings": function(event, template){
+            var mapName = FlowRouter.getRouteName();
+            if(mapName = '3dmap'){
+                if(event.target.checked){
+                    colorBuildings();
+                }else{
+                    resetBuildings();
+                }
+            }
         }
     })
     

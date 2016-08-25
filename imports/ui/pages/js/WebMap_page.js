@@ -27,18 +27,6 @@ if(Meteor.isClient){
             return Template.instance().buildingData.get();
         }, commentMeasure: function(){
             return Session.get('commentMeasure');
-        }, CommentModal_args: function(){
-            var selectedYear = parseInt($('#yearSelectZone option:selected').val());
-            var selectedZones = Session.get('selectedZone');
-            var measure = Session.get('commentMeasure');
-            
-            return {
-                modalId: 'commentModal',
-                bodyTemplate: 'CommentModal_body',
-                modalTitle: selectedYear + ' ' + measureNameMap(measure) + ' Comments for Zone(s): ' + selectedZones,
-                modalData: {measure: measure, year: selectedYear, zone:selectedZones}
-            }
-            
         }, selectedLayer: function(){
             var layer = Session.get('selectedLayer');
             var layerMap = {
@@ -53,7 +41,7 @@ if(Meteor.isClient){
             return {
                 type: "accordion",
                 data: [
-                    {icon: "dashboard", headerText: "Chloropleth", active: "", body: "Chloropleth_body", bodyData: undefined},
+                    {icon: "dashboard", headerText: "Style Map", active: "", body: "Chloropleth_body", bodyData: undefined},
                     {icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
                     {icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
                     {icon: "view_list", headerText: "Results", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}

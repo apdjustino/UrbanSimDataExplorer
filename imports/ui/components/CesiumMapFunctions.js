@@ -1056,6 +1056,57 @@ if(Meteor.isClient){
 
     }
 
+    export function colorBuildings(){
+
+        var buildingColors = {
+            single_family_residential: "#D99937",
+            condo: "#A22E3B",
+            apartment: "#E95D22",
+            townhome: "#4490AF",
+            mobile_home: "#626262",
+            retail: "#1D4E89",
+            warehousing: "#FBC254",
+            agriculture: "#DECDBF",
+            office: "#739B4E",
+            "quasi-public": "#9D8169",
+            industrial: "#9E61B0",
+            restaurant: "#B5BF4F",
+            school: "#CF5D6B",
+            recreation: "#4CAF50",
+            parking: "#5F5F5F",
+            tcu: "F66CA8",
+            "mixed use with residential": "#753D16",
+            mixed_use: "#8AD9DE",
+            hospital: "#1655AC",
+            group_quarters: "#EBC76C",
+            lodging: "#513D27",
+            casino: "#59F2A7",
+            military: "#0C0202"
+        };
+
+        for(i=1; i<viewer.dataSources.length; i++){
+            //start at index 1 because index 0 is going to be the polygon shapes of the layer
+            var dataSource = viewer.dataSources.get(i);
+            dataSource.entities.values.forEach(function(cv){
+                var building_type = cv.properties.building_1;
+                var color =buildingColors[building_type];
+                cv.polygon.material = Cesium.Color.fromCssColorString(color);
+                cv.polygon.outlineColor = Cesium.Color.fromCssColorString(color);
+            });
+        }
+    }
+
+    export function resetBuildings(){
+        for(i=1; i<viewer.dataSources.length; i++){
+            //start at index 1 because index 0 is going to be the polygon shapes of the layer
+            var dataSource = viewer.dataSources.get(i);
+            dataSource.entities.values.forEach(function(cv){
+                cv.polygon.material = Cesium.Color.BURLYWOOD;
+                cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+            });
+        }
+    }
+
     function addSource(source, response){
         source.load({
             type: "FeatureCollection",
