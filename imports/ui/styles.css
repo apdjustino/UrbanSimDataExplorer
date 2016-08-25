@@ -14,10 +14,12 @@ html, body, #container{
 
 #mapContainer{
     height: 93vh;
+    width: 100vw;
 }
 
 #cesiumContainer{
     height: 92vh;
+    width: 100vw;;
     overflow:hidden !important;
 }
 
@@ -437,7 +439,7 @@ input.commentChk{
 .chartsContainer {
     z-index: 10000;
     position: relative;
-    width: 100% !important;
+
     border-top: 2px solid;
     background-color: #fff;
 

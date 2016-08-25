@@ -3,8 +3,8 @@
         <div class="col s4 m4 l4" id="sidebar" style="overflow: auto;">
             <h5>{{selectedLayer}}</h5>
             {{>Material_collapsible (Options_args)}}
-            <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><span class="glyphicon glyphicon-chevron-left"></span></a>
         </div>
+        <a href="#" class="toggle btn btn-default"><i class="large material-icons">chevron_left</i></a>
         <div class="col s8 m8 l8">
             <div id="mapContainer">
 
@@ -26,5 +26,16 @@
             </div>
         </div>
     </div>
+    <div style="position:absolute; top:70px; left:82%; border: solid 1px black; background-color: white; height:30px; border-radius:25px; padding-left: 5px; padding-right: 2px;">
+        <div class="switch">
+            <label>
+                MapBox Streets
+                <input type="checkbox" id="chkSatellite">
+                <span class="lever"></span>
+                MapBox Satellite
+            </label>
+        </div>
+    </div>
+
     {{>Material_modal (CommentModal_args)}}
 </template>

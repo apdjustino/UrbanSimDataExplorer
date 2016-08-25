@@ -148,6 +148,30 @@ if(Meteor.isClient){
             
 
 
+        }, "click #chkSatellite": function(event, template){
+            if(event.target.checked){
+                map.eachLayer(function(layer){
+                    map.removeLayer(layer);
+                });
+                var imagery = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    subdomains: 'abcd',
+                    id: 'mapbox.streets-satellite',
+                    accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
+                });
+                map.addLayer(imagery);
+            }else{
+                map.eachLayer(function(layer){
+                    map.removeLayer(layer);
+                });
+                var streets = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+                    attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                    subdomains: 'abcd',
+                    id: 'mapbox.outdoors',
+                    accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
+                });
+                map.addLayer(streets);
+            }
         }
 
     });

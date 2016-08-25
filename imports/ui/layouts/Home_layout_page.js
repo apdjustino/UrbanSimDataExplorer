@@ -14,8 +14,8 @@ if(Meteor.isClient){
             Meteor.logout();
         }, "click .toggle": function(event, template){
             event.preventDefault();
-            $('#mapContainer').toggleClass('col-sm-8 col-lg-8 col-sm-12 col-lg-12');
-            $('a.toggle span').toggleClass('glyphicon-chevron-left glyphicon-chevron-right');
+            // $('#mapContainer').toggleClass('col-sm-8 col-lg-8 col-sm-12 col-lg-12');
+            // $('a.toggle span').toggleClass('glyphicon-chevron-left glyphicon-chevron-right');
             $('#sidebar').toggle();
         }
     });

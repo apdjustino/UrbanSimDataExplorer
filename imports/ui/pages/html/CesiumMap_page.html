@@ -4,12 +4,10 @@
         <div class="col s4 m4 l4" id="sidebar" style="overflow: auto;">
             <h5>{{selectedLayer}}</h5>
             {{>Material_collapsible (Options_args)}}
-            <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><span class="glyphicon glyphicon-chevron-left"></span></a>
         </div>
+        <a href="#" class="toggle btn btn-default"><i class="large material-icons">chevron_left</i></a>
         <div class="col s8 m8 l8">
-            <div id="cesiumContainer">
-
-            </div>
+            <div id="cesiumContainer"></div>
             <div id="chartsContainer" class="chartsContainer">
                 <button id="toggleCharts" title="Open/close the charts panel.">Charts & Statistics</button>
                 <div class="row">

@@ -90,18 +90,23 @@ if(Meteor.isClient){
 
     zoneComments = undefined;
     export function setZoneClickEvents() {
+        //remove existing input action function from the global handler
         hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         hand.setInputAction(function(click){
 
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
+            //check if building is being clicked
             if(entity.properties.hasOwnProperty('Building_I')){
 
-                var dataSource = viewer.dataSources.get(viewer.dataSources.length - 1);
-                dataSource.entities.values.forEach(function(cv){
-                    cv.polygon.material = Cesium.Color.BURLYWOOD;
-                    cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
-                });
+                for(i=1; i<viewer.dataSources.length; i++){
+                    //start at index 1 because index 0 is going to be the polygon shapes of the layer
+                    var dataSource = viewer.dataSources.get(i);
+                    dataSource.entities.values.forEach(function(cv){
+                        cv.polygon.material = Cesium.Color.BURLYWOOD;
+                        cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                    });
+                }
 
                 entity.polygon.material = Cesium.Color.BLUE;
                 entity.polygon.outlineColor = Cesium.Color.BLUE;
