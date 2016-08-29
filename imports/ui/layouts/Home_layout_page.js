@@ -16,6 +16,12 @@ if(Meteor.isClient){
             event.preventDefault();
             // $('#mapContainer').toggleClass('col-sm-8 col-lg-8 col-sm-12 col-lg-12');
             // $('a.toggle span').toggleClass('glyphicon-chevron-left glyphicon-chevron-right');
+            var cesiumWidth = $('#cesiumContainer').width();
+            if(width < 1440){
+               d3.select('#cesiumContainer').style('width', '100vh')
+            }else{
+                d3.select('#cesiumContainer').style('width', '100%');
+            }
             $('#sidebar').toggle();
         }
     });

@@ -27,6 +27,7 @@ import '../../ui/components/html/Material_tabs.html';
 import '../../ui/components/Material_tabs.js';
 import '../../ui/components/html/Material_collapsible.html';
 import '../../ui/components/Material_collapsible.js';
+import '../../ui/components/html/map_legend.html';
 //import client layouts
 import '../../ui/layouts/Home_layout_page.html';
 import '../../ui/layouts/Home_layout_page.js';

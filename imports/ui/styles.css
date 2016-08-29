@@ -19,7 +19,7 @@ html, body, #container{
 
 #cesiumContainer{
     height: 92vh;
-    width: 100vw;;
+    width: 100%;
     overflow:hidden !important;
 }
 

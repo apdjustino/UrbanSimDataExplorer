@@ -56,6 +56,38 @@ if(Meteor.isClient){
                 label: "Variable",
                 selectData: data
             }
+        }, Legend_args: function(){
+            return {
+                categories: [
+                    {name: "Single Family", color: "#D99937"},
+                    {name: "Condo", color: "#A22E3B"},
+                    {name: "Apartment", color: "#E95D22"},
+                    {name: "Townhome", color: "#4490AF"},
+                    {name: "Mobile Home", color: "#626262"},
+                    {name: "Retail", color: "#1D4E89"},
+                    {name: "Warehousing", color: "#FBC254"},
+                    {name: "Agriculture", color: "#DECDBF"},
+                    {name: "Office", color: "#739B4E"},
+                    {name: "Quasi-public", color: "#9D8169"},
+                    {name: "Industrial", color: "#9E61B0"},
+                    {name: "Restaurant", color: "#B5BF4F"},
+                    {name: "School", color: "#CF5D6B"},
+                    {name: "Recreation", color: "#4CAF50"},
+                    {name: "Parking", color: "#5F5F5F"},
+                    {name: "Trans/Comm/Util", color: "#F66CA8"},
+                    {name: "Mixed Use w/Residential", color: "#753D16"},
+                    {name: "Mixed Use", color: "#8AD9DE"},
+                    {name: "Hospital", color: "#1655AC"},
+                    {name: "Group Quarters", color: "#EBC76C"},
+                    {name: "Lodging", color: "#513D27"},
+                    {name: "Casino", color: "#59F2A7"},
+                    {name: "Military", color: "#0C0202"}
+
+
+                ]
+            }
+        }, showLegend: function(){
+            return Session.get('showLegend');
         }
     });
 
@@ -192,8 +224,10 @@ if(Meteor.isClient){
             var mapName = FlowRouter.getRouteName();
             if(mapName = '3dmap'){
                 if(event.target.checked){
+                    Session.set('showLegend', true);
                     colorBuildings();
                 }else{
+                    Session.set('showLegend', false);
                     resetBuildings();
                 }
             }

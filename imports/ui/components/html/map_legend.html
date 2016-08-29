@@ -1,0 +1,18 @@
+<template name="map_legend">
+    <ul style="list-style: none;">
+        {{#each this.categories}}
+            <li>
+                <div class="row">
+                    <div class="col s6">
+                        <h6 class="left-align">{{this.name}}</h6>
+                    </div>
+                    <div class="col s6">
+                        <svg width="25" height="25">
+                            <rect width="25" height="25" style="fill:{{this.color}}; stroke-width:1px; stroke:{{this.color}};"></rect>
+                        </svg>
+                    </div>
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</template>

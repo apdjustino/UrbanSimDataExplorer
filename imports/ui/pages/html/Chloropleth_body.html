@@ -10,4 +10,7 @@
             <a href="#" id="btnQuery" class="btn waves-effect waves-light">Query</a>
         </div>
     </div>
+    {{#if showLegend}}
+        {{>map_legend (Legend_args)}}
+    {{/if}}
 </template>
