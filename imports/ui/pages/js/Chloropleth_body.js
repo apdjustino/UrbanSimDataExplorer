@@ -223,6 +223,7 @@ if(Meteor.isClient){
         }, "click #styleBuildings": function(event, template){
             var mapName = FlowRouter.getRouteName();
             if(mapName = '3dmap'){
+                Session.set('styleBuildings', event.target.checked);
                 if(event.target.checked){
                     Session.set('showLegend', true);
                     colorBuildings();

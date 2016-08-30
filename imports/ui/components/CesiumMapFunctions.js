@@ -1131,11 +1131,16 @@ if(Meteor.isClient){
             features: response
         });
         var entities = source.entities.values;
-        for(var i =0; i<entities.length; i++) {
-            var entity = entities[i];
-            entity.polygon.extrudedHeight = entity.properties.Bldg_Heigh / 3.2;
-            entity.polygon.material = Cesium.Color.BURLYWOOD;
-            entity.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+
+        if(Session.equals('styleBuildings',  true)){
+            colorBuildings();
+        }else{
+            for(var i =0; i<entities.length; i++) {
+                var entity = entities[i];
+                entity.polygon.extrudedHeight = entity.properties.Bldg_Heigh / 3.2;
+                entity.polygon.material = Cesium.Color.BURLYWOOD;
+                entity.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+            }
         }
         Session.set('spinning', false);
     }
