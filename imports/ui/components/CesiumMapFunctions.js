@@ -378,22 +378,27 @@ if(Meteor.isClient){
             var entity = pickedObject.id;
             if(entity.properties.hasOwnProperty('Building_I')){
 
-                var dataSource = viewer.dataSources.get(viewer.dataSources.length - 1);
-                dataSource.entities.values.forEach(function(cv){
-                    cv.polygon.material = Cesium.Color.BURLYWOOD;
-                    cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
-                });
+                for(i=1; i<viewer.dataSources.length; i++){
+                    //start at index 1 because index 0 is going to be the polygon shapes of the layer
+                    var dataSource = viewer.dataSources.get(i);
+                    dataSource.entities.values.forEach(function(cv){
+                        if(cv.properties._parcel_id == entity.properties._parcel_id){
+                            cv.polygon.material = Cesium.Color.BLUE;
+                            cv.polygon.outlineColor = Cesium.Color.BLUE;
+                        }else{
+                            cv.polygon.material = Cesium.Color.BURLYWOOD;
+                            cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                        }
 
-                entity.polygon.material = Cesium.Color.BLUE;
-                entity.polygon.outlineColor = Cesium.Color.BLUE;
+                    });
+                }
+
+
                 var resultData = [
-                    {measure: 'pop_sim', value: entity.properties.pop_sim, diff: 0},
-                    {measure: 'hh_sim', value: entity.properties.hh_sim, diff: 0},
-                    {measure: 'emp_sim', value: entity.properties.emp_sim, diff: 0},
-                    {measure: 'building_1', value: entity.properties.building_1, diff:0},
-                    {measure: 'residentia', value: entity.properties.residentia, diff:0},
-                    {measure: 'non_reside', value: entity.properties.non_reside, diff:0},
-                    {measure: 'bldg_sq_ft', vlaue: entity.properties.bldg_sq_ft, diff: 0}
+                    {measure: 'pop_sim', value: entity.properties._pop_sim, diff: 0},
+                    {measure: 'hh_sim', value: entity.properties._hh_sim, diff: 0},
+                    {measure: 'emp_sim', value: entity.properties._emp_sim, diff: 0},
+                    {measure: 'building_1', value: entity.properties._building_, diff:0}
                 ];
                 var selectedData = Session.get('selectedData');
                 selectedData.oneYear = resultData;
