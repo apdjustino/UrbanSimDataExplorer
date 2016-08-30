@@ -4,12 +4,7 @@
             <div class="col-lg-4"></div>
             <div class="col-lg-4">
                 <div class="form-group">
-                    <label for="userDropDown">User Email: </label>
-                    <select class="form-control" id="deleteUserSelect">
-                        {{#each users}}
-                            <option value="{{this._id}}">{{this.emails.[0].address}}</option>
-                        {{/each}}
-                    </select>
+                    {{>Material_select (DeleteUser_args)}}
                     <button class="btn btn-primary" id="btnDelete">Delete User</button>
                 </div>
             </div>

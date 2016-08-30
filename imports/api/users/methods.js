@@ -49,8 +49,11 @@ Meteor.methods({
             throw new Meteor.error("Not logged in!");
         }else{
             if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
-                Accounts.setPassword(userId, new_password);
-                return true;
+                if(Meteor.isServer){
+                    Accounts.setPassword(userId, new_password);
+                    return true;
+                }
+
             }
         }
     }, deleteUser: function(userId){
@@ -59,6 +62,7 @@ Meteor.methods({
         }else{
             if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
                 Meteor.users.remove({_id: userId});
+                return true
             }
         }
 

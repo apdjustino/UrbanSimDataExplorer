@@ -67,6 +67,18 @@ if(Meteor.isClient){
                 nodes: [
                     {template: "EditUserRole_page", data: undefined}
                 ]
+            }, changeUserPass: {
+                icon: "person",
+                title: "Change User Password",
+                nodes:[
+                    {template: "ChangePassword_page", data: undefined}
+                ]
+            }, deleteUser: {
+                icon: "person",
+                title: "Delete User",
+                nodes: [
+                    {template: "DeleteUser_page", data: undefined}
+                ]
             }
         };
 

@@ -6,6 +6,14 @@ if(Meteor.isClient){
     Template.ChangePassword_page.helpers({
         users: function(){
             return Meteor.users.find({}).fetch();
+        }, UserEmail_args: function(){
+            var users = Meteor.users.find({}).fetch();
+            return {
+                selectId: "userDropDownSelectPass",
+                selectData: users.map(function(user){
+                    return {name: user.emails[0].address, value: user._id}
+                }), label: "User Email"
+            }
         }
     });
 
@@ -15,7 +23,7 @@ if(Meteor.isClient){
             var userId = $('#userDropDownSelectPass option:selected').val();
             var new_password = $('#password2').val();
             Meteor.call("newPassword", userId, new_password, function(error, result){
-                sAlert.success("Password Changed.", {position: 'bottom'})
+                Materialize.toast("Password Changed.", 4000);
             })
         }
     });
