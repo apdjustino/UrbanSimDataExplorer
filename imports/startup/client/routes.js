@@ -107,6 +107,13 @@ FlowRouter.route('/enroll-account/:token', {
     }
 });
 
+FlowRouter.route('/reset-password/:token', {
+    name: 'resetPassword',
+    action: function(){
+        BlazeLayout.render('Blank_layout_page', {main:'SetPassword_page'})
+    }
+});
+
 FlowRouter.route('/map', {
     name: 'webMap',
     action: function(){

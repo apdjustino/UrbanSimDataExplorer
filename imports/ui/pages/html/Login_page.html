@@ -52,6 +52,7 @@
 
     {{>Modal_fade (Credentials_args)}}
     {{>Modal_fade (LoginModal_args)}}
+    {{>Material_modal (ResetPassword_args)}}
 </template>
 
 <template name="SignUp_body">
@@ -99,10 +100,35 @@
                 <label for="password" class="active">Password</label>
             </div>
         </div>
-        <input type="submit" id="submitLoginForm" class="btn" value="Login">
+        <div class="row">
+            <div class="col s4">
+                <input type="submit" id="submitLoginForm" class="btn" value="Login">
+            </div>
+            <div class="col s8">
+
+            </div>
+        </div>
+
+
     </form>
+    <input type="submit" id="resetPassword" class="btn" value="Reset Password" style="margin-left:10px;">
 
 
 
+</template>
 
+<template name="ResetPasswordModal_header">
+    <h5>Reset Password</h5>
+</template>
+
+<template name="ResetPasswordModal_body">
+    <form id="resetPasswordForm">
+        <div class="row valign-wrapper">
+            <div class="col s12 input-field">
+                <input type="email" id="emailPasswordReset" required>
+                <label for="emailPasswordReset">Enter email here to receive a reset password email</label>
+            </div>
+            <input type="submit" class="btn valign" value="Reset">
+        </div>
+    </form>
 </template>

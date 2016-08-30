@@ -92,5 +92,10 @@ Meteor.methods({
         }else{
             Meteor.users.update({_id: Meteor.userId()}, {$pull: {'profile.scenarios':{name: name}}});
         }
+    }, sendResetEmail: function(email){
+        if(Meteor.isServer){
+            var userId = Accounts.findUserByEmail(email)._id;
+            Accounts.sendResetPasswordEmail(userId);
+        }
     }
 });
