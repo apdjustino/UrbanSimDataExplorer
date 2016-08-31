@@ -1102,6 +1102,7 @@ if(Meteor.isClient){
                 if(color){
                     cv.polygon.material = Cesium.Color.fromCssColorString(color);
                     cv.polygon.outlineColor = Cesium.Color.fromCssColorString(color);
+                    cv.polygon.extrudedHeight = cv.properties.Bldg_Heigh / 3.2;
                 }
 
             });

@@ -118,6 +118,17 @@ if(Meteor.isClient){
     
     Template.registerHelper('selectedNavItem', function(){
         return Session.get('selectedNavItem');
+    });
+
+    Template.registerHelper('is3dMap', function(){
+
+        var mapName = FlowRouter.getRouteName();
+        if(mapName != 'webMap'){
+            return true;
+        }else{
+            return false;
+        }
+
     })
 
 }

@@ -4,14 +4,7 @@
 if(Meteor.isClient){
 
     Template.OptionsControl_body.helpers({
-        is3dMap: function(){
-            var mapName = FlowRouter.getRouteName();
-            if(mapName != 'webMap'){
-                return true;
-            }else{
-                return false;
-            }
-        }
+       
     });
 
     Template.OptionsControl_body.events({
