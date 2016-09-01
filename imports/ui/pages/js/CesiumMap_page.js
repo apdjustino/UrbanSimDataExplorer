@@ -125,6 +125,7 @@ if(Meteor.isClient){
     Template.CesiumMap_page.onRendered(function(){
         Session.set('selectedLayer', 'zonesGeo');
         Session.set('selectedYear', 2010);
+        Session.set('showBuildings', true);
         $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
             loadCesiumMap();
         })

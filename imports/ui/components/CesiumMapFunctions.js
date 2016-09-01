@@ -138,18 +138,47 @@ if(Meteor.isClient){
                     if(error){
                         Materialize.toast(error.reason, 4000);
                     }else{
+                        var year = Session.get('selectedYear');
                         var source = new Cesium.GeoJsonDataSource('src-'+ zoneId);
+                        var new_source = new Cesium.GeoJsonDataSource('newBuildings');
                         if(Session.equals('allowMultipleGeo', false)){
                             if(selectedZones.length > 0){
                                 Session.set('spinning', false);
-                                viewer.dataSources.remove(viewer.dataSources.get(1), false);
+                                var dataSourcesCount = viewer.dataSources.length - 1;
+                                for(var i=dataSourcesCount; i> 0; i--){
+                                    viewer.dataSources.remove(viewer.dataSources.get(i), true);
+                                }
                                 if(zoneId != selectedZones[0]){
+
                                     viewer.dataSources.add(source);
                                     addSource(source, response);
+
+                                    if(year != 2010){
+                                        Meteor.call('findNewBuildingsInZone', [zoneId], year, function(error, res){
+                                            if(error){
+                                                Materialize.toast(error.reason, 4000);
+                                            }else{
+                                                viewer.dataSources.add(new_source);
+                                                addNewBuildings(new_source, res, year);
+                                            }
+                                        });
+                                    }
+
                                 }
                             }else{
                                 viewer.dataSources.add(source);
                                 addSource(source, response);
+
+                                if(year != 2010){
+                                    Meteor.call('findNewBuildingsInZone', [zoneId], year, function(error, res){
+                                        if(error){
+                                            Materialize.toast(error.reason, 4000);
+                                        }else{
+                                            viewer.dataSources.add(new_source);
+                                            addNewBuildings(new_source, res, year);
+                                        }
+                                    });
+                                }
                             }
                         }else{
                             if(_.contains(selectedZones, zoneId)){
@@ -162,6 +191,16 @@ if(Meteor.isClient){
                             }else{
                                 viewer.dataSources.add(source);
                                 addSource(source, response);
+                                if(year != 2010){
+                                    Meteor.call('findNewBuildingsInZone', [zoneId], year, function(error, res){
+                                        if(error){
+                                            Materialize.toast(error.reason, 4000);
+                                        }else{
+                                            viewer.dataSources.add(new_source);
+                                            addNewBuildings(new_source, res, year);
+                                        }
+                                    });
+                                }
                             }
                         }
 
@@ -1141,6 +1180,32 @@ if(Meteor.isClient){
                 entity.polygon.extrudedHeight = entity.properties.Bldg_Heigh / 3.2;
                 entity.polygon.material = Cesium.Color.BURLYWOOD;
                 entity.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+            }
+        }
+        Session.set('spinning', false);
+    }
+    
+    export function addNewBuildings(source, response){
+        source.load({
+            type: "FeatureCollection",
+            crs: {
+                type: "name",
+                properties: {
+                    name: "urn:ogc:def:crs:OGC:1.3:CRS84"
+                }
+            },
+            features: response
+        });
+        var entities = source.entities.values;
+
+        if(Session.equals('styleBuildings',  true)){
+            
+        }else{
+            for(var i =0; i<entities.length; i++) {
+                var entity = entities[i];
+                entity.polygon.extrudedHeight = entity.properties.height * 3;
+                entity.polygon.material = Cesium.Color.RED;
+                entity.polygon.outlineColor = Cesium.Color.RED;
             }
         }
         Session.set('spinning', false);

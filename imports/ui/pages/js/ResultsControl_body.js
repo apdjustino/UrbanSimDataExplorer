@@ -5,6 +5,7 @@ import {subscribeToZone} from '../../components/CesiumMapFunctions.js';
 import {subscribeToCity} from '../../components/CesiumMapFunctions.js';
 import {subscribeToCounty} from '../../components/CesiumMapFunctions.js';
 import {subscribeToUrbanCenter} from '../../components/CesiumMapFunctions.js';
+import {addNewBuildings} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
     
     Template.ResultsControl_body.helpers({
@@ -43,7 +44,7 @@ if(Meteor.isClient){
                 municipalities: "Selected Cities: ",
                 county_web: "Selected Counties: ",
                 urban_centers: "Selected Urban Center(s): "
-            }
+            };
             return layerDict[layer];
         }
     });
@@ -55,6 +56,7 @@ if(Meteor.isClient){
             Session.set('selectedYear', year);
             var mapName = FlowRouter.getRouteName();
             var layerName = Session.get('selectedLayer');
+            
             if(layerName == 'zonesGeo'){
                 subscribeToZone(year, entity);
             }else if(layerName == 'municipalities'){
@@ -63,6 +65,22 @@ if(Meteor.isClient){
                 subscribeToCounty(year, entity);
             }else{
                 subscribeToUrbanCenter(year, entity);
+            }
+
+            if(mapName == '3dmap'){
+                if(Session.equals('showBuildings', true)){
+
+                    var source = new Cesium.GeoJsonDataSource('newBuildings');
+                    Meteor.call('findNewBuildingsInZone', entity, year, function(error, response){
+                        if(error){
+                            Materialize.toast(error.reason, 4000);
+                        }else{
+                            viewer.dataSources.add(source);
+                            addNewBuildings(source, response, year);
+                        }
+                    });
+                }
+
             }
 
         }
