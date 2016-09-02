@@ -82,6 +82,8 @@ if(Meteor.isClient){
             }
         }, "click #showBuildings": function(event, target){
             Session.set('showBuildings', event.target.checked);
+        }, "click #showLegend": function(event, target){
+            Session.set('showLegend', event.target.checked);
         }
     })
 

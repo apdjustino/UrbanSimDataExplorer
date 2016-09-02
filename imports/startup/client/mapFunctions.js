@@ -201,18 +201,32 @@ export function colorMap(data, measure, layer){
     });
 
     //draw legend
+    
+    var colorScheme = {
+        "q0-7":"#eff3ff",
+        "q1-7":"#85B3D4",
+        "q2-7":"#6C9DC7",
+        "q3-7":"#5387BA",
+        "q4-7":"#3A71AD",
+        "q5-7":"#215BA0",
+        "q6-7":"#084594"
+    };
 
-    // var quantizeRange = [];
-    // d3.range(7).forEach(function(cv){
-    //     quantizeRange.push("q" + cv + "-7");
-    // });
-    // var range = [];
-    // quantizeRange.forEach(function(cv){
-    //     var obj = {};
-    //     obj["cssClass"] = cv;
-    //     obj["range"] = quantize.invertExtent(cv);
-    //     range.push(obj)
-    // });
+    var quantizeRange = [];
+    d3.range(7).forEach(function(cv){
+        quantizeRange.push("q" + cv + "-7");
+    });
+    var range = [];
+    quantizeRange.forEach(function(cv){
+        var obj = {};
+        obj["cssClass"] = cv;
+        obj["range"] = quantize.invertExtent(cv);
+        obj["name"] = parseInt(quantize.invertExtent(cv)[0]) + " - " + parseInt(quantize.invertExtent(cv)[1]);
+        obj["color"] = colorScheme[cv];
+        range.push(obj)
+    });
+    
+    Session.set('queryColorRanges', range);
     //
     // d3.selectAll(".legendItemContainer").remove();
     // var legendDiv = d3.select('#legendList');

@@ -1095,7 +1095,17 @@ if(Meteor.isClient){
 
         });
 
-        Session.set('colorData', data.map(function(x){return {zone_id: x.zone_id, color: x.color}}));
+        var legendData = [];
+        for(var i=0; i < 7; i++){
+            legendData.push({
+                name: parseInt(quantize.invertExtent(i)[0]) + " - " + parseInt(quantize.invertExtent(i)[1]),
+                color: colorMap[i]
+            });
+        }
+
+        Session.set('queryColorRanges', legendData);
+
+        //Session.set('colorData', data.map(function(x){return {zone_id: x.zone_id, color: x.color}}));
 
 
 

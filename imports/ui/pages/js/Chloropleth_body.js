@@ -57,6 +57,20 @@ if(Meteor.isClient){
                 selectData: data
             }
         }, Legend_args: function(){
+            var ranges = Session.get('queryColorRanges');
+            if(ranges){
+                return {
+                    categories: ranges
+                }
+            }else{
+                return []
+            }
+
+        }, showLegend: function(){
+            return Session.get('showLegend');
+        }, styleBuildings: function(){
+            return Session.get('styleBuildings');
+        }, BuldingLegend_args: function(){
             return {
                 categories: [
                     {name: "Single Family", color: "#D99937"},
@@ -86,8 +100,6 @@ if(Meteor.isClient){
 
                 ]
             }
-        }, showLegend: function(){
-            return Session.get('showLegend');
         }
     });
 
@@ -225,10 +237,8 @@ if(Meteor.isClient){
             if(mapName = '3dmap'){
                 Session.set('styleBuildings', event.target.checked);
                 if(event.target.checked){
-                    Session.set('showLegend', true);
                     colorBuildings();
                 }else{
-                    Session.set('showLegend', false);
                     resetBuildings();
                 }
             }
