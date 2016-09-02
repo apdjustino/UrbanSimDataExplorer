@@ -194,6 +194,7 @@ if(Meteor.isClient){
     Template.WebMap_page.onRendered(function(){
         Session.set('selectedLayer', 'zonesGeo');
         Session.set('selectedYear', 2010);
+        Session.set('showLegend', true);
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
         map = L.map("mapContainer").setView([39.75, -104.95], 10);
