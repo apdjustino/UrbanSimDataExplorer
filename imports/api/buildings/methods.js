@@ -8,5 +8,7 @@ Meteor.methods({
         return buildings.find({'properties._uc_name': NAME}).fetch();
     }, findNewBuildingsInZone: function(zone_id, year){
         return new_buildings.find({'properties.zone_id': {$in: zone_id}, 'properties.year_built': {$lte: year}}).fetch();
+    }, findNewBuildingsInUc: function(name, year){
+        return new_buildings.find({'properties.uc_name': {$in: name}, 'properties.year_built': {$lte: year}}).fetch()
     }
 });

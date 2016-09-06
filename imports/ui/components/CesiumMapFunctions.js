@@ -454,18 +454,47 @@ if(Meteor.isClient){
                     if(error){
                         Materialize.toast(error.reason, 4000);
                     }else{
+                        var year = Session.get('selectedYear');
                         var source = new Cesium.GeoJsonDataSource('src-'+ NAME);
+                        var new_source = new Cesium.GeoJsonDataSource('newBuildings');
                         if(Session.equals('allowMultipleGeo', false)){
                             if(selectedZones.length > 0){
                                 Session.set('spinning', false);
-                                viewer.dataSources.remove(viewer.dataSources.get(1), false);
+                                var dataSourcesCount = viewer.dataSources.length - 1;
+                                for(var i=dataSourcesCount; i> 0; i--){
+                                    viewer.dataSources.remove(viewer.dataSources.get(i), true);
+                                }
                                 if(NAME != selectedZones[0]){
+
                                     viewer.dataSources.add(source);
                                     addSource(source, response);
+
+                                    if(year != 2010){
+                                        Meteor.call('findNewBuildingsInZone', [NAME], year, function(error, res){
+                                            if(error){
+                                                Materialize.toast(error.reason, 4000);
+                                            }else{
+                                                viewer.dataSources.add(new_source);
+                                                addNewBuildings(new_source, res, year);
+                                            }
+                                        });
+                                    }
+
                                 }
                             }else{
                                 viewer.dataSources.add(source);
                                 addSource(source, response);
+
+                                if(year != 2010){
+                                    Meteor.call('findNewBuildingsInZone', [NAME], year, function(error, res){
+                                        if(error){
+                                            Materialize.toast(error.reason, 4000);
+                                        }else{
+                                            viewer.dataSources.add(new_source);
+                                            addNewBuildings(new_source, res, year);
+                                        }
+                                    });
+                                }
                             }
                         }else{
                             if(_.contains(selectedZones, NAME)){
@@ -478,6 +507,16 @@ if(Meteor.isClient){
                             }else{
                                 viewer.dataSources.add(source);
                                 addSource(source, response);
+                                if(year != 2010){
+                                    Meteor.call('findNewBuildingsInUc', [NAME], year, function(error, res){
+                                        if(error){
+                                            Materialize.toast(error.reason, 4000);
+                                        }else{
+                                            viewer.dataSources.add(new_source);
+                                            addNewBuildings(new_source, res, year);
+                                        }
+                                    });
+                                }
                             }
                         }
 

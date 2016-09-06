@@ -69,16 +69,37 @@ if(Meteor.isClient){
 
             if(mapName == '3dmap'){
                 if(Session.equals('showBuildings', true)){
-
-                    var source = new Cesium.GeoJsonDataSource('newBuildings');
-                    Meteor.call('findNewBuildingsInZone', entity, year, function(error, response){
-                        if(error){
-                            Materialize.toast(error.reason, 4000);
-                        }else{
-                            viewer.dataSources.add(source);
-                            addNewBuildings(source, response, year);
+                    if(year == 2010){
+                        for(var i= viewer.dataSources.length - 1; i > 0; i--){
+                            if(viewer.dataSources.get(i).name == "newBuildings"){
+                                viewer.dataSources.remove(viewer.dataSources.get(i));
+                            }
                         }
-                    });
+                    }
+                    Session.set('spinning', true);
+                    var source = new Cesium.GeoJsonDataSource('newBuildings');
+                    if(layerName == 'zonesGeo'){
+                        Meteor.call('findNewBuildingsInZone', entity, year, function(error, response){
+                            if(error){
+                                Materialize.toast(error.reason, 4000);
+                            }else{
+                                viewer.dataSources.add(source);
+                                addNewBuildings(source, response, year);
+                                Session.set('spinning', false);
+                            }
+                        });
+                    }else if(layerName == 'urban_centers'){
+                        Meteor.call('findNewBuildingsInUc', entity, year, function(error, response){
+                            if(error){
+                                Materialize.toast(error.reason, 4000);
+                            }else{
+                                viewer.dataSources.add(source);
+                                addNewBuildings(source, response, year);
+                                Session.set('spinning', false);
+                            }
+                        })
+                    }
+                    
                 }
 
             }

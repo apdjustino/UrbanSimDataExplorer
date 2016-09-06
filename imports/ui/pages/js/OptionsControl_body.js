@@ -30,6 +30,10 @@ if(Meteor.isClient){
                     cv.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
                     cv.polygon.extrudedHeight = 0;
                 });
+
+                for(var i = viewer.dataSources.length - 1; i>0; i--){
+                    viewer.dataSources.remove(viewer.dataSources.get(i));
+                }
             }
 
         }, "click #showCommentZones": function(event, template){
