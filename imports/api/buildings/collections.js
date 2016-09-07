@@ -4,3 +4,5 @@
 buildings = new Mongo.Collection('buildings');
 
 new_buildings = new Mongo.Collection('new_buildings');
+
+slideShowData = new Mongo.Collection('slideShowData');

@@ -10,5 +10,11 @@ Meteor.methods({
         return new_buildings.find({'properties.zone_id': {$in: zone_id}, 'properties.year_built': {$lte: year}}).fetch();
     }, findNewBuildingsInUc: function(name, year){
         return new_buildings.find({'properties.uc_name': {$in: name}, 'properties.year_built': {$lte: year}}).fetch()
+    }, addNewLocale: function(name){
+        slideShowData.insert(name);
+    }, addNewShot: function(name, shot){
+        slideShowData.update({uc_name: name}, {$addToSet: {shots: shot}});
+    }, getSlideShowData: function(){
+        return slideShowData.find({}).fetch();
     }
 });
