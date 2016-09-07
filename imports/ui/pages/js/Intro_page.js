@@ -117,6 +117,7 @@ if(Meteor.isClient){
                                     window.clearInterval(interval);
                                     z++;
                                     if(response[z]){
+                                        
                                         transition(response[z]);
                                     }else{
                                         console.log('no more locales');
