@@ -1208,7 +1208,7 @@ if(Meteor.isClient){
         }
     }
 
-    function addSource(source, response){
+    export function addSource(source, response){
         source.load({
             type: "FeatureCollection",
             crs: {
