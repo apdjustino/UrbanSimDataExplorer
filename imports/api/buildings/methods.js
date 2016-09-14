@@ -16,5 +16,7 @@ Meteor.methods({
         slideShowData.update({uc_name: name}, {$addToSet: {shots: shot}});
     }, getSlideShowData: function(){
         return slideShowData.find({}).fetch();
+    }, clearShow: function(){
+        slideShowData.remove({});
     }
 });

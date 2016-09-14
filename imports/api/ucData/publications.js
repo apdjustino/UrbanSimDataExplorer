@@ -55,6 +55,10 @@ if(Meteor.isServer){
         fieldsToGet['sim_year'] = 1;
 
         return ucSummary.find({sim_year:{$in:[2010, year]}}, {fields: fieldsToGet});
+    });
+    
+    Meteor.publish('slideShowLocales', function(){
+        return slideShowData.find({}, {fields:{uc_name:1, shots:1}});
     })
 }
 

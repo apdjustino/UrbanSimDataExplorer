@@ -8,6 +8,15 @@ if(Meteor.isClient){
     Template.Intro_page.onRendered(function(){
         var template = this;
         $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
+            var west = -105.5347;
+            var south = 39.2663;
+            var east = -104.4301;
+            var north = 40.246;
+            var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
+
+            Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
+            Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
+
             var imageryViewModels = [];
             imageryViewModels.push(new Cesium.ProviderViewModel({
                 name: "Mapbox Satellite",

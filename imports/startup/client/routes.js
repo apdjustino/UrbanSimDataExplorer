@@ -60,6 +60,7 @@ import '../../ui/pages/html/InfoModal_body.html';
 import '../../ui/pages/html/ResultsControl_body.html';
 import '../../ui/pages/html/OptionsControl_body.html';
 import '../../ui/pages/html/Intro_page.html';
+import '../../ui/pages/html/SlideShow_body.html';
 //import client page js
 
 import '../../ui/pages/js/AddUser_page.js';
@@ -85,6 +86,7 @@ import '../../ui/pages/js/InfoModal_body.js'
 import '../../ui/pages/js/ResultsControl_body.js';
 import '../../ui/pages/js/OptionsControl_body.js';
 import '../../ui/pages/js/Intro_page.js';
+import '../../ui/pages/js/SlideShow_body.js';
 //declare routs
 
 

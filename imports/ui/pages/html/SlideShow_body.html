@@ -1,0 +1,35 @@
+<template name="SlideShow_body">
+    <div class="row">
+        <div class="col s12">
+            {{>Material_select (Options_args)}}
+            <a href="#" id="btnAddLocale" class="btn waves-effect waves-light">Add Locale</a>
+            <a href="#" id="btnClearShow" class="btn waves-effect waves-light">Reset Animation</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <h5>Locales</h5>
+            {{>Material_collapsible (Collapsible_args)}}
+        </div>
+    </div>
+
+    <a href="#" id="btnAddShot" class="btn waves-effect waves-light">Add Shot</a>
+</template>
+
+<template name="LocaleCollapsible_body">
+    <a href="#" class="btn waves-effect waves-light btnAddShot">Add Shot</a>
+    <div class="row">
+        <div class="col s12">
+            {{>Material_ul (ShotList_args)}}
+        </div>
+    </div>
+</template>
+
+
+<template name="ShotListItem">
+    <div class="row">
+        <div class="col s6">
+            <a href="#" class="btn waves-effect waves-light btnFlyToShot">Fly To Shot</a>
+        </div>
+    </div>
+</template>
