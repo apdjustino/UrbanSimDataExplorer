@@ -7,7 +7,7 @@ if(Meteor.isClient){
 
     Template.Intro_page.onRendered(function(){
         var template = this;
-        $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
+        $.getScript('/scripts/Cesium-1.23/Build/Cesium/Cesium.js', function(){
             var west = -105.5347;
             var south = 39.2663;
             var east = -104.4301;

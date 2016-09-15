@@ -128,7 +128,7 @@ if(Meteor.isClient){
         Session.set('selectedYear', 2010);
         Session.set('showBuildings', true);
         Session.set('showLegend', true);
-        $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
+        $.getScript('/scripts/Cesium-1.23/Build/Cesium/Cesium.js', function(){
             loadCesiumMap();
         })
     })
