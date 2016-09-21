@@ -1247,16 +1247,14 @@ if(Meteor.isClient){
         });
         var entities = source.entities.values;
 
-        if(Session.equals('styleBuildings',  true)){
-            
-        }else{
-            for(var i =0; i<entities.length; i++) {
-                var entity = entities[i];
-                entity.polygon.extrudedHeight = entity.properties.height * 3;
-                entity.polygon.material = Cesium.Color.RED;
-                entity.polygon.outlineColor = Cesium.Color.RED;
-            }
+
+        for(var i =0; i<entities.length; i++) {
+            var entity = entities[i];
+            entity.polygon.extrudedHeight = entity.properties.height * 3;
+            entity.polygon.material = Cesium.Color.RED;
+            entity.polygon.outlineColor = Cesium.Color.RED;
         }
+
         Session.set('spinning', false);
     }
     

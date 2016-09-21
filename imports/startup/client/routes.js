@@ -97,10 +97,11 @@ FlowRouter.route('/', {
     }
 });
 
-FlowRouter.route('/cesium', {
+
+FlowRouter.route('/urbancenters', {
     name: 'cesium',
     action: function(){
-        BlazeLayout.render('Home_layout_page', {main: 'CesiumPage'});
+        BlazeLayout.render('Blank_layout_page', {main: 'Intro_page'});
     }
 });
 
