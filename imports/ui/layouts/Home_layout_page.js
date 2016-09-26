@@ -16,13 +16,27 @@ if(Meteor.isClient){
             event.preventDefault();
             // $('#mapContainer').toggleClass('col-sm-8 col-lg-8 col-sm-12 col-lg-12');
             // $('a.toggle span').toggleClass('glyphicon-chevron-left glyphicon-chevron-right');
-            var width = $('#cesiumContainer').width();
-            console.log(width);
-            if(width < 1440){
-               d3.select('#cesiumContainer').style('width', '100vw')
+
+            var route = FlowRouter.getRouteName();
+
+            if(route === '3dmap'){
+                if($('#sidebar').is(":visible")){
+                    d3.select('#cesiumContainer').style('width', '100vw');
+                    d3.select('#chartsContainer').style('width', '100vw');
+                }else{
+                    d3.select('#cesiumContainer').style('width', '100%');
+                    d3.select('#chartsContainer').style('width', '100%');
+                }
             }else{
-                d3.select('#cesiumContainer').style('width', '100%');
+                if($('#sidebar').is(":visible")){
+                    d3.select('#mapContainer').style('width', '100vw');
+                    d3.select('#chartsContainer').style('width', '100vw');
+                }else{
+                    d3.select('#mapContainer').style('width', '100%');
+                    d3.select('#chartsContainer').style('width', '100%');
+                }
             }
+
             $('#sidebar').toggle();
         }
     });
