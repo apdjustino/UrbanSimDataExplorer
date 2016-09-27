@@ -1,0 +1,40 @@
+<template name="OptionsControl_body">
+    <div class="row">
+        <div class="col s12">
+            <ul style="list-style:none;">
+                <li>
+                    <input type="checkbox" id="chkMultiple">
+                    <label for="chkMultiple">Allow Multiple Selections</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="showLegend" checked>
+                    <label for="showLegend">Display Legend</label>
+                </li>
+                {{#if isInRole 'admin'}}
+                    <li>
+                        <input type="checkbox" id="showCommentZones">
+                        <label for="showCommentZones">Show Areas w/Comments</label>
+                    </li>
+                {{#if is3dMap}}
+                    <li>
+                        <input type="checkbox" id="showBuildings" checked>
+                        <label for="showBuildings">Show Buildings on Select</label>
+                    </li>
+                {{/if}}
+                {{/if}}
+                {{#if isInRole 'drcog'}}
+                    <li>
+                        <input type="checkbox" id="showCommentZones">
+                        <label for="showCommentZones">Show Areas w/Comments</label>
+                    </li>
+
+                {{/if}}
+                <li>
+                    <a id="btnReset" class="btn waves-effect waves-light" href="#">Reset Map</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+</template>

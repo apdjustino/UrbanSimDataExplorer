@@ -6,7 +6,8 @@ if(Meteor.isClient){
     Template.Material_side_nav.onRendered(function(){
         $('.navLink').sideNav({
             menuWidth: 420,
-            edge: 'right'
+            edge: 'right',
+            closeOnClick: true
         });
     });
 

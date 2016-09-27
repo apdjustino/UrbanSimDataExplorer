@@ -5,6 +5,7 @@
 html, body, #container{
     height: 100%;
     margin: 0px;
+    overflow:hidden !important;
 }
 
 #sidebar{
@@ -13,10 +14,13 @@ html, body, #container{
 
 #mapContainer{
     height: 93vh;
+    width: 100vw;
 }
 
 #cesiumContainer{
-    height: 93vh;
+    height: 92vh;
+    width: 100%;
+    overflow:hidden !important;
 }
 
 body {
@@ -236,12 +240,12 @@ path.empty{
     fill:none;
 }
 
-path.zones:hover{
+path.entity:hover{
     stroke:black;
     stroke-width: 2;
 }
 
-path.zones{
+path.entity{
     stroke:black;
     stroke-width:0.5;
     fill:rgba(0,0,0,0);
@@ -434,13 +438,10 @@ input.commentChk{
 
 .chartsContainer {
     z-index: 10000;
-    position: absolute;
-    width: 104%;
-    left:-15px;
-    top: 100%;
+    position: relative;
+
     border-top: 2px solid;
     background-color: #fff;
-    height:285px;
 
 }
 

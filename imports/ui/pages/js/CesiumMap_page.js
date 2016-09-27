@@ -1,114 +1,53 @@
 /**
- * Created by jmartinez on 8/4/16.
+ * Created by jmartinez on 4/5/16.
  */
+import {loadCesiumMap} from '../../components/CesiumMapFunctions.js';
+import {drawChart} from '../../../startup/client/mapFunctions.js';
+import {getDataFields} from '../../../ui/components/Global_helpers.js';
+import { measureNameMap } from '../../../ui/components/Global_helpers.js';
 
-
-import {measureNameMap} from '../../components/Global_helpers.js';
-import {setZoneClickEvents} from '../../components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
-    Template.CesiumMap_page.onRendered(function(){
-        Session.set('spinning', true);
-        Session.set('selectedLayer', 'zonesGeo');
-        $.getScript('/scripts/Cesium-1.23/Build/CesiumUnminified/Cesium.js', function(){
-            var west = -105.5347;
-            var south = 39.2663;
-            var east = -104.4301;
-            var north = 40.246;
-            var rectangle = Cesium.Rectangle.fromDegrees(west, south, east, north);
 
-            Cesium.Camera.DEFAULT_VIEW_FACTOR = 0;
-            Cesium.Camera.DEFAULT_VIEW_RECTANGLE = rectangle;
-
-
-            var imageryViewModels = [];
-            imageryViewModels.push(new Cesium.ProviderViewModel({
-                name: "Mapbox Streets",
-                iconUrl: Cesium.buildModuleUrl('Widgets/Images/ImageryProviders/mapboxStreets.png'),
-                tooltip: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                creationFunction: function(){
-                    return new Cesium.MapboxImageryProvider({
-                        mapId: 'mapbox.outdoors',
-                        accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
-                    })
-                }
-            }));
-
-            imageryViewModels.push(new Cesium.ProviderViewModel({
-                name: "Mapbox Satellite",
-                iconUrl: Cesium.buildModuleUrl('Widgets/Images/ImageryProviders/mapboxSatellite.png'),
-                tooltip: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                creationFunction: function(){
-                    return new Cesium.MapboxImageryProvider({
-                        mapId: 'mapbox.streets-satellite',
-                        accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
-                    })
-                }
-            }));
-
-
-            viewer = new Cesium.Viewer('cesiumContainer', {
-                infoBox: false,
-                selectionIndicator: false,
-                fullscreenButton: false,
-                geocoder: false,
-                homeButton: true,
-                sceneModePicker: false,
-                timeline: false,
-                navigationHelpButton: true,
-                navigationInstructionsInitiallyVisibile: false,
-                animation: false,
-                baseLayerPicker: true,
-                selectedImageryProviderViewModel: imageryViewModels[0]
-
-            });
-
-
-            viewer.baseLayerPicker.viewModel.imageryProviderViewModels = imageryViewModels;
-            viewer.baseLayerPicker.viewModel.terrainProviderViewModels = [];
-            viewer.selectedImageryProviderViewModel = imageryViewModels[0];
-
-
-
-            viewer.scene.screenSpaceCameraController.inertiaSpin = 0;
-            viewer.scene.screenSpaceCameraController.inertiaTranslate = 0;
-            viewer.scene.screenSpaceCameraController.inertiaZoom = 0;
-
-
-            viewer.dataSources.removeAll(true);
-            var promise = Cesium.GeoJsonDataSource.load('/data/zonesGeo.json', {
-                stroke: Cesium.Color.BLACK,
-                fill: new Cesium.Color(0.01,0.01,0.01,0.01)
-            });
-            promise.then(function(dataSource){
-                viewer.dataSources.add(dataSource);
-                Session.set('spinning', false);
-            }).otherwise(function(error){
-                //Display any errrors encountered while loading.
-                window.alert(error);
-            });
-
-            setZoneClickEvents();
-            
-
-        })
-    });
+    line = undefined;
+    coordinates =[];
+    counter = 0;
 
     Template.CesiumMap_page.helpers({
-        InfoModal_args: function(){
+        selectedData: function(){
+            return Session.get('selectedData');
+        }, selectedZone: function(){
+            return Session.get('selectedZone');
+        }, buildingData: function(){
+            return Template.instance().buildingData.get();
+        }, commentMeasure: function(){
+            return Session.get('commentMeasure');
+        }, selectedLayer: function(){
+            var layer = Session.get('selectedLayer');
+            var layerMap = {
+                zonesGeo: 'ZONES',
+                municipalities: 'MUNICIPALITIES',
+                county_web: 'COUNTIES',
+                urban_centers: 'URBAN CENTERS'
+            };
+
+            return layerMap[layer];
+        }, Options_args: function(){
             return {
-                modalId: "infoModal",
-                bottom: "bottom-sheet",
-                modalHeader: "Zone: " + Session.get("selectedZone"),
-                modalHeaderTemplate: "InfoModal_header",
-                modalBodyTemplate: "InfoModal_body",
-                data: Session.get('selectedData')
+                type: "accordion",
+                data: [
+                    {icon: "dashboard", headerText: "Style Map", active: "", body: "Chloropleth_body", bodyData: undefined},
+                    {icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
+                    {icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
+                    {icon: "view_list", headerText: "Results", active: "", body: "ResultsControl_body", bodyData: Session.get('selectedData')},
+                    {icon: "videocam", headerText: "Make Animation", active:"", body: "SlideShow_body", bodyData: undefined}
+                ]
             }
         }, CommentModal_args: function(){
             var measure = Session.get('commentMeasure');
             var year = Session.get('selectedYear');
             var zone = Session.get('selectedZone');
-            
+
             return {
                 modalId: "commentModal",
                 bottom: "",
@@ -118,5 +57,81 @@ if(Meteor.isClient){
                 data: {measure: measure, year: year, zone: zone}
             }
         }
+    });
+
+    zoneComments = undefined;
+    Template.CesiumMap_page.events({
+        "click #btnReset":function(event, template) {
+
+        }, "click #toggleCharts": function(event, template){
+            event.preventDefault();
+            var toggle = template.chartToggle.get();
+            toggle = !toggle;
+            template.chartToggle.set(toggle);
+
+            var htmlHeight = $(window).height();
+            var navHeight = $('#primaryNav').height();
+            var mapHeight = htmlHeight - navHeight;
+            var el = document.getElementById('chartsContainer');
+            var bounds = el.getBoundingClientRect();
+            var containerHeight = bounds.bottom - bounds.top;
+            var newTop = mapHeight - containerHeight;
+
+
+
+            newTop = newTop.toString() + 'px';
+
+            if(toggle){
+                $('#chartsContainer').animate({'top': "-290px"}, 500);
+            }else{
+                $('#chartsContainer').animate({'top': '0px'}, 500);
+            }
+
+
+        }, "click #closeEditDiv": function(event, template){
+            event.preventDefault();
+            $('#editor').animate({'left': '125%'}, 250);
+
+        }
+
+    });
+
+    Template.CesiumMap_page.onCreated(function(){
+        this.chartToggle = new ReactiveVar(false);
+        this.buildingData = new ReactiveVar(false);
+        var self = this;
+        this.autorun(function(){
+            self.subscribe('counties', {
+                onReady: function(){
+                    var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+                    var regionalChartData = _.keys(counties).map(function(key){
+                        var simData = counties[key].reduce(function(a,b){
+                            return {
+                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+                                sim_year: a.sim_year
+                            };
+                        });
+                        return simData;
+                    });
+
+                    drawChart(regionalChartData);
+
+                }
+            });
+        });
+
+    });
+    handler = undefined;
+    Template.CesiumMap_page.onRendered(function(){
+        Session.set('selectedLayer', 'zonesGeo');
+        Session.set('selectedYear', 2010);
+        Session.set('showBuildings', true);
+        Session.set('showLegend', true);
+        $.getScript('/scripts/Cesium-1.23/Build/Cesium/Cesium.js', function(){
+            loadCesiumMap();
+        })
     })
+
 }
+

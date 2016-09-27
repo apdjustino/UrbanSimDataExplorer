@@ -1,75 +1,41 @@
 <template name="WebMap_page">
-    <div class="row" id="container">
-        <div class="col-sm-4 col-lg-4" id="sidebar" style="padding: 10px; overflow: auto;">
-            <ul class="nav nav-tabs" id="myTab">
-                {{#each TabPanes selectedAreas selectedData}}
-                    <li id="{{this.paneId}}-li"><a href="#{{this.paneId}}" data-toggle="tab"><span class="glyphicon glyphicon-check"></span>&nbsp;{{this.paneName}}</a></li>
-                {{/each}}
-            </ul>
-            <div class="tab-content" style="padding-top: 10px;">
-                {{#each TabPanes selectedAreas selectedData}}
-                    {{>Tab_pane (TabPane_args this)}}
-                {{/each}}
-            </div>
+    <div class="row">
+        <div class="col s4 m4 l4" id="sidebar" style="overflow: auto;">
+            <h5>{{selectedLayer}}</h5>
+            {{>Material_collapsible (Options_args)}}
         </div>
-        <a href="#" type="button" rel="tooltip" class="toggle btn btn-default" data-toggle="tooltip" data-placement="right" title="Toggle sidebar"><span class="glyphicon glyphicon-chevron-left"></span></a>
-        <div class="col-sm-8 col-lg-8" id="mapContainer">
-            {{#if isSpinning}}
-                {{>spinner}}
-            {{/if}}
-            <a href="http://mapbox.com/about/maps" class='mapbox-maplogo' target="_blank">Mapbox</a>
-            <div class="container mapTileLayerImagery well well-sm">
-                <ul class="list-inline">
-                    <li>
-                        <label class="radio-inline">
-                            <input type="radio" name="tile" value="street" class="tileRadio" checked>Street
-                        </label>
-                    </li>
-                    <li>
-                        <label class="radio-inline">
-                            <input type="radio" name="tile" value="imagery" class="tileRadio">Satellite
-                        </label>
-                    </li>
-                </ul>
+        <a href="#" class="toggle btn btn-default"><i class="large material-icons">chevron_left</i></a>
+        <div class="col s8 m8 l8">
+            <div id="mapContainer">
+
             </div>
-            <div id="legendList" class="container well well-sm legendContainer">
-                <h5 class="text-center">Legend</h5>
-            </div>
-            <div id="editor" class="container well well-sm editorContainer">
-                <button id="closeEditDiv" type="button" class="close">&times;</button>
-                <table class="table table-condensed table-striped">
-                    <thead>
-                    <tr>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {{#each buildingData}}
-                            <tr>
-                                <td>{{this.prop}}</td>
-                                <td>{{formattedValue this.value this.prop}}</td>
-                            </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-            <div id="chartsContainer" class="container well well-sm chartsContainer">
+            <div id="chartsContainer" class="chartsContainer">
                 <button id="toggleCharts" title="Open/close the charts panel.">Charts & Statistics</button>
                 <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col s6 m6 l6">
                         <div id="popChartContainer">
-                            <h4 class="text-center">Population</h4>
+                            <h4 class="center-align">Population</h4>
                         </div>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <div class="col s6 m6 l6">
                         <div id="hhChartContainer">
-                            <h4 class="text-center">Employment</h4>
+                            <h4 class="center-align">Employment</h4>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{>Modal_fade CommentModal_args}}
+    <div style="position:absolute; top:70px; left:82%; border: solid 1px black; background-color: white; height:30px; border-radius:25px; padding-left: 5px; padding-right: 2px;">
+        <div class="switch">
+            <label>
+                MapBox Streets
+                <input type="checkbox" id="chkSatellite">
+                <span class="lever"></span>
+                MapBox Satellite
+            </label>
+        </div>
+    </div>
+
+    {{>Material_modal (CommentModal_args)}}
 </template>

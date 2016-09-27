@@ -6,6 +6,14 @@ if(Meteor.isClient){
     Template.DeleteUser_page.helpers({
         users: function(){
             return Meteor.users.find({}).fetch();
+        }, DeleteUser_args: function(){
+            var users = Meteor.users.find({}).fetch();
+            return {
+                selectId: "deleteUserSelect",
+                selectData: users.map(function(user){
+                    return {name: user.emails[0].address, value: user._id}
+                }), label: "User Email"
+            }
         }
     });
     
@@ -13,7 +21,14 @@ if(Meteor.isClient){
         "click #btnDelete": function(event, template){
             event.preventDefault();
             var userId = $('#deleteUserSelect option:selected').val();
-            Meteor.call('deleteUser', userId);
+            Meteor.call('deleteUser', userId, function(error, response){
+                if(error){
+                    Materialize.toast(error.reason, 4000);
+                }else{
+                    Materialize.toast("User deleted.", 4000);
+                    $('select').material_select();
+                }
+            });
         }
     });
     

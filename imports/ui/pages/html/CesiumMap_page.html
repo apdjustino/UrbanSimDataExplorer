@@ -1,10 +1,30 @@
 <template name="CesiumMap_page">
-    {{>sAlert}}
-    <div id="cesiumContainer"></div>
-    <a class="btn-floating btn waves-effect waves-light modal-trigger" style="position:absolute; top:70px; left:10px;" href="#infoModal">
-        <i class="material-icons">info</i>
-    </a>
-    {{>Material_modal (InfoModal_args)}}
+    {{#AdminBlockHelper}}
+    <div class="row">
+        <div class="col s4 m4 l4" id="sidebar" style="overflow: auto;">
+            <h5>{{selectedLayer}}</h5>
+            {{>Material_collapsible (Options_args)}}
+        </div>
+        <a href="#" class="toggle btn btn-default"><i class="large material-icons">chevron_left</i></a>
+        <div class="col s8 m8 l8">
+            <div id="cesiumContainer"></div>
+            <div id="chartsContainer" class="chartsContainer">
+                <button id="toggleCharts" title="Open/close the charts panel.">Charts & Statistics</button>
+                <div class="row">
+                    <div class="col s6 m6 l6">
+                        <div id="popChartContainer">
+                            <h4 class="center-align">Population</h4>
+                        </div>
+                    </div>
+                    <div class="col s6 m6 l6">
+                        <div id="hhChartContainer">
+                            <h4 class="center-align">Employment</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     {{>Material_modal (CommentModal_args)}}
+    {{/AdminBlockHelper}}
 </template>
-

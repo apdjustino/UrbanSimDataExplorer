@@ -1,0 +1,14 @@
+<template name="Material_collapsible">
+    <ul class="collapsible" data-collapsible="{{this.type}}">
+        {{#each this.data}}
+            <li>
+                <div class="collapsible-header {{this.active}}">
+                    <i class="material-icons">{{this.icon}}</i> {{this.headerText}}
+                </div>
+                <div class="collapsible-body">
+                    {{>Template.dynamic template=this.body data=this.bodyData}}
+                </div>
+            </li>
+        {{/each}}
+    </ul>
+</template>

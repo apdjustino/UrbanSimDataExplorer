@@ -49,8 +49,11 @@ Meteor.methods({
             throw new Meteor.error("Not logged in!");
         }else{
             if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
-                Accounts.setPassword(userId, new_password);
-                return true;
+                if(Meteor.isServer){
+                    Accounts.setPassword(userId, new_password);
+                    return true;
+                }
+
             }
         }
     }, deleteUser: function(userId){
@@ -59,6 +62,7 @@ Meteor.methods({
         }else{
             if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
                 Meteor.users.remove({_id: userId});
+                return true
             }
         }
 
@@ -87,6 +91,11 @@ Meteor.methods({
             throw new Meteor.Error("Not logged in!");
         }else{
             Meteor.users.update({_id: Meteor.userId()}, {$pull: {'profile.scenarios':{name: name}}});
+        }
+    }, sendResetEmail: function(email){
+        if(Meteor.isServer){
+            var userId = Accounts.findUserByEmail(email)._id;
+            Accounts.sendResetPasswordEmail(userId);
         }
     }
 });

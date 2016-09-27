@@ -1,0 +1,12 @@
+<template name="ResultsControl_body">
+    <div style="height:750px; overflow:scroll;">
+        {{#if hasData selectedData}}
+            {{selectedLayer}} {{selectedZone}}
+            {{>Material_select (YearSelect_args)}}
+            {{>Result_table}}
+        {{else}}
+            <p>To view results, click on a geography or use the find tool above.</p>
+        {{/if}}
+    </div>
+
+</template>

@@ -55,43 +55,6 @@ if(Meteor.isClient){
                 nodes: [
                     {template: "LayersMenu_body", data:undefined}
                 ]
-            }, navMapColor: {
-                icon: "language",
-                title: "Style Map",
-                nodes: [
-                    {template: "Chloropleth_body", data:undefined}
-                ]
-            }, zonesGeo: {
-                icon: "explore",
-                title: "Zones",
-                nodes: [
-                    {template: "FindZoneControl_body", data:undefined},
-                    {template: "ZoneList_body", data: undefined}
-                ]
-            }, noLayer: {
-                icon: "info",
-                title: "No Layer Selected",
-                nodes: [
-                    {template: "NoLayerSelected_body", data:undefined}
-                ]
-            }, municipalities: {
-                icon: "explore",
-                title: "Municipalities",
-                nodes: [
-                    {template: "CitiesList_body", data:undefined}
-                ]
-            }, county_web: {
-                icon: "explore",
-                title: "Counties",
-                nodes: [
-                    {template: "CountyList_body", data:undefined}
-                ]
-            }, urban_centers: {
-                icon: "explore",
-                title: "Urban Centers",
-                nodes: [
-                    {template: "UrbanCenter_body", data:undefined}
-                ]
             }, addUser: {
                 icon: "person",
                 title: "Create New User",
@@ -103,6 +66,18 @@ if(Meteor.isClient){
                 title: "Edit User Roles",
                 nodes: [
                     {template: "EditUserRole_page", data: undefined}
+                ]
+            }, changeUserPass: {
+                icon: "person",
+                title: "Change User Password",
+                nodes:[
+                    {template: "ChangePassword_page", data: undefined}
+                ]
+            }, deleteUser: {
+                icon: "person",
+                title: "Delete User",
+                nodes: [
+                    {template: "DeleteUser_page", data: undefined}
                 ]
             }
         };
@@ -143,6 +118,17 @@ if(Meteor.isClient){
     
     Template.registerHelper('selectedNavItem', function(){
         return Session.get('selectedNavItem');
+    });
+
+    Template.registerHelper('is3dMap', function(){
+
+        var mapName = FlowRouter.getRouteName();
+        if(mapName != 'webMap'){
+            return true;
+        }else{
+            return false;
+        }
+
     })
 
 }
@@ -194,7 +180,11 @@ function measureNameMap(abv){
         non_res_price_diff: "Non-Res Price",
         sim_density_zone: "Zonal Density",
         building_count: "Building Count",
-        base_year_building_count: "Building Count"
+        base_year_building_count: "Building Count",
+        building_1: "Land Use Type",
+        residentia: "Residential Units",
+        non_reside: "Non Residential Sqft",
+        bldg_sq_ft: "Total Bldg Sqft"
     };
     return measureNames[abv];
 };
