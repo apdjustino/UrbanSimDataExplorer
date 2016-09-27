@@ -22,6 +22,7 @@ if(Meteor.isClient){
             event.preventDefault();
             var mapName = FlowRouter.getRouteName();
             var zoneId = $('#zoneSearch').val();
+            var year = Session.get('selectedYear');
             if(mapName == 'webMap'){
                 // var selector = '#id-' + zoneId;
                 // console.log(d3.select(selector).datum(function(d){console.log(d)}))
@@ -31,6 +32,12 @@ if(Meteor.isClient){
                         var long = d.properties.Long;
                         map.setView(new L.LatLng(lat, long), 13, {animate:true});
                         findZoneData(zoneId, Session.get('selectedYear'));
+                        if(zoneComments){
+                            zoneComments.stop();
+                            zoneComments = Meteor.subscribe('commentsByZone', year);
+                        }else{
+                            zoneComments = Meteor.subscribe('commentsByZone', year);
+                        }
                         return "entity selected"
                     }else{
                         return "entity"
@@ -53,6 +60,12 @@ if(Meteor.isClient){
                                 }
                             });
                             findZoneData(zoneId, Session.get('selectedYear'));
+                            if(zoneComments){
+                                zoneComments.stop();
+                                zoneComments = Meteor.subscribe('commentsByZone', year);
+                            }else{
+                                zoneComments = Meteor.subscribe('commentsByZone', year);
+                            }
                         }
                     });
 

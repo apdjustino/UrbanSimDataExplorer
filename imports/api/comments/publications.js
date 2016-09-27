@@ -7,8 +7,8 @@ if(Meteor.isServer){
         return Comments.get(id);
     });
     
-    Meteor.publish('commentsByZone', function(zoneId){
-        var re = new RegExp(zoneId);
+    Meteor.publish('commentsByZone', function(year){
+        var re = new RegExp(year);
         return Comments.getCollection().find({referenceId: {$regex: re}});
     })
     
