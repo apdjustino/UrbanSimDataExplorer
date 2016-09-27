@@ -55,7 +55,7 @@ if(Meteor.isClient){
             return {
                 modalId: "commentModal",
                 bottom: "",
-                modalHeader: year + " " + measureNameMap(measure) + " Comments for Zone(s): " + zone,
+                modalHeader: year + " " + measureNameMap(measure) + " Comments for Area(s): " + zone,
                 modalHeaderTemplate: "CommentModal_header",
                 modalBodyTemplate: "CommentModal_body",
                 data: {measure: measure, year: year, zone: zone}

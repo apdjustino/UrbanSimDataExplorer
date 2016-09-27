@@ -93,7 +93,7 @@ import '../../ui/pages/js/SlideShow_body.js';
 FlowRouter.route('/', {
     name: 'home',
     action: function(){
-        BlazeLayout.render('Home_layout_page', {main: 'Intro_page'});
+        BlazeLayout.render('Home_layout_page', {main: 'Login_page'});
     }
 });
 
