@@ -470,7 +470,7 @@ if(Meteor.isClient){
                                     addSource(source, response);
 
                                     if(year != 2010){
-                                        Meteor.call('findNewBuildingsInZone', [NAME], year, function(error, res){
+                                        Meteor.call('findNewBuildingsInUc', [NAME], year, function(error, res){
                                             if(error){
                                                 Materialize.toast(error.reason, 4000);
                                             }else{

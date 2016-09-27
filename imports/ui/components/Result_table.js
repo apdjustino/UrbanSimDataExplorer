@@ -9,7 +9,7 @@ if(Meteor.isClient){
 
     Template.Result_table.onRendered(function(){
         $('.modal-trigger').leanModal();
-    })
+    });
     
     Template.Result_table.helpers({
         tableData: function(){
