@@ -54,6 +54,12 @@ if(Meteor.isClient){
             var year = parseInt(event.target.value);
             var entity = Session.get('selectedZone');
             Session.set('selectedYear', year);
+
+            //set chloropleth year select to selected year
+            var selector = '#queryYearSelect option[value=' + year + ']';
+            $(selector).prop('selected', true);
+            $('select').material_select();
+
             var mapName = FlowRouter.getRouteName();
             var layerName = Session.get('selectedLayer');
             
