@@ -10,7 +10,11 @@ if(Meteor.isClient){
     Template.Result_table.onRendered(function(){
         $('.modal-trigger').leanModal();
     });
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> b018a3f5d43585de45050ba9a0b60e4f45cef8fd
     Template.Result_table.helpers({
         tableData: function(){
             var data = Session.get('selectedData');
@@ -63,5 +67,5 @@ if(Meteor.isClient){
         }
     })
 
-    
+
 }
