@@ -2,28 +2,30 @@
     <form id="findAZone">
         <div class="row valign-wrapper">
 
-                {{#if isUrbanCenter this}}
-                    <div class="col s12">
-                        {{>Material_ul uc_muniList_args (this)}}
-                    </div>
-                {{/if}}
-                {{#if isMunis this}}
-                    <div class="col s12">
-                        {{>Material_ul uc_muniList_args (this)}}
-                    </div>
-                {{/if}}
-                {{#if isCounty this}}
-                    <div class="col s12">
-                        {{>Material_ul uc_muniList_args (this)}}
-                    </div>
-                {{/if}}
-                {{#if isZones this}}
+            {{#if isUrbanCenter this}}
+                <div class="col s12">
+                    {{>Material_ul uc_muniList_args (this)}}
+                </div>
+            {{/if}}
+            {{#if isMunis this}}
+                <div class="col s12">
+                    {{>Material_ul uc_muniList_args (this)}}
+                </div>
+            {{/if}}
+            {{#if isCounty this}}
+                <div class="col s12">
+                    {{>Material_ul uc_muniList_args (this)}}
+                </div>
+            {{/if}}
+            {{#if isZones this}}
                 <div class="input-field col s6" style="margin-left:0px;">
                     <input id="zoneSearch" type="text">
                     <label for="zoneSearch">{{label this}}</label>
                 </div>
                 <input type="submit" class="btn valign" value="Find">
-                {{/if}}
+
+            {{/if}}
+
 
         </div>
     </form>
