@@ -7,7 +7,7 @@ import {subscribeToCounty} from '../../components/CesiumMapFunctions.js';
 import {subscribeToUrbanCenter} from '../../components/CesiumMapFunctions.js';
 import {addNewBuildings} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
-    
+
     Template.ResultsControl_body.helpers({
         hasData: function(data){
             if(data == undefined || data.oneYear.length == 0){
@@ -54,9 +54,15 @@ if(Meteor.isClient){
             var year = parseInt(event.target.value);
             var entity = Session.get('selectedZone');
             Session.set('selectedYear', year);
+
+            //set chloropleth year select to selected year
+            var selector = '#queryYearSelect option[value=' + year + ']';
+            $(selector).prop('selected', true);
+            $('select').material_select();
+
             var mapName = FlowRouter.getRouteName();
             var layerName = Session.get('selectedLayer');
-            
+
             if(layerName == 'zonesGeo'){
                 subscribeToZone(year, entity);
             }else if(layerName == 'municipalities'){
@@ -99,13 +105,13 @@ if(Meteor.isClient){
                             }
                         })
                     }
-                    
+
                 }
 
             }
 
         }
     });
-    
-    
+
+
 }

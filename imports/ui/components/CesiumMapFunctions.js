@@ -85,7 +85,7 @@ if(Meteor.isClient){
 
         hand = new Cesium.ScreenSpaceEventHandler(viewer.scene.canvas);
         setZoneClickEvents();
-        
+
     }
 
     zoneComments = undefined;
@@ -262,7 +262,7 @@ if(Meteor.isClient){
                                 zoneComments = Meteor.subscribe('commentsByZone', year);
                             }
                         }
-                        
+
                     }
                 });
             }else{
@@ -470,7 +470,7 @@ if(Meteor.isClient){
                                     addSource(source, response);
 
                                     if(year != 2010){
-                                        Meteor.call('findNewBuildingsInZone', [NAME], year, function(error, res){
+                                        Meteor.call('findNewBuildingsInUc', [NAME], year, function(error, res){
                                             if(error){
                                                 Materialize.toast(error.reason, 4000);
                                             }else{
@@ -602,7 +602,7 @@ if(Meteor.isClient){
         Session.set('selectedZone', selectedZoneArray);
         var zoneSubscription = subscribeToZone(year, selectedZoneArray);
     }
-    
+
     export function findMuniData(city_name, year){
         var selectedZoneArray = Session.get('selectedZone');
         if(!selectedZoneArray){
@@ -623,7 +623,7 @@ if(Meteor.isClient){
         Session.set('selectedZone', selectedZoneArray);
         var citySubscription = subscribeToCity(year, selectedZoneArray);
     }
-    
+
     export function findCountyData(county_name, year){
         var selectedZoneArray = Session.get('selectedZone');
         if(!selectedZoneArray){
@@ -644,7 +644,7 @@ if(Meteor.isClient){
         Session.set('selectedZone', selectedZoneArray);
         var countySubscription = subscribeToCounty(year, selectedZoneArray);
     }
-    
+
     export function findUrbanCenterData(name, year){
         var selectedZoneArray = Session.get('selectedZone');
         if(!selectedZoneArray){
@@ -735,14 +735,14 @@ if(Meteor.isClient){
 
                 dataDict["allYears"] = chartData;
                 Session.set("selectedData", dataDict);
-                
-                
+
+
                 drawChart(dataDict.allYears);
 
             }
         });
     }
-    
+
     export function subscribeToCity(year, selectedZoneArray){
         return Meteor.subscribe('grouped_cities', selectedZoneArray, {
             onReady: function(){
@@ -811,14 +811,14 @@ if(Meteor.isClient){
 
                 dataDict["allYears"] = chartData;
                 Session.set("selectedData", dataDict);
-                
+
 
                 drawChart(dataDict.allYears);
 
             }
         });
     }
-    
+
     export function subscribeToCounty(year, selectedZoneArray){
         return Meteor.subscribe('grouped_counties', selectedZoneArray, {
             onReady: function(){
@@ -894,7 +894,7 @@ if(Meteor.isClient){
             }
         });
     }
-    
+
     export function subscribeToUrbanCenter(year, selectedZoneArray){
         return Meteor.subscribe('grouped_urban_centers', selectedZoneArray, {
             onReady: function(){
@@ -1233,7 +1233,7 @@ if(Meteor.isClient){
         }
         Session.set('spinning', false);
     }
-    
+
     export function addNewBuildings(source, response){
         source.load({
             type: "FeatureCollection",
@@ -1257,6 +1257,6 @@ if(Meteor.isClient){
 
         Session.set('spinning', false);
     }
-    
+
 
 }

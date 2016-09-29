@@ -16,12 +16,12 @@ export function drawMap(params){
     d3.selectAll('.entity').remove();
 
 
-
     d3.json(params.pathString, function(error, zones){
         if(error){
             console.log(error);
             return;
         }
+
 
         var shape = topojson.feature(zones, zones.objects[params.obj_name]);
         var transform = d3.geo.transform({point: projectPoint});
@@ -201,7 +201,7 @@ export function colorMap(data, measure, layer){
     });
 
     //draw legend
-    
+
     var colorScheme = {
         "q0-7":"#eff3ff",
         "q1-7":"#85B3D4",
@@ -225,7 +225,7 @@ export function colorMap(data, measure, layer){
         obj["color"] = colorScheme[cv];
         range.push(obj)
     });
-    
+
     Session.set('queryColorRanges', range);
     //
     // d3.selectAll(".legendItemContainer").remove();

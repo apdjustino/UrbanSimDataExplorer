@@ -1,11 +1,48 @@
 <template name="FindZoneControl_body">
     <form id="findAZone">
         <div class="row valign-wrapper">
-            <div class="input-field col s6" style="margin-left:0px;">
-                <input id="zoneSearch" type="text">
-                <label for="zoneSearch">{{label this}}</label>
-            </div>
-            <input type="submit" class="btn valign" value="Find">
+
+            {{#if isUrbanCenter this}}
+                <div class="col s12">
+                    {{>Material_ul uc_muniList_args (this)}}
+                </div>
+            {{/if}}
+            {{#if isMunis this}}
+                <div class="col s12">
+                    {{>Material_ul uc_muniList_args (this)}}
+                </div>
+            {{/if}}
+            {{#if isCounty this}}
+                <div class="col s12">
+                    {{>Material_ul uc_muniList_args (this)}}
+                </div>
+            {{/if}}
+            {{#if isZones this}}
+                <div class="input-field col s6" style="margin-left:0px;">
+                    <input id="zoneSearch" type="text">
+                    <label for="zoneSearch">{{label this}}</label>
+                </div>
+                <input type="submit" class="btn valign" value="Find">
+            {{/if}}
+
         </div>
     </form>
+</template>
+
+<template name="uc_muniList_list_item">
+    <div class="row">
+        <div class="col s8">
+            <h6>
+                {{this.name}}
+            </h6>
+        </div>
+        <div class="col s4">
+            <h6 class="right-align">
+                <a href="#" class="zoomTo">
+                    <i class="material-icons">videocam</i>
+                </a>
+            </h6>
+        </div>
+    </div>
+
 </template>
