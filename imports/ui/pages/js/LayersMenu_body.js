@@ -34,21 +34,21 @@ if(Meteor.isClient){
                     geo_class: "entity"
                 }, municipalities: {
                     pathString: "/data/municipalities.json",
-                    obj_name: "drcog_municipalities",
+                    obj_name: "municipalities",
                     label_string: "City: ",
                     geo_property: "CITY",
                     tazId: "",
                     geo_class: "entity"
                 }, county_web: {
                     pathString: "/data/county_web.json",
-                    obj_name: "county_2014_web",
+                    obj_name: "county_web",
                     label_string: "County: ",
                     geo_property: "COUNTY",
                     tazId: "",
                     geo_class: "entity"
                 }, urban_centers: {
                     pathString: "/data/urban_centers.json",
-                    obj_name: "urban_centers",
+                    obj_name: "urban_centers_reg",
                     label_string: "Urban Center: ",
                     geo_property: "NAME",
                     tazId: "",
