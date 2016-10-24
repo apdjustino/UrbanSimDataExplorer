@@ -247,7 +247,7 @@ path.entity:hover{
 
 path.entity{
     stroke:black;
-    stroke-width:0.5;
+    stroke-width:1;
     fill:rgba(0,0,0,0);
     opacity:0.6;
 
