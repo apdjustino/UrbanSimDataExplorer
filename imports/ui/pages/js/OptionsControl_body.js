@@ -22,7 +22,11 @@ if(Meteor.isClient){
             Session.set('selectedZone', []);
 
             if(mapName == 'webMap'){
-                d3.selectAll('.entity').attr("class", "entity");
+                d3.selectAll('.entity')
+                    .attr("class", "entity")
+                    .style("fill", "rgba(0,0,0,0)");
+
+                $('#showCommentZones').prop('checked', false);
             }else{
                 var ds = viewer.dataSources.get(0);
                 var entities = ds.entities.values;
@@ -34,6 +38,9 @@ if(Meteor.isClient){
                 for(var i = viewer.dataSources.length - 1; i>0; i--){
                     viewer.dataSources.remove(viewer.dataSources.get(i));
                 }
+
+                viewer.entities.removeAll();
+                $('#showCommentZones').prop('checked', false);
             }
 
         }, "click #showCommentZones": function(event, template){
