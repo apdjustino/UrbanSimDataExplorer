@@ -8,7 +8,7 @@ if(Meteor.isClient){
     });
 
     Template.OptionsControl_body.events({
-        "change #chkMultiple": function(){
+        "click #chkMultiple": function(){
             if(event.target.checked){
                 Session.set('allowMultipleGeo', true);
             }else{
