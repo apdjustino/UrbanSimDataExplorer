@@ -54,6 +54,17 @@ if(Meteor.isClient){
             if(mapName == 'webMap'){
                 // var selector = '#id-' + zoneId;
                 // console.log(d3.select(selector).datum(function(d){console.log(d)}))
+
+                //code for displaying error message
+
+                if(isNaN(parseInt(zoneId))){
+                    Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                }else{
+                    if(parseInt(zoneId) > 2804 || parseInt(zoneId) < 1){
+                        Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                    }
+                }
+
                 d3.selectAll('.entity').attr("class", function(d){
                     if(d.properties.ZONE_ID == zoneId){
                         var lat = d.properties.Lat;
@@ -72,6 +83,10 @@ if(Meteor.isClient){
                     }
 
                 });
+
+
+
+
             }else{
                 var ds = viewer.dataSources.get(0);
 
