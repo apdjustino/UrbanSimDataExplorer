@@ -1,0 +1,26 @@
+<template name="ScenarioManager_body">
+
+    <h5 style="margin-left: 10px;">Scenario Manager</h5>
+    <form id="newScenarioForm">
+        <div class="row valign-wrapper">
+            <div class="input-field col s8 m8 l8" style="margin-left:10px;">
+                <input id="newScenarioName" type="text">
+                <label for="newScenarioName">New Scenario Name</label>
+            </div>
+            <input type="submit" class="btn valign" value="Add">
+        </div>
+    </form>
+
+
+    {{#if numberOfScenarios}}
+        <h6 class="center-align"><i>No current scenarios</i></h6>
+    {{else}}
+        <ul>
+            {{#each scenarioNames}}
+                <li>{{this.scenarioName}}</li>
+            {{/each}}
+        </ul>
+    {{/if}}
+
+
+</template>

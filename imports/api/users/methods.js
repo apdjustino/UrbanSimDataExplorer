@@ -79,13 +79,6 @@ Meteor.methods({
                 Accounts.sendEnrollmentEmail(id);
             }
         }
-    }, addNewScenario: function(name){
-        if(!Meteor.userId()){
-            throw new Meteor.Error("Not logged in!");
-        }else{
-            var scenarioObj = {name: name, zoning: []};
-            Meteor.users.update({_id: Meteor.userId()}, {$addToSet:{'profile.scenarios': scenarioObj}});
-        }
     }, removeScenario: function(name){
         if(!Meteor.userId()){
             throw new Meteor.Error("Not logged in!");
