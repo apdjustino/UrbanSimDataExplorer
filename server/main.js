@@ -9,6 +9,7 @@ import '../imports/api/buildings/publications.js';
 import '../imports/api/parcels/publications.js';
 import '../imports/api/muniData/publications.js';
 import '../imports/api/ucData/publications.js';
+import '../imports/api/scenarios/publications.js';
 
 if(Meteor.isServer){
     Accounts.onCreateUser(function(options, user){
