@@ -79,12 +79,6 @@ Meteor.methods({
                 Accounts.sendEnrollmentEmail(id);
             }
         }
-    }, removeScenario: function(name){
-        if(!Meteor.userId()){
-            throw new Meteor.Error("Not logged in!");
-        }else{
-            Meteor.users.update({_id: Meteor.userId()}, {$pull: {'profile.scenarios':{name: name}}});
-        }
     }, sendResetEmail: function(email){
         if(Meteor.isServer){
             var userId = Accounts.findUserByEmail(email)._id;

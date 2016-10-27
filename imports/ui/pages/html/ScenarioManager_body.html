@@ -13,11 +13,11 @@
 
 
     {{#if numberOfScenarios}}
-        <ul>
-            {{#each scenarioNames}}
-                <li>{{this.scenarioName}}</li>
-            {{/each}}
-        </ul>
+        <div class="row">
+            <div class="col s8 m8 l8">
+                {{>Material_ul (ScenarioList_args)}}
+            </div>
+        </div>
 
     {{else}}
         <h6 class="center-align"><i>No current scenarios</i></h6>
@@ -64,4 +64,16 @@
 
 <template name="relocationScenarioControls">
     <p><i>Relocation controls go here</i></p>
+</template>
+
+<template name="ScenarioListItem">
+    <div class="row">
+        <div class="col s8 m8 l8">
+            <h6>{{this.scenarioName}}</h6>
+        </div>
+        <div class="col s4 m4 l4">
+            <a id="{{this.scenarioName}}-edit" class="editButton" href="#"><i class="material-icons">edit</i></a>
+            <a id="{{this.scenarioName}}-remove" class="removeButton" href="#"><i class="material-icons">remove_circle</i></a>
+        </div>
+    </div>
 </template>

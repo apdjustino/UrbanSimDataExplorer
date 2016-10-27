@@ -14,7 +14,7 @@ if(Meteor.isClient){
                     }else{
                         if(response){
                             Materialize.toast('Scenario added', 5000);
-                            template.selectedScenario.set(name);
+                            Session.set('selectedScenario', name);
                             $('#ScenarioModal').openModal();
                         }else{
                             Materialize.toast('There was an error adding the new scenario', 5000);
@@ -36,15 +36,19 @@ if(Meteor.isClient){
             var count = scenarios.find({}).fetch().length;
             return (count > 0);
         }, NewScenario_args: function(){
-            var scenarioName = Template.instance().selectedScenario.get();
+            var scenarioName = Session.get('selectedScenario');
             var scenarioData = scenarios.findOne({scenarioName: scenarioName});
-            console.log(scenarioData);
             return {
                 modalId: "ScenarioModal",
                 bottom: "",
                 modalHeaderTemplate: "ScenarioModalHeader",
                 modalBodyTemplate: "ScenarioModalBody",
                 data: scenarioData
+            }
+        }, ScenarioList_args: function(){
+            return {
+                listData: scenarios.find({}, {fields:{scenarioName:1}}).fetch(),
+                listItemTemplate: "ScenarioListItem"
             }
         }
     });
@@ -53,7 +57,7 @@ if(Meteor.isClient){
     Template.ScenarioManager_body.onCreated(function(){
         //create template reactive variables
 
-        this.selectedScenario = new ReactiveVar(undefined);
+
 
         var self = this;
 
@@ -81,6 +85,17 @@ if(Meteor.isClient){
     Template.ScenarioModalBody.onCreated(function(){
         this.scenarioType = new ReactiveVar('zoningScenarioControls');
     });
+
+    Template.ScenarioListItem.events({
+        "click .removeButton": function(event, template){
+            var name = event.target.parentElement.id.split('-')[0];
+            Meteor.call("removeScenario", name);
+        }, "click .editButton": function(event, template){
+            var name = event.target.parentElement.id.split('-')[0];
+            Session.set('selectedScenario', name);
+            $('#ScenarioModal').openModal();
+        }
+    })
 
 
 }

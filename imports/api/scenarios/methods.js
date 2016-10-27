@@ -18,5 +18,13 @@ Meteor.methods({
                 return false;
             }
         }
+    }, "removeScenario": function(name){
+        if(!Meteor.userId()){
+            throw new Meteor.Error('not logged in');
+        }else{
+            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                scenarios.remove({scenarioName: name});
+            }
+        }
     }
 });
