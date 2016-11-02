@@ -1,6 +1,10 @@
 /**
  * Created by jmartinez on 10/10/16.
  */
+
+import {zoningScenarioClickEvents} from '../../components/CesiumMapFunctions';
+import {setZoneClickEvents} from '../../components/CesiumMapFunctions';
+import {drawBoundariesClickEvents} from '../../components/CesiumMapFunctions';
 if(Meteor.isClient){
 
     Template.ScenarioManager_body.events({
@@ -58,10 +62,8 @@ if(Meteor.isClient){
         //create template reactive variables
 
 
-
+        
         var self = this;
-
-
         this.autorun(function(){
             self.subscribe('scenarios');
         });
@@ -95,7 +97,45 @@ if(Meteor.isClient){
             Session.set('selectedScenario', name);
             $('#ScenarioModal').openModal();
         }
-    })
+    });
+
+    Template.zoningScenarioControls.events({
+        "click #startZoningScenario": function(event, template){
+            event.preventDefault();
+            $('#ScenarioModal').closeModal();
+            $('#zoningScenarioToolBar').css('visibility', 'visible');
+
+            //set click handler to scenario in order to load parcels on click
+            Session.set('parcelCount', 0);
+            zoningScenarioClickEvents();
+        }
+    });
+
+    Template.ScenarioToolBar.events({
+        "click #saveZoningScenario": function(event, template){
+            event.preventDefault();
+            $('#zoningScenarioToolBar').css('visibility', 'hidden');
+            setZoneClickEvents();
+        }, "click #toggleDrawBoundary": function(event, template){
+            event.preventDefault();
+            console.log(counter);
+            drawBoundariesClickEvents();
+            
+        }
+    });
+    
+    Template.ScenarioToolBar.helpers({
+        selectedParcelCount: function(){
+            return Session.get('parcelCount');
+        }
+    });
+
+
+    Template.ScenarioToolBar.onRendered(function(){
+        $('.tooltipped').tooltip({delay: 50});
+    });
+
+
 
 
 }

@@ -1258,5 +1258,129 @@ if(Meteor.isClient){
         Session.set('spinning', false);
     }
 
+    export function addParcels(source, response){
+        source.load({
+            type: "FeatureCollection",
+            crs: {
+                type: "name",
+                properties: {
+                    name: "urn:ogc:def:crs:OGC:1.3:CRS84"
+                }
+            },
+            features: response
+        });
+        var entities = source.entities.values;
+
+
+        for(var i =0; i<entities.length; i++) {
+            var entity = entities[i];
+            entity.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
+            entity.polygon.outlineColor = Cesium.Color.BLACK
+        }
+    }
+
+    export function zoningScenarioClickEvents() {
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        hand.setInputAction(function(click){
+            var pickedObject = viewer.scene.pick(click.position);
+            var entity = pickedObject.id;
+
+            var dataSourcesCount = viewer.dataSources.length - 1;
+            for(var i=dataSourcesCount; i> 0; i--){
+                viewer.dataSources.remove(viewer.dataSources.get(i), true);
+            }
+
+            var source = new Cesium.GeoJsonDataSource('parcels');
+            var zoneId = entity.properties.ZONE_ID;
+            Meteor.call('getParcelsInZone', zoneId, function(error, response){
+                if(error){
+                    Materialize.toast(error.reason, 5000);
+                }else{
+                    Session.set('parcelCount', response.length);
+                    viewer.dataSources.add(source);
+                    addParcels(source, response);
+                }
+
+            });
+
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }
+
+
+    var lat;
+    var long;
+    var originLat;
+    var originLong
+    var counter = 0;;
+    export function drawBoundariesClickEvents(){
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+        hand.removeInputAction(Cesium.ScreenSpaceEventType.RIGHT_CLICK);
+        hand.setInputAction(function(click){
+            counter = counter + 1;
+            var cartesian = viewer.camera.pickEllipsoid(click.position, viewer.scene.globe.ellipsoid);
+            if(cartesian){
+                var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                long = Cesium.Math.toDegrees(cartographic.longitude);
+                lat = Cesium.Math.toDegrees(cartographic.latitude);
+                if(counter == 1){
+                    originLong = Cesium.Math.toDegrees(cartographic.longitude);
+                    originLat = Cesium.Math.toDegrees(cartographic.latitude);
+                }
+                viewer.entities.add({
+                    id: counter,
+                    polyline: {
+                        positions: Cesium.Cartesian3.fromDegreesArray([long, lat, long, lat]),
+                        width: 2,
+                        material: Cesium.Color.RED
+                    }
+
+
+                });
+            }
+        }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+        hand.setInputAction(function(movement){
+            $('#cesiumContainer').css('cursor', 'crosshair');
+            var line = viewer.entities.getById(counter);
+            if(line){
+
+                var cartesian = viewer.camera.pickEllipsoid(movement.endPosition, viewer.scene.globe.ellipsoid);
+                if(cartesian){
+                    var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                    newLong = Cesium.Math.toDegrees(cartographic.longitude);
+                    newLat = Cesium.Math.toDegrees(cartographic. latitude);
+
+                }
+
+                line.polyline.positions = Cesium.Cartesian3.fromDegreesArray([long, lat, newLong, newLat ])
+            }
+
+        }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+        hand.setInputAction(function(rightClick){
+            counter = counter + 1;
+                    var cartesian = viewer.camera.pickEllipsoid(rightClick.position, viewer.scene.globe.ellipsoid);
+                    if(cartesian){
+                        var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
+                        newlong = Cesium.Math.toDegrees(cartographic.longitude);
+                        newLat = Cesium.Math.toDegrees(cartographic. latitude);
+                    }
+
+                    viewer.entities.add({
+                        id: counter,
+                        polyline: {
+                            positions: Cesium.Cartesian3.fromDegreesArray([newLong, newLat, originLong, originLat]),
+                            width: 2,
+                            material: Cesium.Color.RED
+                        }
+                    });
+
+            $('#cesiumContainer').css('cursor', 'default');
+            hand.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+
+        }, Cesium.ScreenSpaceEventType.RIGHT_CLICK)
+    }
+
 
 }
