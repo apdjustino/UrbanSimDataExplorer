@@ -1310,7 +1310,7 @@ if(Meteor.isClient){
     var lat;
     var long;
     var originLat;
-    var originLong
+    var originLong;
     var counter = 0;;
     export function drawBoundariesClickEvents(){
         hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);

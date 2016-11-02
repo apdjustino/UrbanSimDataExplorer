@@ -54,6 +54,14 @@ if(Meteor.isClient){
                 listData: scenarios.find({}, {fields:{scenarioName:1}}).fetch(),
                 listItemTemplate: "ScenarioListItem"
             }
+        }, EditFAR_args: function(){
+            return {
+                modalId: "EditFARModal",
+                bottom: "",
+                modalHeaderTemplate: "EditFARModalHeader",
+                modalBodyTemplate: "EditFARModalBody",
+                data: undefined
+            }
         }
     });
 
@@ -114,13 +122,16 @@ if(Meteor.isClient){
     Template.ScenarioToolBar.events({
         "click #saveZoningScenario": function(event, template){
             event.preventDefault();
+            $('.fixed-action-btn').closeFAB();
             $('#zoningScenarioToolBar').css('visibility', 'hidden');
             setZoneClickEvents();
         }, "click #toggleDrawBoundary": function(event, template){
             event.preventDefault();
-            console.log(counter);
             drawBoundariesClickEvents();
             
+        }, "click #editFAR": function(event, template){
+            event.preventDefault();
+            $('#EditFARModal').openModal();
         }
     });
     

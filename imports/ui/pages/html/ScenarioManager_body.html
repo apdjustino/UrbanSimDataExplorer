@@ -26,6 +26,8 @@
 
     {{>Material_modal (NewScenario_args)}}
 
+    {{>Material_modal (EditFAR_args)}}
+
 
 </template>
 
@@ -82,21 +84,40 @@
 <template name="ScenarioToolBar">
     <a class="btn-floating"><i class="material-icons">mode_edit</i></a>
     <ul>
-        <li><a class="btn-floating red"><i class="material-icons">insert_chart</i></a></li>
-        <li><a class="btn-floating yellow darken-1"><i class="material-icons">format_quote</i></a></li>
-        <li><a class="btn-floating green"><i class="material-icons">publish</i></a></li>
-        <li><a class="btn-floating blue"><i class="material-icons">attach_file</i></a></li>
-        <li><div class="input-field inline"><input id="test" type="text"><label for="test">Test label</label></div></li>
+        <li>
+            <a href="#" id="toggleDrawBoundary" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Select Parcels">
+                <i class="material-icons">format_shapes</i>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="btn-floating tooltipped valign-wrapper" data-position="bottom" data-delay="50" data-tooltip="Selected Parcels">
+                <h6 class="center-align valign">{{selectedParcelCount}}</h6>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="editFAR" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit FARs">
+                <i class="material-icons">location_city</i>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="saveZoningScenario" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save Changes">
+                <i class="material-icons">save</i>
+            </a>
+        </li>
     </ul>
-    <!--<a href="#" id="toggleDrawBoundary" class="valign tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit Parcel Selection" style="margin-right:20px">-->
-        <!--<i class="material-icons">format_shapes</i>-->
-    <!--</a>-->
 
-    <!--<div class="input-field inline valign">-->
-        <!--<input id="newFAR" type="text">-->
-        <!--<label for="newFAR">FAR</label>-->
-    <!--</div>-->
-    <!--<a href="#" id="saveZoningScenario" class="valign tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save Changes">-->
-        <!--<i class="material-icons">save</i>-->
-    <!--</a>-->
+</template>
+
+<template name="EditFARModalHeader">
+    <h5>Edit FAR for Selection</h5>
+</template>
+
+<template name="EditFARModalBody">
+    <div class="row">
+        <div class="input-field col s6 m6 l6">
+            <input id="newFARValue" type="number" class="validate">
+            <label for="newFARValue" data-error="wrong" data-success="right">New FAR Value</label>
+        </div>
+        <a class="btn waves-effect waves-light" href="#">UPDATE</a>
+    </div>
 </template>
