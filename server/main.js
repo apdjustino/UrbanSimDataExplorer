@@ -47,6 +47,8 @@ if(Meteor.isServer){
 
         //set index for buildings and buildings centroid collection
         //buildings_centroids._ensureIndex({'geometry.coordinates': '2dsphere'});
+        
+        parcel_centroids._ensureIndex({'geometry.coordinates': '2dsphere'});
 
         buildings._ensureIndex({'properties._zone_id': 1});
         buildings._ensureIndex({'properties._uc_name': 1});

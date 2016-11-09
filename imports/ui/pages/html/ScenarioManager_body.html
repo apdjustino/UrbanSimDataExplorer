@@ -85,7 +85,7 @@
     <a class="btn-floating"><i class="material-icons">mode_edit</i></a>
     <ul>
         <li>
-            <a href="#" id="toggleDrawBoundary" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Select Parcels">
+            <a href="#" id="toggleDrawBoundary" class="btn-floating tooltipped {{isZoneSelected}}" data-position="bottom" data-delay="50" data-tooltip="Select Parcels (Click a Zone to Enable)">
                 <i class="material-icons">format_shapes</i>
             </a>
         </li>
@@ -95,13 +95,18 @@
             </a>
         </li>
         <li>
-            <a href="#" id="editFAR" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit FARs">
+            <a href="#" id="editFAR" class="btn-floating tooltipped {{isZoneSelected}}" data-position="bottom" data-delay="50" data-tooltip="Edit FARs (Click a Zone to Enable)">
                 <i class="material-icons">location_city</i>
             </a>
         </li>
         <li>
             <a href="#" id="saveZoningScenario" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save Changes">
                 <i class="material-icons">save</i>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="leaveScenarioEditor" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Exit Scenario Editor">
+                <i class="material-icons">cancel</i>
             </a>
         </li>
     </ul>

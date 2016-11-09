@@ -8,3 +8,5 @@ Meteor.methods({
         return parcels.find({'properties.zone_id': zoneId}).fetch();
     }
 });
+
+

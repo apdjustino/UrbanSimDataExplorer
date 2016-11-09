@@ -1221,6 +1221,7 @@ if(Meteor.isClient){
         });
         var entities = source.entities.values;
 
+
         if(Session.equals('styleBuildings',  true)){
             colorBuildings();
         }else{
@@ -1270,13 +1271,26 @@ if(Meteor.isClient){
             features: response
         });
         var entities = source.entities.values;
-
+        var selection = [];
 
         for(var i =0; i<entities.length; i++) {
             var entity = entities[i];
-            entity.polygon.material = new Cesium.Color(0.01,0.01,0.01,0.01);
-            entity.polygon.outlineColor = Cesium.Color.BLACK
+            var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
+
+            //set the visual properties of the selection
+            if(entity.properties._far > 0){
+                entity.polygon.material = Cesium.Color.BLUE;
+                entity.polygon.outlineColor = Cesium.Color.BLUE;
+                entity.polygon.extrudedHeight = Math.ceil(entity.properties._far) * 15;
+            }else{
+                entity.polygon.material = Cesium.Color.DARKORANGE;
+                entity.polygon.outlineColor = Cesium.Color.DARKORANGE;
+            }
+
+            selection.push(selectionItem);
+
         }
+        Session.set('scenarioSelection', selection);
     }
 
     export function zoningScenarioClickEvents() {
@@ -1292,6 +1306,7 @@ if(Meteor.isClient){
 
             var source = new Cesium.GeoJsonDataSource('parcels');
             var zoneId = entity.properties.ZONE_ID;
+            Session.set('selectedZone', zoneId);
             Meteor.call('getParcelsInZone', zoneId, function(error, response){
                 if(error){
                     Materialize.toast(error.reason, 5000);
@@ -1311,7 +1326,9 @@ if(Meteor.isClient){
     var long;
     var originLat;
     var originLong;
-    var counter = 0;;
+    var counter = 0;
+    var pointArr = [];
+    var centroids = undefined;
     export function drawBoundariesClickEvents(){
         hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         hand.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
@@ -1323,6 +1340,7 @@ if(Meteor.isClient){
                 var cartographic = Cesium.Cartographic.fromCartesian(cartesian);
                 long = Cesium.Math.toDegrees(cartographic.longitude);
                 lat = Cesium.Math.toDegrees(cartographic.latitude);
+                pointArr.push([long, lat]);
                 if(counter == 1){
                     originLong = Cesium.Math.toDegrees(cartographic.longitude);
                     originLat = Cesium.Math.toDegrees(cartographic.latitude);
@@ -1367,6 +1385,9 @@ if(Meteor.isClient){
                         newLat = Cesium.Math.toDegrees(cartographic. latitude);
                     }
 
+                    pointArr.push([newlong, newLat]);
+                    pointArr.push([originLong, originLat]);
+
                     viewer.entities.add({
                         id: counter,
                         polyline: {
@@ -1375,11 +1396,99 @@ if(Meteor.isClient){
                             material: Cesium.Color.RED
                         }
                     });
+            
+            var zoneId = Session.get('selectedZone');
+            if(centroids){
+                centroids.stop();
+                centroids = Meteor.subscribe('parcels_poly_selection', zoneId, pointArr, {
+                    onReady: function(){
+                        ParcelSubOnReady();
+                    }
+                });
+            }else{
+                centroids = Meteor.subscribe('parcels_poly_selection', zoneId, pointArr, {
+                    onReady: function(){
+                        ParcelSubOnReady();
+                    }
+                });
+            }
 
+
+            //remove boundary line before drawing the new selection
+            for(var i=0; i < counter +1; i++){
+                var line = viewer.entities.getById(i);
+                if(line){
+                    viewer.entities.remove(line);
+                }
+            }
+            pointArr = [];
+            counter = 0;
             $('#cesiumContainer').css('cursor', 'default');
             hand.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
+
+            zoningScenarioClickEvents();
+
 
         }, Cesium.ScreenSpaceEventType.RIGHT_CLICK)
+    }
+
+    function ParcelSubOnReady(){
+        var parcelIds = _.map(parcel_centroids.find({}).fetch(), function(parcel){
+            return parcel.properties.parcel_id;
+        });
+
+
+        console.log(viewer.dataSources.get(1));
+
+        var source = viewer.dataSources.get(1);
+        var entities = source.entities.values;
+        var selection = [];
+
+        for(var i=0; i<entities.length; i++){
+            var entity = entities[i];
+            if(_.contains(parcelIds, entity.properties.parcel_id)){
+                var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
+                selection.push(selectionItem);
+            }else{
+                entity.polygon.material = Cesium.Color.GRAY;
+                entity.polygon.outlineColor = Cesium.Color.GRAY;
+            }
+        }
+
+        Session.set('scenarioSelection', selection);
+        Session.set('parcelCount', selection.length);
+
+
+
+
+        // Meteor.call('findParcels', parcelIds, function(error, response){
+        //     if(error){
+        //         Materialize.toast(error.reason, 5000);
+        //     }else{
+        //         var source = new Cesium.GeoJsonDataSource('new_selection');
+        //         viewer.dataSources.add(source);
+        //         source.load({
+        //             type: "FeatureCollection",
+        //             crs: {
+        //                 type: "name",
+        //                 properties: {
+        //                     name: "urn:ogc:def:crs:OGC:1.3:CRS84"
+        //                 }
+        //             },
+        //             features: response
+        //         });
+        //         var entities = source.entities.values;
+        //
+        //
+        //         for(var i =0; i<entities.length; i++) {
+        //             var entity = entities[i];
+        //             entity.polygon.extrudedHeight = Math.ceil(entity.properties._far) * 15;
+        //             entity.polygon.material = Cesium.Color.GREEN;
+        //             entity.polygon.outlineColor = Cesium.Color.GREEN;
+        //         }
+        //     }
+        // });
     }
 
 

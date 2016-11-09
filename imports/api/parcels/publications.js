@@ -10,7 +10,7 @@ if(Meteor.isServer){
         return urbansim_parcels.find({parcel_id: id});
     });
 
-    Meteor.publish('parcels_poly_selection', function(coordArr){
-        return parcels_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}})
-    })
+    Meteor.publish('parcels_poly_selection', function(zoneId, coordArr){
+        return parcel_centroids.find({'properties.zone_id': zoneId, geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}});
+    });
 }

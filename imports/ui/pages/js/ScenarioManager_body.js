@@ -115,6 +115,7 @@ if(Meteor.isClient){
 
             //set click handler to scenario in order to load parcels on click
             Session.set('parcelCount', 0);
+            Session.set('selectedZone', undefined);
             zoningScenarioClickEvents();
         }
     });
@@ -122,9 +123,8 @@ if(Meteor.isClient){
     Template.ScenarioToolBar.events({
         "click #saveZoningScenario": function(event, template){
             event.preventDefault();
-            $('.fixed-action-btn').closeFAB();
-            $('#zoningScenarioToolBar').css('visibility', 'hidden');
-            setZoneClickEvents();
+
+            
         }, "click #toggleDrawBoundary": function(event, template){
             event.preventDefault();
             drawBoundariesClickEvents();
@@ -132,12 +132,24 @@ if(Meteor.isClient){
         }, "click #editFAR": function(event, template){
             event.preventDefault();
             $('#EditFARModal').openModal();
+        }, "click #leaveScenarioEditor": function(event, template){
+            event.preventDefault();
+            $('.fixed-action-btn').closeFAB();
+            $('#zoningScenarioToolBar').css('visibility', 'hidden');
+            setZoneClickEvents();
         }
     });
     
     Template.ScenarioToolBar.helpers({
         selectedParcelCount: function(){
             return Session.get('parcelCount');
+        }, isZoneSelected: function(){
+            var selectedZone = Session.get('selectedZone');
+            if(selectedZone){
+                return "";
+            }else{
+                return "disabled";
+            }
         }
     });
 
