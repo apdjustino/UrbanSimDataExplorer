@@ -1439,7 +1439,6 @@ if(Meteor.isClient){
         });
 
 
-        console.log(viewer.dataSources.get(1));
 
         var source = viewer.dataSources.get(1);
         var entities = source.entities.values;
@@ -1450,6 +1449,8 @@ if(Meteor.isClient){
             if(_.contains(parcelIds, entity.properties.parcel_id)){
                 var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
                 selection.push(selectionItem);
+                entity.polygon.material = Cesium.Color.BLUE;
+                entity.polygon.outlineColor = Cesium.Color.BLUE;
             }else{
                 entity.polygon.material = Cesium.Color.GRAY;
                 entity.polygon.outlineColor = Cesium.Color.GRAY;
@@ -1459,36 +1460,7 @@ if(Meteor.isClient){
         Session.set('scenarioSelection', selection);
         Session.set('parcelCount', selection.length);
 
-
-
-
-        // Meteor.call('findParcels', parcelIds, function(error, response){
-        //     if(error){
-        //         Materialize.toast(error.reason, 5000);
-        //     }else{
-        //         var source = new Cesium.GeoJsonDataSource('new_selection');
-        //         viewer.dataSources.add(source);
-        //         source.load({
-        //             type: "FeatureCollection",
-        //             crs: {
-        //                 type: "name",
-        //                 properties: {
-        //                     name: "urn:ogc:def:crs:OGC:1.3:CRS84"
-        //                 }
-        //             },
-        //             features: response
-        //         });
-        //         var entities = source.entities.values;
-        //
-        //
-        //         for(var i =0; i<entities.length; i++) {
-        //             var entity = entities[i];
-        //             entity.polygon.extrudedHeight = Math.ceil(entity.properties._far) * 15;
-        //             entity.polygon.material = Cesium.Color.GREEN;
-        //             entity.polygon.outlineColor = Cesium.Color.GREEN;
-        //         }
-        //     }
-        // });
+        
     }
 
 

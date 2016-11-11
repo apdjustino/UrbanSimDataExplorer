@@ -124,7 +124,7 @@ if(Meteor.isClient){
         "click #saveZoningScenario": function(event, template){
             event.preventDefault();
 
-            
+
         }, "click #toggleDrawBoundary": function(event, template){
             event.preventDefault();
             drawBoundariesClickEvents();
@@ -157,6 +157,31 @@ if(Meteor.isClient){
     Template.ScenarioToolBar.onRendered(function(){
         $('.tooltipped').tooltip({delay: 50});
     });
+
+
+    Template.EditFARModalBody.events({
+        "click #btnUpdateFAR": function(event, template){
+            event.preventDefault();
+            var selection = Session.get('scenarioSelection');
+            var newFar = parseFloat($('#newFARValue').val());
+
+            for(var i=0; i<selection.length; i++){
+                selection[i].far = newFar;
+            }
+
+            Session.set('scenarioSelection', selection);
+
+            var source = viewer.dataSources.get(1);
+            var entities = source.entities.values;
+
+            for(var j=0; j<entities.length; j++){
+                var entity = entities[j];
+                if(_.contains(_.map(selection, function(x){return x.parcelId}), entity.properties.parcel_id)){
+                    entity.polygon.extrudedHeight = Math.ceil(newFar) * 15;
+                }
+            }
+        }
+    })
 
 
 
