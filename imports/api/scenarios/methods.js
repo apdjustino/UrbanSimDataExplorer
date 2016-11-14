@@ -26,5 +26,16 @@ Meteor.methods({
                 scenarios.remove({scenarioName: name});
             }
         }
+    }, "updateSelection": function(name, selection){
+        if(!Meteor.userId()){
+            throw new Meteor.Error('not logged in');
+        }else{
+            if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
+                scenarios.update({scenarioName: name}, {$addToSet: {parcels:selection}});
+                return true;
+            }else{
+                return false;
+            }
+        }
     }
 });

@@ -1272,16 +1272,33 @@ if(Meteor.isClient){
         });
         var entities = source.entities.values;
         var selection = [];
+        var scenario = Session.get('selectedScenario');
+        var query = scenarios.findOne({scenarioName:scenario});
+        var scenarioItems;
+        var scenarioParcelIds;
+        if(query){
+            scenarioItems = [].concat.apply([], scenarios.findOne({scenarioName:scenario}).parcels);
+            scenarioParcelIds = _.pluck(scenarioItems, 'parcelId');
+        }
+        
 
         for(var i =0; i<entities.length; i++) {
             var entity = entities[i];
             var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
 
             //set the visual properties of the selection
+            var far;
+            if(_.contains(scenarioParcelIds, entity.properties.parcel_id)){
+                far = _.find(scenarioItems, function(x){ return x.parcelId == entity.properties.parcel_id}).far;
+
+            }else{
+                far = entity.properties._far
+            }
+
             if(entity.properties._far > 0){
                 entity.polygon.material = Cesium.Color.BLUE;
                 entity.polygon.outlineColor = Cesium.Color.BLUE;
-                entity.polygon.extrudedHeight = Math.ceil(entity.properties._far) * 15;
+                entity.polygon.extrudedHeight = Math.ceil(far) * 15;
             }else{
                 entity.polygon.material = Cesium.Color.DARKORANGE;
                 entity.polygon.outlineColor = Cesium.Color.DARKORANGE;
@@ -1460,7 +1477,7 @@ if(Meteor.isClient){
         Session.set('scenarioSelection', selection);
         Session.set('parcelCount', selection.length);
 
-        
+
     }
 
 

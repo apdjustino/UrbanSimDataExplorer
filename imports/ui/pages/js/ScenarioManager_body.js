@@ -123,15 +123,33 @@ if(Meteor.isClient){
     Template.ScenarioToolBar.events({
         "click #saveZoningScenario": function(event, template){
             event.preventDefault();
+            var scenario = Session.get('selectedScenario');
+            var selection = Session.get('scenarioSelection');
+            Meteor.call('updateSelection', scenario, selection, function(error, response){
+                if(error){
+                    Materialize.toast(error.reason, 5000);
+                }else{
+                    if(response){
+                        Materialize.toast('Scenario Update Saved!', 5000);
+                    }else{
+                        Materialize.toast('Not authorized to update scenarios', 5000);
+                    }
 
+                }
+            });
 
         }, "click #toggleDrawBoundary": function(event, template){
             event.preventDefault();
-            drawBoundariesClickEvents();
+            if(!$('#toggleDrawBoundary').hasClass('disabled')){
+                drawBoundariesClickEvents();
+            }
+
             
         }, "click #editFAR": function(event, template){
             event.preventDefault();
-            $('#EditFARModal').openModal();
+            if(!$('#editFAR').hasClass('disabled')){
+                $('#EditFARModal').openModal();
+            }
         }, "click #leaveScenarioEditor": function(event, template){
             event.preventDefault();
             $('.fixed-action-btn').closeFAB();
