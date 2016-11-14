@@ -1277,8 +1277,11 @@ if(Meteor.isClient){
         var scenarioItems;
         var scenarioParcelIds;
         if(query){
-            scenarioItems = [].concat.apply([], scenarios.findOne({scenarioName:scenario}).parcels);
-            scenarioParcelIds = _.pluck(scenarioItems, 'parcelId');
+            if(query.hasOwnProperty('parcels')){
+                scenarioItems = [].concat.apply([], scenarios.findOne({scenarioName:scenario}).parcels);
+                scenarioParcelIds = _.pluck(scenarioItems, 'parcelId');
+            }
+            
         }
         
 

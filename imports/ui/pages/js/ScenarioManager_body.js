@@ -5,6 +5,9 @@
 import {zoningScenarioClickEvents} from '../../components/CesiumMapFunctions';
 import {setZoneClickEvents} from '../../components/CesiumMapFunctions';
 import {drawBoundariesClickEvents} from '../../components/CesiumMapFunctions';
+import {addParcels} from '../../components/CesiumMapFunctions';
+
+
 if(Meteor.isClient){
 
     Template.ScenarioManager_body.events({
@@ -104,6 +107,35 @@ if(Meteor.isClient){
             var name = event.target.parentElement.id.split('-')[0];
             Session.set('selectedScenario', name);
             $('#ScenarioModal').openModal();
+        }, "click .showButton": function(event, template){
+            var name = event.target.parentElement.id.split('-')[0];
+            Session.set('selectedScenario', name);
+            var hasParcels = scenarios.findOne({scenarioName:name}).hasOwnProperty('parcels');
+            if(hasParcels){
+                var scenarioItems = [].concat.apply([], scenarios.findOne({scenarioName:name}).parcels);
+                var scenarioParcelIds = _.pluck(scenarioItems, 'parcelId');
+
+                Meteor.call('findParcels', scenarioParcelIds, function(error, response){
+                    if(error){
+                        Materialize.toast(error.reason, 5000);
+                    }else{
+                        var dataSourcesCount = viewer.dataSources.length - 1;
+                        for(var i=dataSourcesCount; i> 0; i--){
+                            viewer.dataSources.remove(viewer.dataSources.get(i), true);
+                        }
+
+                        var source = new Cesium.GeoJsonDataSource('parcels');
+                        viewer.dataSources.add(source);
+                        addParcels(source, response);
+
+                    }
+                });
+            }else{
+                Materialize.toast('This scenario has no parcels. Edit scenario to include parcel changes');
+            }
+
+
+
         }
     });
 
@@ -171,6 +203,9 @@ if(Meteor.isClient){
         }
     });
 
+    Template.ScenarioListItem.onRendered(function(){
+        $('.tooltipped').tooltip({delay: 50});
+    });
 
     Template.ScenarioToolBar.onRendered(function(){
         $('.tooltipped').tooltip({delay: 50});

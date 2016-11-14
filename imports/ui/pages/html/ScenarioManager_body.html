@@ -14,7 +14,7 @@
 
     {{#if numberOfScenarios}}
         <div class="row">
-            <div class="col s8 m8 l8">
+            <div class="col s12 m12 l12">
                 {{>Material_ul (ScenarioList_args)}}
             </div>
         </div>
@@ -71,12 +71,13 @@
 
 <template name="ScenarioListItem">
     <div class="row">
-        <div class="col s8 m8 l8">
+        <div class="col s6 m6 l6">
             <h6>{{this.scenarioName}}</h6>
         </div>
-        <div class="col s4 m4 l4">
-            <a id="{{this.scenarioName}}-edit" class="editButton" href="#"><i class="material-icons">edit</i></a>
-            <a id="{{this.scenarioName}}-remove" class="removeButton" href="#"><i class="material-icons">remove_circle</i></a>
+        <div class="col s6 m6 l6">
+            <a id="{{this.scenarioName}}-show" class="btn-floating showButton tooltipped" data-position="bottom" data-delay="50" data-tooltip="Show Scenario Parcels (if any)" href="#"><i class="material-icons">videocam</i></a>
+            <a id="{{this.scenarioName}}-edit" class="btn-floating editButton tooltipped" data-position="bottom" data-delay="50" data-tooltip="Edit Scenario" href="#"><i class="material-icons">edit</i></a>
+            <a id="{{this.scenarioName}}-remove" class="btn-floating removeButton tooltipped" data-position="bottom" data-delay="50" data-tooltip="Remove Scenario" href="#"><i class="material-icons">cancel</i></a>
         </div>
     </div>
 </template>
