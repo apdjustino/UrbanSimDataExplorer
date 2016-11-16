@@ -1317,6 +1317,7 @@ if(Meteor.isClient){
     export function zoningScenarioClickEvents() {
         hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
         hand.setInputAction(function(click){
+            Session.set('spinning', true);
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
 
@@ -1330,8 +1331,10 @@ if(Meteor.isClient){
             Session.set('selectedZone', zoneId);
             Meteor.call('getParcelsInZone', zoneId, function(error, response){
                 if(error){
+                    Session.set('spinning', false)
                     Materialize.toast(error.reason, 5000);
                 }else{
+                    Session.set('spinning', false);
                     Session.set('parcelCount', response.length);
                     viewer.dataSources.add(source);
                     addParcels(source, response);
