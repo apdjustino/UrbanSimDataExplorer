@@ -1180,6 +1180,7 @@ if(Meteor.isClient){
             casino: "#59F2A7",
             military: "#0C0202"
         };
+        console.log('test');
 
         for(i=1; i<viewer.dataSources.length; i++){
             //start at index 1 because index 0 is going to be the polygon shapes of the layer

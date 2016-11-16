@@ -2,6 +2,8 @@
  * Created by jmartinez on 9/7/16.
  */
 import {addSource} from '../../components/CesiumMapFunctions.js';
+import {colorBuildings} from '../../components/CesiumMapFunctions.js';
+import {resetBuildings} from '../../components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
 
@@ -398,6 +400,60 @@ if(Meteor.isClient){
                 });
 
                 template.currentUc.set(data[newLocaleIdx].uc_name);
+            }
+        }, "click #styleBuildingsUC": function(event, template){
+            if(event.target.checked){
+                var dataSource;
+                var buildingColors = {
+                    single_family_residential: "#D99937",
+                    condo: "#A22E3B",
+                    apartment: "#E95D22",
+                    townhome: "#4490AF",
+                    mobile_home: "#626262",
+                    retail: "#1D4E89",
+                    warehousing: "#FBC254",
+                    agriculture: "#DECDBF",
+                    office: "#739B4E",
+                    "quasi-public": "#9D8169",
+                    industrial: "#9E61B0",
+                    restaurant: "#B5BF4F",
+                    school: "#CF5D6B",
+                    recreation: "#4CAF50",
+                    parking: "#5F5F5F",
+                    tcu: "#F66CA8",
+                    "mixed use with residential": "#753D16",
+                    mixed_use: "#8AD9DE",
+                    hospital: "#1655AC",
+                    group_quarters: "#EBC76C",
+                    lodging: "#513D27",
+                    casino: "#59F2A7",
+                    military: "#0C0202"
+                };
+                console.log('test');
+
+                for(i=0; i<intro_viewer.dataSources.length; i++){
+
+                    dataSource = intro_viewer.dataSources.get(i);
+                    dataSource.entities.values.forEach(function(cv){
+                        var building_type = cv.properties._building_;
+                        var color =buildingColors[building_type];
+                        if(color){
+                            cv.polygon.material = Cesium.Color.fromCssColorString(color);
+                            cv.polygon.outlineColor = Cesium.Color.fromCssColorString(color);
+                            cv.polygon.extrudedHeight = cv.properties.Bldg_Heigh / 3.2;
+                        }
+
+                    });
+                }
+            }else{
+                for(i=0; i<intro_viewer.dataSources.length; i++){
+
+                    dataSource = intro_viewer.dataSources.get(i);
+                    dataSource.entities.values.forEach(function(cv){
+                        cv.polygon.material = Cesium.Color.BURLYWOOD;
+                        cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                    });
+                }
             }
         }
     });
