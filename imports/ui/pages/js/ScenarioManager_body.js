@@ -22,7 +22,11 @@ if(Meteor.isClient){
                         if(response){
                             Materialize.toast('Scenario added', 5000);
                             Session.set('selectedScenario', name);
-                            $('#ScenarioModal').openModal();
+                            $('#ScenarioModal').openModal({
+                                complete: function(){
+                                    Session.set('selectedScenario', undefined);
+                                }
+                            });
                         }else{
                             Materialize.toast('There was an error adding the new scenario', 5000);
                         }
@@ -106,7 +110,11 @@ if(Meteor.isClient){
         }, "click .editButton": function(event, template){
             var name = event.target.parentElement.id.split('-')[0];
             Session.set('selectedScenario', name);
-            $('#ScenarioModal').openModal();
+            $('#ScenarioModal').openModal({
+                complete: function(){
+                    Session.set('selectedScenario', undefined);
+                }
+            });
         }, "click .showButton": function(event, template){
             var name = event.target.parentElement.id.split('-')[0];
             Session.set('selectedScenario', name);
@@ -136,6 +144,18 @@ if(Meteor.isClient){
 
 
 
+        }
+    });
+
+    Template.ScenarioListItem.helpers({
+        isScenarioActive: function(name){
+
+            var selectedScenario = Session.get('selectedScenario');
+            if(name == selectedScenario){
+                return 'orange';
+            }else{
+                return ''
+            }
         }
     });
 
@@ -186,6 +206,7 @@ if(Meteor.isClient){
             event.preventDefault();
             $('.fixed-action-btn').closeFAB();
             $('#zoningScenarioToolBar').css('visibility', 'hidden');
+            Session.set('selectedScenario', undefined);
             setZoneClickEvents();
         }
     });
