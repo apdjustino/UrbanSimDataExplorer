@@ -11,6 +11,13 @@ if(Meteor.isServer){
     });
 
     Meteor.publish('parcels_poly_selection', function(zoneId, coordArr){
-        return parcel_centroids.find({'properties.zone_id': zoneId, geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}});
+
+        var zone = parseInt(zoneId);
+        if(zone){
+            return parcel_centroids.find({'properties.zone_id': zoneId, geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}});
+        }else{
+            return parcel_centroids.find({geometry: {$geoWithin:{$geometry:{ type: "Polygon", coordinates: [coordArr]}}}});
+        }
+
     });
 }
