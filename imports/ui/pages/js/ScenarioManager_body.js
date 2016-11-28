@@ -207,6 +207,12 @@ if(Meteor.isClient){
             $('.fixed-action-btn').closeFAB();
             $('#zoningScenarioToolBar').css('visibility', 'hidden');
             Session.set('selectedScenario', undefined);
+
+            var dataSourcesCount = viewer.dataSources.length - 1;
+            for(var i=dataSourcesCount; i> 0; i--){
+                viewer.dataSources.remove(viewer.dataSources.get(i), true);
+            }
+            
             setZoneClickEvents();
         }
     });
@@ -252,6 +258,13 @@ if(Meteor.isClient){
                 var entity = entities[j];
                 if(_.contains(_.map(selection, function(x){return x.parcelId}), entity.properties.parcel_id)){
                     entity.polygon.extrudedHeight = Math.ceil(newFar) * 15;
+                    if(newFar == 0){
+                        entity.polygon.material = Cesium.Color.DARKORANGE;
+                        entity.polygon.outlineColor = Cesium.Color.BLACK;
+                    }else{
+                        entity.polygon.material = Cesium.Color.BLUE;
+                        entity.polygon.outlineColor = Cesium.Color.BLACK;
+                    }
                 }
             }
         }

@@ -1299,13 +1299,13 @@ if(Meteor.isClient){
                 far = entity.properties._far
             }
 
-            if(entity.properties._far > 0){
+            if(far > 0){
                 entity.polygon.material = Cesium.Color.BLUE;
-                entity.polygon.outlineColor = Cesium.Color.BLUE;
+                entity.polygon.outlineColor = Cesium.Color.BLACK;
                 entity.polygon.extrudedHeight = Math.ceil(far) * 15;
             }else{
                 entity.polygon.material = Cesium.Color.DARKORANGE;
-                entity.polygon.outlineColor = Cesium.Color.DARKORANGE;
+                entity.polygon.outlineColor = Cesium.Color.BLACK;
             }
 
             selection.push(selectionItem);
@@ -1474,10 +1474,10 @@ if(Meteor.isClient){
                 var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
                 selection.push(selectionItem);
                 entity.polygon.material = Cesium.Color.BLUE;
-                entity.polygon.outlineColor = Cesium.Color.BLUE;
+                entity.polygon.outlineColor = Cesium.Color.BLACK;
             }else{
                 entity.polygon.material = Cesium.Color.GRAY;
-                entity.polygon.outlineColor = Cesium.Color.GRAY;
+                entity.polygon.outlineColor = Cesium.Color.BLACK;
             }
         }
 
