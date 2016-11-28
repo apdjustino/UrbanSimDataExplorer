@@ -108,7 +108,8 @@ if(Meteor.isClient){
                             cv.polygon.outlineColor = Cesium.Color.BLUE;
                         }else{
                             cv.polygon.material = Cesium.Color.BURLYWOOD;
-                            cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                            cv.polygon.outlineColor = Cesium.Color.BLACK;
+                            cv.polygon.outlineWidth = 1.0
                         }
 
                     });
@@ -426,7 +427,8 @@ if(Meteor.isClient){
                             cv.polygon.outlineColor = Cesium.Color.BLUE;
                         }else{
                             cv.polygon.material = Cesium.Color.BURLYWOOD;
-                            cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                            cv.polygon.outlineColor = Cesium.Color.BLACK;
+                            cv.polygon.outlineWidth = 1.0
                         }
 
                     });
@@ -1204,7 +1206,8 @@ if(Meteor.isClient){
             var dataSource = viewer.dataSources.get(i);
             dataSource.entities.values.forEach(function(cv){
                 cv.polygon.material = Cesium.Color.BURLYWOOD;
-                cv.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                cv.polygon.outlineColor = Cesium.Color.BLACK;
+                cv.polygon.outlineWidth = 1.0
             });
         }
     }
@@ -1230,7 +1233,8 @@ if(Meteor.isClient){
                 var entity = entities[i];
                 entity.polygon.extrudedHeight = entity.properties.Bldg_Heigh / 3.2;
                 entity.polygon.material = Cesium.Color.BURLYWOOD;
-                entity.polygon.outlineColor = Cesium.Color.BURLYWOOD;
+                entity.polygon.outlineColor = Cesium.Color.BLACK;
+                entity.polygon.outlineWidth = 1.0
             }
         }
         Session.set('spinning', false);
@@ -1320,6 +1324,7 @@ if(Meteor.isClient){
             Session.set('spinning', true);
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
+            console.log(entity);
 
             var dataSourcesCount = viewer.dataSources.length - 1;
             for(var i=dataSourcesCount; i> 0; i--){
@@ -1327,20 +1332,39 @@ if(Meteor.isClient){
             }
 
             var source = new Cesium.GeoJsonDataSource('parcels');
-            var zoneId = entity.properties.ZONE_ID;
-            Session.set('selectedZone', zoneId);
-            Meteor.call('getParcelsInZone', zoneId, function(error, response){
-                if(error){
-                    Session.set('spinning', false)
-                    Materialize.toast(error.reason, 5000);
-                }else{
-                    Session.set('spinning', false);
-                    Session.set('parcelCount', response.length);
-                    viewer.dataSources.add(source);
-                    addParcels(source, response);
-                }
 
-            });
+            if(entity.properties.hasOwnProperty('UNIQUE_ID')){
+                var urban_cen = entity.properties.NAME;
+                Session.set('selectedZone', urban_cen);
+                Meteor.call('findParcelsInUc', urban_cen, function(error, response){
+                    if(error){
+                        Session.set('spinning', false);
+                        Materialize.toast(error.reason, 5000);
+                    }else{
+                        Session.set('spinning', false);
+                        Session.set('parcelCount', response.length);
+                        viewer.dataSources.add(source);
+                        addParcels(source, response);
+                    }
+                });
+            }else{
+                var zoneId = entity.properties.ZONE_ID;
+                Session.set('selectedZone', zoneId);
+                Meteor.call('getParcelsInZone', zoneId, function(error, response){
+                    if(error){
+                        Session.set('spinning', false);
+                        Materialize.toast(error.reason, 5000);
+                    }else{
+                        Session.set('spinning', false);
+                        Session.set('parcelCount', response.length);
+                        viewer.dataSources.add(source);
+                        addParcels(source, response);
+                    }
+
+                });
+            }
+
+
 
         }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
     }

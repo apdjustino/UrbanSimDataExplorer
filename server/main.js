@@ -52,7 +52,7 @@ if(Meteor.isServer){
 
         buildings._ensureIndex({'properties._zone_id': 1});
         buildings._ensureIndex({'properties._uc_name': 1});
-        // parcels._ensureIndex({'properties.parcel_id': 1});
+        parcels._ensureIndex({'properties.parcel_id': 1});
         
     });
 }
