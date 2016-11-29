@@ -1444,17 +1444,22 @@ if(Meteor.isClient){
                             material: Cesium.Color.RED
                         }
                     });
+
+            var source = viewer.dataSources.get(1);
+            var entities = source.entities.values;
+
+            var parcelIds = _.map(entities, function(x){ return x.properties.parcel_id});
             
             var zoneId = Session.get('selectedZone');
             if(centroids){
                 centroids.stop();
-                centroids = Meteor.subscribe('parcels_poly_selection', zoneId, pointArr, {
+                centroids = Meteor.subscribe('parcels_poly_selection', parcelIds, pointArr, {
                     onReady: function(){
                         ParcelSubOnReady();
                     }
                 });
             }else{
-                centroids = Meteor.subscribe('parcels_poly_selection', zoneId, pointArr, {
+                centroids = Meteor.subscribe('parcels_poly_selection', parcelIds, pointArr, {
                     onReady: function(){
                         ParcelSubOnReady();
                     }
