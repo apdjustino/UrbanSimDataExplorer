@@ -256,7 +256,7 @@ if(Meteor.isClient){
 
             for(var j=0; j<entities.length; j++){
                 var entity = entities[j];
-                if(_.contains(_.map(selection, function(x){return x.parcelId}), entity.properties.parcel_id)){
+                if(_.contains(_.map(selection, function(x){return x.parcel_id}), entity.properties.parcel_id)){
                     entity.polygon.extrudedHeight = Math.ceil(newFar) * 15;
                     if(newFar == 0){
                         entity.polygon.material = Cesium.Color.DARKORANGE;
