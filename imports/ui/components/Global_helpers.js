@@ -94,18 +94,9 @@ if(Meteor.isClient){
     });
     
     Template.registerHelper('formattedValue', function(val, measure){
-        var str = measure.substr(measure.length - 3);
-        if(str !='_id' || measure == 'year_built'){
-            var format = d3.format("0,000");
-            if(!isNaN(format(val))){
-                return format(val);
-            }else{
-                return val;
-            }
-            
-        }else{
-            return val;
-        }
+        var format = d3.format(",.0f");
+        console.log(format(val));
+        return format(val)
     });
     
     Template.registerHelper('isSpinning', function(){

@@ -1292,8 +1292,8 @@ if(Meteor.isClient){
 
         for(var i =0; i<entities.length; i++) {
             var entity = entities[i];
-            var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
-
+            //var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
+            var selectionItem = entity.properties;
             //set the visual properties of the selection
             var far;
             if(_.contains(scenarioParcelIds, entity.properties.parcel_id)){
@@ -1500,7 +1500,9 @@ if(Meteor.isClient){
         for(var i=0; i<entities.length; i++){
             var entity = entities[i];
             if(_.contains(parcelIds, entity.properties.parcel_id)){
-                var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
+                // var selectionItem = {parcelId: entity.properties.parcel_id, far: entity.properties._far};
+                var selectionItem = entity.properties;
+
                 selection.push(selectionItem);
                 entity.polygon.material = Cesium.Color.BLUE;
                 entity.polygon.outlineColor = Cesium.Color.BLACK;

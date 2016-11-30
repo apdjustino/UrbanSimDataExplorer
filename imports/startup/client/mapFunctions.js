@@ -1,5 +1,6 @@
 import topojson from 'topojson';
 
+
 export function drawMap(params){
     map.doubleClickZoom.disable();
     var svg;

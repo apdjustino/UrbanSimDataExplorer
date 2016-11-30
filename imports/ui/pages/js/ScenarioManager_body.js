@@ -268,6 +268,15 @@ if(Meteor.isClient){
                 }
             }
         }
+    });
+    
+    Template.EditFARModalBody.helpers({
+        ParcelList_args: function(){
+            return {
+                listData: Session.get('scenarioSelection'),
+                listItemTemplate: "ScenarioSelectionParcelList"
+            }
+        }
     })
 
 

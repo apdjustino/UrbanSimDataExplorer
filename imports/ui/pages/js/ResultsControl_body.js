@@ -103,7 +103,9 @@ if(Meteor.isClient){
                                 addNewBuildings(source, response, year);
                                 Session.set('spinning', false);
                             }
-                        })
+                        });
+                    }else{
+                        Session.set('spinning')
                     }
 
                 }
