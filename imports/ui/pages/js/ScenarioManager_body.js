@@ -121,7 +121,7 @@ if(Meteor.isClient){
             var hasParcels = scenarios.findOne({scenarioName:name}).hasOwnProperty('parcels');
             if(hasParcels){
                 var scenarioItems = [].concat.apply([], scenarios.findOne({scenarioName:name}).parcels);
-                var scenarioParcelIds = _.pluck(scenarioItems, 'parcelId');
+                var scenarioParcelIds = _.pluck(scenarioItems, 'parcel_id');
 
                 Meteor.call('findParcels', scenarioParcelIds, function(error, response){
                     if(error){

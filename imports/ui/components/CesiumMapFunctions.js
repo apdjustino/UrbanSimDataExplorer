@@ -1284,7 +1284,7 @@ if(Meteor.isClient){
         if(query){
             if(query.hasOwnProperty('parcels')){
                 scenarioItems = [].concat.apply([], scenarios.findOne({scenarioName:scenario}).parcels);
-                scenarioParcelIds = _.pluck(scenarioItems, 'parcelId');
+                scenarioParcelIds = _.pluck(scenarioItems, 'parcel_id');
             }
             
         }
@@ -1297,7 +1297,7 @@ if(Meteor.isClient){
             //set the visual properties of the selection
             var far;
             if(_.contains(scenarioParcelIds, entity.properties.parcel_id)){
-                far = _.find(scenarioItems, function(x){ return x.parcelId == entity.properties.parcel_id}).far;
+                far = _.find(scenarioItems, function(x){ return x.parcel_id == entity.properties.parcel_id}).far;
 
             }else{
                 far = entity.properties._far
