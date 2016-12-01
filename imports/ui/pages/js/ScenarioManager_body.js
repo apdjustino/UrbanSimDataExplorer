@@ -277,7 +277,9 @@ if(Meteor.isClient){
                 listItemTemplate: "ScenarioSelectionParcelList"
             }
         }
-    })
+    });
+    
+
 
 
 
