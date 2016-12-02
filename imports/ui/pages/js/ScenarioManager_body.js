@@ -276,8 +276,93 @@ if(Meteor.isClient){
                 listData: Session.get('scenarioSelection'),
                 listItemTemplate: "ScenarioSelectionParcelList"
             }
+        }, landUseOptionsAllEmpty: function(keys){
+            var parcelMap = {
+                _Hospital: "Hospital",
+                _Industria: "Industrial",
+                _Transport: "Transportation",
+                _Casino: "Casino",
+                _Group_Qua: "Group Quarters",
+                _Mixed_U_1: "Mixed Use Residential",
+                _Parking: "Parking",
+                _Military: "Military",
+                _Condo: "Condo",
+                _Open_Spac: "Open Space",
+                _Restauran: "Restaurant",
+                _Apartment: "Apartment",
+                _Agricultu: "Agriultural",
+                _Warehousi: "Warehousing",
+                _Mixed_Use: "Mixed Use Non-Residential",
+                _Office: "Office",
+                _Mobile_Ho: "Mobile Home",
+                _Retail: "Retail",
+                _Townhome: "Townhome",
+                _Quasi_pub: "Religious",
+                _Recreatio: "Recreational",
+                _School: "School",
+                _Single_Fa: "Single Family Home",
+                _Lodging: "Lodging"
+            };
+
+            var optionArr = [];
+            keys.forEach(function(cv){
+                optionArr.push({value: cv, text: parcelMap[cv]})
+            });
+
+            return optionArr;
+
+
         }
     });
+
+    Template.ScenarioSelectionParcelList.helpers({
+        landUseOptions: function(keys, parcel){
+            var objArr = [];
+            var parcelMap = {
+                _Hospital: "Hospital",
+                _Industria: "Industrial",
+                _Transport: "Transportation",
+                _Casino: "Casino",
+                _Group_Qua: "Group Quarters",
+                _Mixed_U_1: "Mixed Use Residential",
+                _Parking: "Parking",
+                _Military: "Military",
+                _Condo: "Condo",
+                _Open_Spac: "Open Space",
+                _Restauran: "Restaurant",
+                _Apartment: "Apartment",
+                _Agricultu: "Agriultural",
+                _Warehousi: "Warehousing",
+                _Mixed_Use: "Mixed Use Non-Residential",
+                _Office: "Office",
+                _Mobile_Ho: "Mobile Home",
+                _Retail: "Retail",
+                _Townhome: "Townhome",
+                _Quasi_pub: "Religious",
+                _Recreatio: "Recreational",
+                _School: "School",
+                _Single_Fa: "Single Family Home",
+                _Lodging: "Lodging"
+            };
+
+
+
+            keys.forEach(function(cv, idx){
+                if(parcelMap.hasOwnProperty(cv)){
+                    var value = (parcel[cv] > 0);
+                    if(value){
+                        objArr.push({value: cv, text: parcelMap[cv], checked: "selected"});
+                    }else{
+                        objArr.push({value: cv, text: parcelMap[cv], checked:""});
+                    }
+
+                }
+            });
+
+            return objArr;
+            
+        }
+    })
     
 
 

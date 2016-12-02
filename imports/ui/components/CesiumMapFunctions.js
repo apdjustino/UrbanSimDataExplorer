@@ -1258,7 +1258,7 @@ if(Meteor.isClient){
             var entity = entities[i];
             entity.polygon.extrudedHeight = entity.properties.height * 3;
             entity.polygon.material = Cesium.Color.RED;
-            entity.polygon.outlineColor = Cesium.Color.RED;
+            entity.polygon.outlineColor = Cesium.Color.BLACK;
         }
 
         Session.set('spinning', false);
@@ -1441,7 +1441,8 @@ if(Meteor.isClient){
                         polyline: {
                             positions: Cesium.Cartesian3.fromDegreesArray([newLong, newLat, originLong, originLat]),
                             width: 2,
-                            material: Cesium.Color.RED
+                            material: Cesium.Color.RED,
+                            outline: Cesium.Color.RED
                         }
                     });
 
