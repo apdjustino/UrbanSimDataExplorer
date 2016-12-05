@@ -6,6 +6,7 @@ import {zoningScenarioClickEvents} from '../../components/CesiumMapFunctions';
 import {setZoneClickEvents} from '../../components/CesiumMapFunctions';
 import {drawBoundariesClickEvents} from '../../components/CesiumMapFunctions';
 import {addParcels} from '../../components/CesiumMapFunctions';
+import {parcelKeys} from '../../components/Global_helpers.js';
 
 
 if(Meteor.isClient){
@@ -240,14 +241,17 @@ if(Meteor.isClient){
 
 
     Template.EditFARModalBody.events({
-        "click #btnUpdateFAR": function(event, template){
+        "click #btnUpdateFAR": function(event, target){
             event.preventDefault();
             var selection = Session.get('scenarioSelection');
             var newFar = parseFloat($('#newFARValue').val());
+            var selectedLandUse = [];
 
             for(var i=0; i<selection.length; i++){
                 selection[i].far = newFar;
             }
+
+
 
             Session.set('scenarioSelection', selection);
 
@@ -267,6 +271,28 @@ if(Meteor.isClient){
                     }
                 }
             }
+        }, "click #btnUpdateUses": function(event, template){
+            event.preventDefault();
+            var selection = Session.get('scenarioSelection');
+            var selectedLandUse = [];
+            $('#landUseOptionsAll option:selected').each(function(idx, el){
+                selectedLandUse.push(el.value);
+            });
+
+
+
+            selection.forEach(function(sel){
+                _.keys(sel).forEach(function(cv, idx){
+                    if(_.contains(selectedLandUse, cv)){
+                        sel[cv] = 1;
+                    }else{
+                        if(_.contains(_.keys(parcelKeys()), cv))
+                            sel[cv] = 0;
+                    }
+                });
+            });
+
+            Session.set('scenarioSelection', selection);
         }
     });
     
@@ -277,32 +303,7 @@ if(Meteor.isClient){
                 listItemTemplate: "ScenarioSelectionParcelList"
             }
         }, landUseOptionsAllEmpty: function(keys){
-            var parcelMap = {
-                _Hospital: "Hospital",
-                _Industria: "Industrial",
-                _Transport: "Transportation",
-                _Casino: "Casino",
-                _Group_Qua: "Group Quarters",
-                _Mixed_U_1: "Mixed Use Residential",
-                _Parking: "Parking",
-                _Military: "Military",
-                _Condo: "Condo",
-                _Open_Spac: "Open Space",
-                _Restauran: "Restaurant",
-                _Apartment: "Apartment",
-                _Agricultu: "Agriultural",
-                _Warehousi: "Warehousing",
-                _Mixed_Use: "Mixed Use Non-Residential",
-                _Office: "Office",
-                _Mobile_Ho: "Mobile Home",
-                _Retail: "Retail",
-                _Townhome: "Townhome",
-                _Quasi_pub: "Religious",
-                _Recreatio: "Recreational",
-                _School: "School",
-                _Single_Fa: "Single Family Home",
-                _Lodging: "Lodging"
-            };
+            var parcelMap = parcelKeys();
 
             var optionArr = [];
             keys.forEach(function(cv){
@@ -318,32 +319,7 @@ if(Meteor.isClient){
     Template.ScenarioSelectionParcelList.helpers({
         landUseOptions: function(keys, parcel){
             var objArr = [];
-            var parcelMap = {
-                _Hospital: "Hospital",
-                _Industria: "Industrial",
-                _Transport: "Transportation",
-                _Casino: "Casino",
-                _Group_Qua: "Group Quarters",
-                _Mixed_U_1: "Mixed Use Residential",
-                _Parking: "Parking",
-                _Military: "Military",
-                _Condo: "Condo",
-                _Open_Spac: "Open Space",
-                _Restauran: "Restaurant",
-                _Apartment: "Apartment",
-                _Agricultu: "Agriultural",
-                _Warehousi: "Warehousing",
-                _Mixed_Use: "Mixed Use Non-Residential",
-                _Office: "Office",
-                _Mobile_Ho: "Mobile Home",
-                _Retail: "Retail",
-                _Townhome: "Townhome",
-                _Quasi_pub: "Religious",
-                _Recreatio: "Recreational",
-                _School: "School",
-                _Single_Fa: "Single Family Home",
-                _Lodging: "Lodging"
-            };
+            var parcelMap = parcelKeys();
 
 
 

@@ -212,4 +212,33 @@ function measureNameMap(abv){
     return measureNames[abv];
 };
 
+export function parcelKeys(){
+    return {
+        _Hospital: "Hospital",
+        _Industria: "Industrial",
+        _Transport: "Transportation",
+        _Casino: "Casino",
+        _Group_Qua: "Group Quarters",
+        _Mixed_U_1: "Mixed Use Residential",
+        _Parking: "Parking",
+        _Military: "Military",
+        _Condo: "Condo",
+        _Open_Spac: "Open Space",
+        _Restauran: "Restaurant",
+        _Apartment: "Apartment",
+        _Agricultu: "Agriultural",
+        _Warehousi: "Warehousing",
+        _Mixed_Use: "Mixed Use Non-Residential",
+        _Office: "Office",
+        _Mobile_Ho: "Mobile Home",
+        _Retail: "Retail",
+        _Townhome: "Townhome",
+        _Quasi_pub: "Religious",
+        _Recreatio: "Recreational",
+        _School: "School",
+        _Single_Fa: "Single Family Home",
+        _Lodging: "Lodging"
+    }; 
+}
+
 export { measureNameMap }

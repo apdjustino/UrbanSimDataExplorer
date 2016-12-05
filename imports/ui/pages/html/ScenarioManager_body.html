@@ -120,21 +120,25 @@
 
 <template name="EditFARModalBody">
     <div class="row valign-wrapper">
-        <div class="input-field col s4 m4 l4">
+        <div class="input-field col s3 m3 l3">
             <input id="newFARValue" type="number" class="validate">
             <label for="newFARValue" data-error="wrong" data-success="right">New FAR Value</label>
         </div>
 
-        <div class="col s4 m4 l4">
+        <div class="col s3 m3 l3">
+            <a class="btn waves-effect waves-light valign" id="btnUpdateFAR" href="#">UPDATE FAR</a>
+        </div>
+
+        <div class="col s3 m3 l3">
             <label>Allowable Building Types</label>
-            <select multiple class="browser-default valign">
+            <select id="landUseOptionsAll" multiple class="browser-default valign">
                 {{#each landUseOptionsAllEmpty parcelKeys}}
                     <option value="{{this.value}}">{{this.text}}</option>
                 {{/each}}
             </select>
         </div>
-        <div class="col s4 m4 l4">
-            <a class="btn waves-effect waves-light valign" id="btnUpdateFAR" href="#">UPDATE ALL</a>
+        <div class="col s3 m3 l3">
+            <a class="btn waves-effect waves-light valign" id="btnUpdateUses" href="#">UPDATE USES</a>
         </div>
 
     </div>
