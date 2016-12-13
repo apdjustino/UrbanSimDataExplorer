@@ -95,7 +95,6 @@ if(Meteor.isClient){
     
     Template.registerHelper('formattedValue', function(val, measure){
         var format = d3.format(",.0f");
-        console.log(format(val));
         return format(val)
     });
     

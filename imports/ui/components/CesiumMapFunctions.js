@@ -89,6 +89,9 @@ if(Meteor.isClient){
     }
 
     zoneComments = undefined;
+
+
+
     export function setZoneClickEvents() {
         //remove existing input action function from the global handler
         hand.removeInputAction(Cesium.ScreenSpaceEventType.LEFT_CLICK);
@@ -855,7 +858,7 @@ if(Meteor.isClient){
 
 
                 dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
-                var allYears = _.groupBy(countyData.find().fetch(), 'sim_year');
+                var allYears = _.groupBy(countyData.find({county_name: {$in:selectedZoneArray}}).fetch(), 'sim_year');
                 var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
 
 
