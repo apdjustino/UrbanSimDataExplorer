@@ -13,3 +13,6 @@ import '/imports/api/comments/methods.js';
 import '/imports/api/users/collection.js'
 import '/imports/api/ucData/collections.js';
 import '/imports/api/muniData/collections.js';
+import '/imports/api/scenarios/collections.js';
+import '/imports/api/scenarios/methods.js';
+import '/imports/api/muniData/methods.js';

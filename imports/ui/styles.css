@@ -247,7 +247,7 @@ path.entity:hover{
 
 path.entity{
     stroke:black;
-    stroke-width:0.5;
+    stroke-width:1;
     fill:rgba(0,0,0,0);
     opacity:0.6;
 
@@ -560,4 +560,16 @@ input.commentChk{
     background-repeat:no-repeat;
     background-position: 0 0 ;
     background-size: 65px 20px;
+}
+
+.scenarioOptions{
+    height:170px;
+    width:50px;
+    background-color:lightgrey;
+    position:absolute;
+    top:64px;
+    z-index:1001;
+    border: solid 1px black;
+    border-radius: 12px;
+    visibility:hidden;
 }

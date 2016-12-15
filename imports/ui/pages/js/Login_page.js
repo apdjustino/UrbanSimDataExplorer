@@ -118,7 +118,7 @@ if(Meteor.isClient){
             debugger;
             Meteor.call('sendResetEmail', email, function(error){
                 if(error){
-                    Materialize.toast(error.reason, 4000)
+                    Materialize.toast("Cannot find email address. Please enter a valid email or create a new account.", 4000)
                 }else{
                     Materialize.toast('An email with a reset-password link has been sent to your email address.', 4000)
                 }
