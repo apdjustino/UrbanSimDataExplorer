@@ -29,14 +29,13 @@ if(Meteor.isClient){
         }, isMunis: function(layer){
             return (layer == 'municipalities');
         }, uc_muniList_args: function(layer){
-            console.log(Template.instance());
             var listData;
             if(layer === 'urban_centers'){
-                listData = _.uniq(ucSummary.find({sim_year:2010}, {sort: {NAME:1}}).fetch().map(function(x){return {name: x.NAME, layer: Template.instance().data}}));
+                listData = _.uniq(Template.instance().urbanCenters.get().map(function(x){return {name: x.NAME, layer: Template.instance().data}}));
             }else if(layer == 'county_web'){
-                listData = _.uniq(countyData.find({sim_year:2010}, {sort: {county_name: 1}}).fetch().map(function(x){return {name: x.county_name, layer: Template.instance().data}}));
+                listData = _.uniq(Template.instance().counties.get().map(function(x){return {name: x.county_name, layer: Template.instance().data}}));
             }else if(layer == 'municipalities'){
-                listData = _.uniq(muniSummary.find({sim_year:2010}, {sort: {city_name: 1}}).fetch().map(function(x){return {name: x.city_name, layer: Template.instance().data}}))
+                listData = _.uniq(Template.instance().cities.get().map(function(x){return {name: x.city_name, layer: Template.instance().data}}));
             }
             return {
                 listData: listData,
@@ -54,6 +53,17 @@ if(Meteor.isClient){
             if(mapName == 'webMap'){
                 // var selector = '#id-' + zoneId;
                 // console.log(d3.select(selector).datum(function(d){console.log(d)}))
+
+                //code for displaying error message
+
+                if(isNaN(parseInt(zoneId))){
+                    Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                }else{
+                    if(parseInt(zoneId) > 2804 || parseInt(zoneId) < 1){
+                        Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                    }
+                }
+
                 d3.selectAll('.entity').attr("class", function(d){
                     if(d.properties.ZONE_ID == zoneId){
                         var lat = d.properties.Lat;
@@ -72,6 +82,10 @@ if(Meteor.isClient){
                     }
 
                 });
+
+
+
+
             }else{
                 var ds = viewer.dataSources.get(0);
 
@@ -107,13 +121,43 @@ if(Meteor.isClient){
         }
     });
 
+
+
     Template.FindZoneControl_body.onCreated(function(){
         var self = this;
+
         this.autorun(function(){
-            self.subscribe('uc_by_year', 2010, 'hh_sim');
-            self.subscribe('counties_by_year', 2010, 'hh_sim');
-            self.subscribe('cities_by_year', 2010, 'hh_sim')
-        })
+            Meteor.call('getCityNames', function(error, response){
+                if(error){
+                    Materialize.toast(error.reason, 4000);
+                }else{
+                    self.cities = new ReactiveVar(response);
+                }
+            });
+            
+            Meteor.call('getUCNames', function(error, response){
+                if(error){
+                    Materialize.toast(error.reason, 4000);
+                }else{
+                    self.urbanCenters = new ReactiveVar(response);
+                }
+            });
+
+            Meteor.call('getCountyNames', function(error, response){
+                if(error){
+                    Materialize.toast(error.reason, 4000);
+                }else{
+                    self.counties = new ReactiveVar(response);
+                }
+            });
+
+
+
+
+
+        });
+
+
     });
 
     Template.uc_muniList_list_item.events({

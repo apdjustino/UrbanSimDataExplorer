@@ -165,6 +165,7 @@ if(Meteor.isClient){
     });
     
     Template.WebMap_page.onCreated(function(){
+        Session.set('allowMultipleGeo', false);
         this.chartToggle = new ReactiveVar(false);
         this.buildingData = new ReactiveVar(false);
         var self = this;

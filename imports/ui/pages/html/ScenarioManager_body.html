@@ -1,0 +1,177 @@
+<template name="ScenarioManager_body">
+
+    <h5 style="margin-left: 10px;">Scenario Manager</h5>
+    <form id="newScenarioForm">
+        <div class="row valign-wrapper">
+            <div class="input-field col s8 m8 l8" style="margin-left:10px;">
+                <input id="newScenarioName" type="text">
+                <label for="newScenarioName">New Scenario Name</label>
+            </div>
+            <input type="submit" class="btn valign" value="Add">
+        </div>
+    </form>
+
+
+    {{#if numberOfScenarios}}
+        <div class="row">
+            <div class="col s12 m12 l12">
+                {{>Material_ul (ScenarioList_args)}}
+            </div>
+        </div>
+
+    {{else}}
+        <h6 class="center-align"><i>No current scenarios</i></h6>
+    {{/if}}
+
+
+    {{>Material_modal (NewScenario_args)}}
+
+    {{>Material_modal (EditFAR_args)}}
+
+
+</template>
+
+<template name="ScenarioModalHeader">
+    <h4>Scenario Editor - {{this.data.scenarioName}}</h4>
+</template>
+
+<template name="ScenarioModalBody">
+    <div class="row">
+        <div class="col s4 m4 l4">
+            <div class="collection">
+                <a href="#" id="zoningScenarioControls" class="collection-item active">Zoning</a>
+                <a href="#" id="countyScenarioControls" class="collection-item">County Controls</a>
+                <a href="#" id="transitionScenarioControls" class="collection-item">Demographic Transitions</a>
+                <a href="#" id="relocationScenarioControls" class="collection-item">Demographic Relocations</a>
+            </div>
+        </div>
+        <div class="col s8 m8 l8">
+            {{>Template.dynamic template=selectedScenarioType}}
+        </div>
+    </div>
+</template>
+
+
+<template name="zoningScenarioControls">
+    <p><i>Zoning controls go here</i></p>
+    <a href="#" id="startZoningScenario" class="btn waves-effect waves-light">Start Scenario</a>
+</template>
+
+<template name="countyScenarioControls">
+    <p><i>County Controls controls go here</i></p>
+</template>
+
+<template name="transitionScenarioControls">
+    <p><i>Transition controls go here</i></p>
+</template>
+
+<template name="relocationScenarioControls">
+    <p><i>Relocation controls go here</i></p>
+</template>
+
+<template name="ScenarioListItem">
+    <div class="row">
+        <div class="col s6 m6 l6">
+            <h6>{{this.scenarioName}}</h6>
+        </div>
+        <div class="col s6 m6 l6">
+            <a id="{{this.scenarioName}}-show" class="btn-floating showButton tooltipped" data-position="bottom" data-delay="50" data-tooltip="Show Scenario Parcels (if any)" href="#"><i class="material-icons">videocam</i></a>
+            <a id="{{this.scenarioName}}-edit" class="btn-floating editButton tooltipped {{isScenarioActive this.scenarioName}}" data-position="bottom" data-delay="50" data-tooltip="Edit Scenario" href="#"><i class="material-icons">edit</i></a>
+            <a id="{{this.scenarioName}}-remove" class="btn-floating removeButton tooltipped" data-position="bottom" data-delay="50" data-tooltip="Remove Scenario" href="#"><i class="material-icons">cancel</i></a>
+        </div>
+    </div>
+</template>
+
+<template name="ScenarioToolBar">
+    <a class="btn-floating"><i class="material-icons">mode_edit</i></a>
+    <ul>
+        <li>
+            <a href="#" id="toggleDrawBoundary" class="btn-floating tooltipped {{isZoneSelected}}" data-position="bottom" data-delay="50" data-tooltip="Select Parcels (Click a Zone to Enable)">
+                <i class="material-icons">format_shapes</i>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="btn-floating tooltipped valign-wrapper" data-position="bottom" data-delay="50" data-tooltip="Selected Parcels">
+                <h6 class="center-align valign">{{selectedParcelCount}}</h6>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="editFAR" class="btn-floating tooltipped {{isZoneSelected}}" data-position="bottom" data-delay="50" data-tooltip="Edit FARs (Click a Zone to Enable)">
+                <i class="material-icons">location_city</i>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="saveZoningScenario" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Save Changes">
+                <i class="material-icons">save</i>
+            </a>
+        </li>
+        <li>
+            <a href="#" id="leaveScenarioEditor" class="btn-floating tooltipped" data-position="bottom" data-delay="50" data-tooltip="Exit Scenario Editor">
+                <i class="material-icons">cancel</i>
+            </a>
+        </li>
+    </ul>
+
+</template>
+
+<template name="EditFARModalHeader">
+    <h5>Edit Selection's Zoning Attributes</h5>
+</template>
+
+<template name="EditFARModalBody">
+    <div class="row valign-wrapper">
+        <div class="input-field col s3 m3 l3">
+            <input id="newFARValue" type="number" class="validate">
+            <label for="newFARValue" data-error="wrong" data-success="right">New FAR Value</label>
+        </div>
+
+        <div class="col s3 m3 l3">
+            <a class="btn waves-effect waves-light valign" id="btnUpdateFAR" href="#">UPDATE FAR</a>
+        </div>
+
+        <div class="col s3 m3 l3">
+            <label>Allowable Building Types</label>
+            <select id="landUseOptionsAll" multiple class="browser-default valign">
+                {{#each landUseOptionsAllEmpty parcelKeys}}
+                    <option value="{{this.value}}">{{this.text}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col s3 m3 l3">
+            <a class="btn waves-effect waves-light valign" id="btnUpdateUses" href="#">UPDATE USES</a>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <h6>Parcels In Selection:</h6>
+            {{>Material_ul (ParcelList_args)}}
+        </div>
+    </div>
+</template>
+
+<template name="ScenarioSelectionParcelList">
+    <div class="row valign-wrapper">
+        <div class="col s3 m3 l3">
+            <h6 class="center-align valign">Parcel Id: {{this.parcel_id}}</h6>
+        </div>
+        <div class="col s3 m3 l3">
+            <div class="input-field inline">
+                <input type="text" value="{{this._far}}" class="scenarioParcelFarInput" id="text-{{this.parcelId}}">
+                <label class="active" for="text-{{this.parcelId}}">FAR</label>
+            </div>
+        </div>
+        <div class="col s3 m3 l3">
+            <label>Allowable Building Types</label>
+            <select multiple class="browser-default">
+                {{#each landUseOptions parcelKeys this}}
+                    <option {{this.checked}} value="{{this.value}}">{{this.text}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="col s3 m3 l3">
+            <a href="#" class="btn waves-effect waves-light">UPDATE</a>
+        </div>
+    </div>
+
+</template>

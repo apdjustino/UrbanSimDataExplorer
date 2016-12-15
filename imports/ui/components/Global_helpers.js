@@ -94,18 +94,8 @@ if(Meteor.isClient){
     });
     
     Template.registerHelper('formattedValue', function(val, measure){
-        var str = measure.substr(measure.length - 3);
-        if(str !='_id' || measure == 'year_built'){
-            var format = d3.format("0,000");
-            if(!isNaN(format(val))){
-                return format(val);
-            }else{
-                return val;
-            }
-            
-        }else{
-            return val;
-        }
+        var format = d3.format(",.0f");
+        return format(val)
     });
     
     Template.registerHelper('isSpinning', function(){
@@ -129,7 +119,39 @@ if(Meteor.isClient){
             return false;
         }
 
-    })
+    });
+    
+    Template.registerHelper('parcelKeys', function(){
+        parcelMap = {
+            _Hospital: "Hospital",
+            _Industria: "Industrial",
+            _Transport: "Transportation",
+            _Casino: "Casino",
+            _Group_Qua: "Group Quarters",
+            _Mixed_U_1: "Mixed Use Residential",
+            _Parking: "Parking",
+            _Military: "Military",
+            _Condo: "Condo",
+            _Open_Spac: "Open Space",
+            _Restauran: "Restaurant",
+            _Apartment: "Apartment",
+            _Agricultu: "Agriultural",
+            _Warehousi: "Warehousing",
+            _Mixed_Use: "Mixed Use Non-Residential",
+            _Office: "Office",
+            _Mobile_Ho: "Mobile Home",
+            _Retail: "Retail",
+            _Townhome: "Townhome",
+            _Quasi_pub: "Religious",
+            _Recreatio: "Recreational",
+            _School: "School",
+            _Single_Fa: "Single Family Home",
+            _Lodging: "Lodging"
+        };
+        
+        return _.sortBy(_.keys(parcelMap), function(key){return key;});
+        
+    });
 
 }
 
@@ -188,5 +210,34 @@ function measureNameMap(abv){
     };
     return measureNames[abv];
 };
+
+export function parcelKeys(){
+    return {
+        _Hospital: "Hospital",
+        _Industria: "Industrial",
+        _Transport: "Transportation",
+        _Casino: "Casino",
+        _Group_Qua: "Group Quarters",
+        _Mixed_U_1: "Mixed Use Residential",
+        _Parking: "Parking",
+        _Military: "Military",
+        _Condo: "Condo",
+        _Open_Spac: "Open Space",
+        _Restauran: "Restaurant",
+        _Apartment: "Apartment",
+        _Agricultu: "Agriultural",
+        _Warehousi: "Warehousing",
+        _Mixed_Use: "Mixed Use Non-Residential",
+        _Office: "Office",
+        _Mobile_Ho: "Mobile Home",
+        _Retail: "Retail",
+        _Townhome: "Townhome",
+        _Quasi_pub: "Religious",
+        _Recreatio: "Recreational",
+        _School: "School",
+        _Single_Fa: "Single Family Home",
+        _Lodging: "Lodging"
+    }; 
+}
 
 export { measureNameMap }

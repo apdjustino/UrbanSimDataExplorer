@@ -1,12 +1,12 @@
 <template name="Intro_page">
     <div id="IntroMap" style="height:100vh;"></div>
     {{#if isReady currentLocale}}
-        <h3 style="position:absolute; top:55px; left:10px; color: white; -webkit-text-stroke: 1px black;">
+        <h3 style="position:absolute; top:5px; left:10px; color: white; -webkit-text-stroke: 1px black;">
 
             <span>{{currentLocale}} - {{currentYear}}</span>
 
         </h3>
-        <div style="display:inline; position:absolute; top:150px; left:10px;" class="valign-wrapper">
+        <div style="display:inline; position:absolute; top:70px; left:10px;" class="valign-wrapper">
             <a href="#"><i class="medium material-icons" id="before">navigate_before</i></a>
             <a href="#"><i class="medium material-icons" id="after">navigate_next</i></a>
             <div class="switch valign" style="float:right; position:relative; margin-top:10px;">
@@ -17,7 +17,16 @@
                     <span style="color: white; -webkit-text-stroke: 1px black; font-size: 1.5em;">2040</span>
                 </label>
             </div>
+
+
+
         </div>
+
+        <div style="position:absolute; top:115px; left:20px;">
+            <input type="checkbox" id="styleBuildingsUC">
+            <label for="styleBuildingsUC" style="color:white; -webkit-text-stroke: 1px black; font-size: 1.5em;">Style Buildings</label>
+        </div>
+
 
     {{/if}}
 </template>

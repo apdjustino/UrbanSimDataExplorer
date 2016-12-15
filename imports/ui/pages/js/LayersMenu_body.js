@@ -87,10 +87,6 @@ if(Meteor.isClient){
                     alert("Cesium Viewer error");
                 }
             }
-
-
-
-
         }
     })
 

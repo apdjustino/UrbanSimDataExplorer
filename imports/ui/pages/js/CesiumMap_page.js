@@ -40,7 +40,9 @@ if(Meteor.isClient){
                     {icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
                     {icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
                     {icon: "view_list", headerText: "Results", active: "", body: "ResultsControl_body", bodyData: Session.get('selectedData')},
+                    {icon: "lightbulb_outline", headerText: "Scenarios", active:"", body: "ScenarioManager_body", bodyData: undefined},
                     {icon: "videocam", headerText: "Make Animation", active:"", body: "SlideShow_body", bodyData: undefined}
+
                 ]
             }
         }, CommentModal_args: function(){

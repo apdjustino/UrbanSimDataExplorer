@@ -27,22 +27,31 @@ if(Meteor.isClient){
         }, VariableSelect_args: function(){
             var data;
             if(Roles.userIsInRole(Meteor.userId(), ['admin'])){
-                data = [
-                    {value: 'hh_sim', name: 'Households'},
-                    {value: 'pop_sim', name: 'Population'},
-                    {value: 'median_income_sim', name: 'Median Income'},
-                    {value: 'ru_sim', name: 'Residential Unit Count'},
-                    {value: 'emp_sim', name: 'Employment(All)'},
-                    {value: 'emp1_sim', name: 'Education Employment'},
-                    {value: 'emp2_sim', name: 'Entertainment Employment'},
-                    {value: 'emp3_sim', name: 'Production Employment'},
-                    {value: 'emp4_sim', name: 'Restaurant Employment'},
-                    {value: 'emp5_sim', name: 'Retail Employment'},
-                    {value: 'emp6_sim', name: 'Services Employment'},
-                    {value: 'nr_sim', name: 'Non-Res SqFt'},
-                    {value: 'res_price_sim', name: 'Residential Price'},
-                    {value: 'non_res_price_sim', name: 'Non-Res Price'}
-                ];
+                if(_.contains(['municipalities', 'urban_centers'], Session.get('selectedLayer'))){
+                    data = [
+                        {value: 'hh_sim', name: 'Households'},
+                        {value: 'pop_sim', name: 'Population'},
+                        {value: 'emp_sim', name: 'Employment'}
+                    ];
+                }else{
+                    data = [
+                        {value: 'hh_sim', name: 'Households'},
+                        {value: 'pop_sim', name: 'Population'},
+                        {value: 'median_income_sim', name: 'Median Income'},
+                        {value: 'ru_sim', name: 'Residential Unit Count'},
+                        {value: 'emp_sim', name: 'Employment(All)'},
+                        {value: 'emp1_sim', name: 'Education Employment'},
+                        {value: 'emp2_sim', name: 'Entertainment Employment'},
+                        {value: 'emp3_sim', name: 'Production Employment'},
+                        {value: 'emp4_sim', name: 'Restaurant Employment'},
+                        {value: 'emp5_sim', name: 'Retail Employment'},
+                        {value: 'emp6_sim', name: 'Services Employment'},
+                        {value: 'nr_sim', name: 'Non-Res SqFt'},
+                        {value: 'res_price_sim', name: 'Residential Price'},
+                        {value: 'non_res_price_sim', name: 'Non-Res Price'}
+                    ];
+                }
+
             }else{
                 data = [
                     {value: 'hh_sim', name: 'Households'},
@@ -243,6 +252,17 @@ if(Meteor.isClient){
                 }
             }
         }
+    });
+
+    Template.Chloropleth_body.onCreated(function(){
+        Tracker.afterFlush(function(){
+            var selectedLayer = Session.get('selectedLayer');
+            console.log(selectedLayer);
+            if(selectedLayer){
+                $('select').material_select();
+            }
+        })
     })
-    
+
+
 }
