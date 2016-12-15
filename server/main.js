@@ -34,7 +34,7 @@ if(Meteor.isServer){
         
         Accounts.emailTemplates.enrollAccount.text = function(user, url){
             return "Hello " + user.profile.firstName + ", \n\n You are invited to join the DRCOG Land Use Explorer project. Your account will " +
-                "allow you to review DRCOG's latest land use forecast, provide feedback, and download the results. To get started, click on the link" +
+                "allow you to review DRCOG's latest land use forecast and provide feedback on the results. To get started, click on the link" +
                 " below and set up your password. \n\n" + url; 
         };
 
