@@ -34,6 +34,5 @@ pfafman:filesaver
 reactive-var@1.0.11
 arkham:comments-ui@=1.0.2
 aldeed:simple-schema
-fourseven:scss@=3.8.0_1
 poetic:materialize-scss
 shell-server
