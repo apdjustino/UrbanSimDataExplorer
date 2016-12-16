@@ -22,12 +22,7 @@ export function drawMap(params){
             console.log(error);
             return;
         }
-
-<<<<<<< HEAD
         
-=======
-
->>>>>>> b018a3f5d43585de45050ba9a0b60e4f45cef8fd
         var shape = topojson.feature(zones, zones.objects[params.obj_name]);
         var transform = d3.geo.transform({point: projectPoint});
         var path = d3.geo.path().projection(transform);
