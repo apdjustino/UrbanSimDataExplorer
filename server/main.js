@@ -18,7 +18,7 @@ if(Meteor.isServer){
     });
 
     Meteor.startup(function(){
-        process.env.METEOR_ALLOW_SUPERUSER = true;
+        process.env.METEOR_ALLOW_SUPERUSER = "true";
         Accounts.urls.enrollAccount = function(token){
             return Meteor.absoluteUrl('enroll-account/' + token)
         };
