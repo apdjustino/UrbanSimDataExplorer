@@ -257,7 +257,6 @@ if(Meteor.isClient){
     Template.Chloropleth_body.onCreated(function(){
         Tracker.afterFlush(function(){
             var selectedLayer = Session.get('selectedLayer');
-            console.log(selectedLayer);
             if(selectedLayer){
                 $('select').material_select();
             }
