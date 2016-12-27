@@ -474,9 +474,6 @@ input.commentChk{
     shape-rendering: crispEdges;
 }
 
-.x.axis path {
-    display: none;
-}
 
 .line {
     fill: none;
