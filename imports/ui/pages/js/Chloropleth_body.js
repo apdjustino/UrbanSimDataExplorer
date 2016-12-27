@@ -74,9 +74,7 @@ if(Meteor.isClient){
             }else{
                 return []
             }
-
-        }, showLegend: function(){
-            return Session.get('showLegend');
+            
         }, styleBuildings: function(){
             return Session.get('styleBuildings');
         }, BuldingLegend_args: function(){
