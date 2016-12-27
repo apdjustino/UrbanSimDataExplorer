@@ -2,7 +2,7 @@
     <ul class="collapsible" data-collapsible="{{this.type}}">
         {{#each this.data}}
             <li>
-                <div class="collapsible-header {{this.active}}">
+                <div class="collapsible-header {{this.active}}" id="{{this.id}}">
                     <i class="material-icons">{{this.icon}}</i> {{this.headerText}}
                 </div>
                 <div class="collapsible-body">
