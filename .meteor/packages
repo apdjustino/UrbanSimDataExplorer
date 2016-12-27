@@ -37,3 +37,4 @@ aldeed:simple-schema
 poetic:materialize-scss
 shell-server
 meteor-tool
+fourseven:scss@=3.8.0_1
