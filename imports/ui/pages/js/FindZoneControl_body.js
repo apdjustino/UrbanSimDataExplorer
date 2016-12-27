@@ -13,7 +13,7 @@ if(Meteor.isClient){
     Template.FindZoneControl_body.helpers({
         label: function(data){
             var layerMap = {
-                zonesGeo: "Zone ID (4-digit)",
+                zonesGeo: "Zone ID",
                 municipalities: "Municipality",
                 county_web: "County",
                 urban_centers: "Urban Center Name"
