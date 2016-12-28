@@ -17,10 +17,10 @@
                     <tr style="border: solid 1px black; margin: 2px;">
                         <td>{{measureNameMap this.measure}}</td>
                         <td>
-                            <a class="queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map." href="#">
+                            <a class="queryBtnRound queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map." href="#">
                                 <i id="{{this.measure}}" class="material-icons">language</i>
                             </a>
-                            <a class="queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." href="#">
+                            <a class="queryBtnRound queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." href="#">
                                 <i id="{{this.measure}}" class="material-icons">dashboard</i>
                             </a>
                         </td>

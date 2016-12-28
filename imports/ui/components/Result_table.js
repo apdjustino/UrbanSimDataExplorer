@@ -75,6 +75,13 @@ if(Meteor.isClient){
             var selectedYear = parseInt($('#yearSelect option:selected').val());
             var selectedLayer = Session.get('selectedLayer');
 
+            //add orange color to selected button and remove other
+            $('.queryBtnRound').each(function(idx, el){
+                $(el).removeClass('orange');
+            });
+
+            $(event.target).parent().addClass('orange');
+
             if(selectedLayer == 'zonesGeo'){
                 Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
                     onReady: function () {
@@ -156,6 +163,13 @@ if(Meteor.isClient){
             var selectedVar = event.target.id;
             var selectedYear = parseInt($('#yearSelect option:selected').val());
             var selectedLayer = Session.get('selectedLayer');
+
+            //add orange color to selected button and remove other
+            $('.queryBtnRound').each(function(idx, el){
+                $(el).removeClass('orange');
+            });
+
+            $(event.target).parent().addClass('orange');
 
             if(selectedLayer == 'zonesGeo'){
                 Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
