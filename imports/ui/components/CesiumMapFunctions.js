@@ -674,9 +674,20 @@ if(Meteor.isClient){
     export function subscribeToZone(year, selectedZoneArray){
         return Meteor.subscribe('grouped_zones', year, selectedZoneArray, {
             onReady: function(){
+
+                var data;
+                var baseData;
                 var fieldObj = getDataFields(Roles.userIsInRole(Meteor.userId(), ['admin']));
-                var data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
-                var baseData = zoneData.find({sim_year: 2010, zone_id:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+
+                if(Session.get('selectedZone').length > 0){
+                    data = zoneData.find({sim_year: year, zone_id:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                    baseData = zoneData.find({sim_year: 2010, zone_id:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                }else{
+                    data = countyData.find({sim_year: year}, {fields:fieldObj}).fetch();
+                    baseData = countyData.find({sim_year: 2010}, {fields:fieldObj}).fetch();
+                }
+
+
                 this.stop();
                 var dataArr =[];
 
@@ -751,8 +762,20 @@ if(Meteor.isClient){
     export function subscribeToCity(year, selectedZoneArray){
         return Meteor.subscribe('grouped_cities', selectedZoneArray, {
             onReady: function(){
-                var data = muniSummary.find({sim_year: year, city_name:{$in:selectedZoneArray}}, {fields:{city_name: 0, _id:0, sim_year:0}}).fetch();
-                var baseData = muniSummary.find({sim_year: 2010, city_name:{$in:selectedZoneArray}}, {fields:{city_name: 0, _id:0, sim_year:0}}).fetch();
+
+                var data;
+                var baseData;
+                var fieldObj = getDataFields(Roles.userIsInRole(Meteor.userId(), ['admin']));
+
+                if(Session.get('selectedZone').length > 0){
+                    data = muniSummary.find({sim_year: year, city_name:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                    baseData = muniSummary.find({sim_year: 2010, city_name:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                }else{
+                    data = countyData.find({sim_year: year}, {fields:fieldObj}).fetch();
+                    baseData = countyData.find({sim_year: 2010}, {fields:fieldObj}).fetch();
+                }
+
+
                 this.stop();
                 var dataArr =[];
 
@@ -827,8 +850,20 @@ if(Meteor.isClient){
     export function subscribeToCounty(year, selectedZoneArray){
         return Meteor.subscribe('grouped_counties', selectedZoneArray, {
             onReady: function(){
-                var data = countyData.find({sim_year: year, county_name:{$in:selectedZoneArray}}, {fields:{county_name: 0, _id:0, sim_year:0}}).fetch();
-                var baseData = countyData.find({sim_year: 2010, county_name:{$in:selectedZoneArray}}, {fields:{county_name: 0, _id:0, sim_year:0}}).fetch();
+                var fieldObj = getDataFields(Roles.userIsInRole(Meteor.userId(), ['admin']));
+                var data;
+                var baseData;
+                if(Session.get('selectedZone').length > 0){
+                    data = countyData.find({sim_year: year, county_name:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                    baseData = countyData.find({sim_year: 2010, county_name:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                }else{
+                    data = countyData.find({sim_year: year}, {fields:fieldObj}).fetch();
+                    baseData = countyData.find({sim_year: 2010}, {fields:fieldObj}).fetch();
+                }
+
+
+                console.log(data);
+
                 this.stop();
                 var dataArr =[];
 
@@ -903,8 +938,18 @@ if(Meteor.isClient){
     export function subscribeToUrbanCenter(year, selectedZoneArray){
         return Meteor.subscribe('grouped_urban_centers', selectedZoneArray, {
             onReady: function(){
-                var data = ucSummary.find({sim_year: year, NAME:{$in:selectedZoneArray}}, {fields:{NAME: 0, _id:0, sim_year:0}}).fetch();
-                var baseData = ucSummary.find({sim_year: 2010, NAME:{$in:selectedZoneArray}}, {fields:{NAME: 0, _id:0, sim_year:0}}).fetch();
+                var fieldObj = getDataFields(Roles.userIsInRole(Meteor.userId(), ['admin']));
+                var data;
+                var baseData;
+
+                if(Session.get('selectedZone').length > 0){
+                    data = ucSummary.find({sim_year: year, NAME:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                    baseData = ucSummary.find({sim_year: 2010, NAME:{$in:selectedZoneArray}}, {fields:fieldObj}).fetch();
+                }else{
+                    data = countyData.find({sim_year: year}, {fields:fieldObj}).fetch();
+                    baseData = countyData.find({sim_year: 2010}, {fields:fieldObj}).fetch();
+                }
+
                 this.stop();
                 var dataArr =[];
 

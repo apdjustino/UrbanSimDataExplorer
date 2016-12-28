@@ -36,7 +36,13 @@ if(Meteor.isClient){
                 ], label: "Year"
             }
         }, selectedZone: function(){
-            return Session.get('selectedZone');
+            var zones = Session.get('selectedZone');
+            if(zones.length > 0){
+                return Session.get('selectedZone');
+            }else{
+                return "DRCOG Region";
+            }
+
         }, selectedLayer: function(){
             var layer = Session.get('selectedLayer');
             var layerDict = {

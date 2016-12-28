@@ -1,6 +1,7 @@
 /**
  * Created by jmartinez on 8/15/16.
  */
+import {subscribeToCounty} from '../../components/CesiumMapFunctions';
 if(Meteor.isClient){
 
     Template.OptionsControl_body.helpers({
@@ -18,13 +19,14 @@ if(Meteor.isClient){
             event.preventDefault();
             var mapName = FlowRouter.getRouteName();
             Session.set('colorData', undefined);
-            Session.set('selectedData', undefined);
             Session.set('selectedZone', []);
+
+            var allCounties = ['Boulder', 'Broomfield', 'Denver', 'Adams', 'Arapahoe', 'Douglas', 'Jefferson', 'Weld', 'Gilpin', 'Clear Creek', 'Elbert'];
+            subscribeToCounty(2010, allCounties);
 
             if(mapName == 'webMap'){
                 d3.selectAll('.entity')
-                    .attr("class", "entity")
-                    .style("fill", "rgba(0,0,0,0)");
+                    .attr("class", "entity");
 
                 $('#showCommentZones').prop('checked', false);
             }else{

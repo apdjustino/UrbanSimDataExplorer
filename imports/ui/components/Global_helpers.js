@@ -4,7 +4,7 @@
 
 export function getDataFields(admin){
     if(admin){
-        return {zone_id:0, _id:0, sim_year:0};
+        return {zone_id:0, _id:0, sim_year:0, county_name: 0, county_id: 0, city_name: 0, NAME: 0};
     }else{
         return {
             zone_id:0,
@@ -20,7 +20,11 @@ export function getDataFields(admin){
             emp6_sim: 0,
             nr_sim: 0,
             res_price_sim: 0,
-            non_res_price_sim: 0
+            non_res_price_sim: 0,
+            county_name: 0,
+            county_id: 0,
+            city_name: 0,
+            NAME: 0
         }
     }
 }

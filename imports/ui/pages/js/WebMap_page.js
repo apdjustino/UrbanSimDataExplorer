@@ -11,6 +11,7 @@ import {findMuniData} from '../../../ui/components/CesiumMapFunctions.js';
 import {findCountyData} from '../../../ui/components/CesiumMapFunctions.js';
 import {findUrbanCenterData} from '../../../ui/components/CesiumMapFunctions.js';
 import {subscribeToZone} from '../../../ui/components/CesiumMapFunctions.js';
+import {subscribeToCounty} from '../../../ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
 
@@ -41,10 +42,10 @@ if(Meteor.isClient){
             return {
                 type: "accordion",
                 data: [
-                    {id: "RegionalForecastPane", icon: "dashboard", headerText: "Regional Forecast", active: "", body: "Chloropleth_body", bodyData: undefined},
+                    {id: "RegionalForecastPane", icon: "dashboard", headerText: "Regional Forecast", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')},
                     {id: "FindGeoPane", icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
-                    {id: "OptionsPane", icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
-                    {id: "ExploreGeoPane", icon: "view_list", headerText: "Explore Area", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}
+                    // {id: "OptionsPane", icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
+                    // {id: "ExploreGeoPane", icon: "view_list", headerText: "Explore Area", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}
 
                 ]
             }
@@ -170,27 +171,36 @@ if(Meteor.isClient){
         this.chartToggle = new ReactiveVar(false);
         this.buildingData = new ReactiveVar(false);
         var self = this;
-        this.autorun(function(){
-            self.subscribe('counties', {
-                onReady: function(){
-                    var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
-                    var regionalChartData = _.keys(counties).map(function(key){
-                        var simData = counties[key].reduce(function(a,b){
-                            return {
-                                pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
-                                emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
-                                sim_year: a.sim_year
-                            };
-                        });
-                        return simData;
-                    });
+        // this.autorun(function(){
+        //     self.subscribe('counties', {
+        //         onReady: function(){
+        //             var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
+        //             var regionalChartData = _.keys(counties).map(function(key){
+        //                 var simData = counties[key].reduce(function(a,b){
+        //                     return {
+        //                         pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
+        //                         emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
+        //                         sim_year: a.sim_year
+        //                     };
+        //                 });
+        //                 return simData;
+        //             });
+        //
+        //             console.log(regionalChartData);
+        //
+        //             drawChart(regionalChartData);
+        //
+        //         }
+        //     });
+        // });
 
-                    drawChart(regionalChartData);
+        // self.subscribe('counties');
+        //
+        var allCounties = ['Boulder', 'Broomfield', 'Denver', 'Adams', 'Arapahoe', 'Douglas', 'Jefferson', 'Weld', 'Gilpin', 'Clear Creek', 'Elbert'];
 
-                }
-            });
-        });
-        
+        Session.set('selectedZone', []);
+        subscribeToCounty(2010, allCounties);
+
     });
     
     Template.WebMap_page.onRendered(function(){

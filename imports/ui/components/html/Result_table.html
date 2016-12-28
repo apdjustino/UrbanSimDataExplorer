@@ -3,6 +3,7 @@
         <thead>
         <tr>
             <th>Measure</th>
+            <th>Map</th>
             <th>Value</th>
             <th>Base Year Diff</th>
             <th></th>
@@ -11,8 +12,16 @@
         </thead>
         <tbody>
         {{#each tableData}}
-            <tr>
+            <tr style="border: solid 1px black">
                 <td>{{measureNameMap this.measure}}</td>
+                <td>
+                    <a class="queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map." href="#">
+                        <i id="{{this.measure}}" class="material-icons">language</i>
+                    </a>
+                    <a class="queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." href="#">
+                        <i id="{{this.measure}}" class="material-icons">dashboard</i>
+                    </a>
+                </td>
                 <td>{{formattedValue this.value this.measure}}</td>
                 <td>{{formattedValue this.diff this.measure}}</td>
                 <td>

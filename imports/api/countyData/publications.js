@@ -27,12 +27,13 @@ if(Meteor.isServer){
         }catch(e){
             //do nothing
         }
-        
+
         var thisUser = Meteor.users.findOne({_id:this.userId});
 
+        console.log(thisUser);
+        console.log(Roles.userIsInRole(thisUser._id, ['admin']));
 
-
-        if(Roles.userIsInRole(thisUser._id), ['admin']){
+        if(Roles.userIsInRole(thisUser._id, ['admin'])){
             var adminSimFields = {
                 _id: 1,
                 zone_id:1,
@@ -50,20 +51,23 @@ if(Meteor.isServer){
                 emp6_sim: 1,
                 nr_sim: 1,
                 res_price_sim: 1,
-                non_res_price_sim: 1
+                non_res_price_sim: 1,
+                county_name: 1
             };
-            return countyData.find({zone_id:{$in:counties}}, {fields:adminSimFields});
+            return countyData.find({county_name:{$in:counties}}, {fields:adminSimFields});
         }else{
-            //console.log(fields);
+
             var publicSimFields = {
                 _id: 1,
                 zone_id:1,
                 sim_year: 1,
                 hh_sim: 1,
                 pop_sim: 1,
-                emp_sim: 1
+                emp_sim: 1,
+                county_name: 1
             };
-            return countyData.find({zone_id:{$in:counties}}, {fields:publicSimFields});
+
+            return countyData.find({county_name:{$in:counties}}, {fields:publicSimFields});
         }
     })
     

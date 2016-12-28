@@ -4,6 +4,7 @@
 import '../imports/startup/client/routes.js';
 import '../imports/startup/client/mapFunctions.js';
 import '../imports/ui/components/CesiumMapFunctions.js';
+import {subscribeToCounty} from '../imports/ui/components/CesiumMapFunctions.js';
 
 if(Meteor.isClient){
     Meteor.startup(function(){
@@ -28,6 +29,10 @@ if(Meteor.isClient){
         })();
 
         var sub = Meteor.subscribe('users');
+
+        var countySub = Meteor.subscribe('counties');
+        var allCounties = ['Boulder', 'Broomfield', 'Denver', 'Adams', 'Arapahoe', 'Douglas', 'Jefferson', 'Weld', 'Gilpin', 'Clear Creek', 'Elbert'];
+        subscribeToCounty(2010, allCounties);
 
     })
 
