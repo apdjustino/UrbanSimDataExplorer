@@ -192,7 +192,7 @@ if(Meteor.isClient){
                         fieldObj[selectedVar] = 1;
                         fieldObj['city_name'] = 1;
                         var data = muniSummary.find({sim_year: selectedYear}, {sort: {city_name:1}}).fetch();
-                        var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                        var baseData = muniSummary.find({sim_year: 2010}, {sort: {city_name:1}}).fetch();
                         var mappedData = data.map(function(row, idx){
 
                             var rowData = row;
@@ -216,7 +216,7 @@ if(Meteor.isClient){
                         fieldObj[selectedVar] = 1;
                         fieldObj['county_name'] = 1;
                         var data = countyData.find({sim_year: selectedYear}, {sort: {county_name:1}}).fetch();
-                        var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                        var baseData = countyData.find({sim_year: 2010}, {sort: {county_name:1}}).fetch();
                         var mappedData = data.map(function(row, idx){
 
                             var rowData = row;
@@ -240,7 +240,7 @@ if(Meteor.isClient){
                         fieldObj[selectedVar] = 1;
                         fieldObj['NAME'] = 1;
                         var data = ucSummary.find({sim_year: selectedYear}, {sort: {NAME:1}}).fetch();
-                        var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                        var baseData = ucSummary.find({sim_year: 2010}, {sort: {NAME:1}}).fetch();
                         var mappedData = data.map(function(row, idx){
 
                             var rowData = row;
