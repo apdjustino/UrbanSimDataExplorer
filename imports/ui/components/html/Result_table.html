@@ -1,39 +1,44 @@
 <template name="Result_table">
-    <table class="table table-condensed table-striped">
-        <thead>
-        <tr>
-            <th>Measure</th>
-            <th>Map</th>
-            <th>Value</th>
-            <th>Base Year Diff</th>
-            <th></th>
-        </tr>
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <table class="table table-condensed table-striped">
+                <thead>
+                <tr>
+                    <th>Measure</th>
+                    <th>Map</th>
+                    <th>Value</th>
+                    <th>Base Year Diff</th>
+                    <th></th>
+                </tr>
 
-        </thead>
-        <tbody>
-        {{#each tableData}}
-            <tr style="border: solid 1px black">
-                <td>{{measureNameMap this.measure}}</td>
-                <td>
-                    <a class="queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map." href="#">
-                        <i id="{{this.measure}}" class="material-icons">language</i>
-                    </a>
-                    <a class="queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." href="#">
-                        <i id="{{this.measure}}" class="material-icons">dashboard</i>
-                    </a>
-                </td>
-                <td>{{formattedValue this.value this.measure}}</td>
-                <td>{{formattedValue this.diff this.measure}}</td>
-                <td>
-                    {{#if multiZones}}
-                        {{#if isInRole 'admin, drcog'}}
-                            <a class="commentLink modal-trigger" href="#commentModal">Comment</a>
-                            <span>{{commentCount this.measure}}</span>
-                        {{/if}}
-                    {{/if}}
-                </td>
-            </tr>
-        {{/each}}
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                {{#each tableData}}
+                    <tr style="border: solid 1px black; margin: 2px;">
+                        <td>{{measureNameMap this.measure}}</td>
+                        <td>
+                            <a class="queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map." href="#">
+                                <i id="{{this.measure}}" class="material-icons">language</i>
+                            </a>
+                            <a class="queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." href="#">
+                                <i id="{{this.measure}}" class="material-icons">dashboard</i>
+                            </a>
+                        </td>
+                        <td>{{formattedValue this.value this.measure}}</td>
+                        <td>{{formattedValue this.diff this.measure}}</td>
+                        <td>
+                            {{#if multiZones}}
+                                {{#if isInRole 'admin, drcog'}}
+                                    <a class="commentLink modal-trigger" href="#commentModal">Comment</a>
+                                    <span>{{commentCount this.measure}}</span>
+                                {{/if}}
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </template>
