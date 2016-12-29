@@ -53,12 +53,6 @@ if(Meteor.isClient){
                 nodes: [
                     {template: "SignUp_body", data:undefined}
                 ]
-            }, navLayers: {
-                icon: "layers",
-                title: "Layers",
-                nodes: [
-                    {template: "LayersMenu_body", data:undefined}
-                ]
             }, addUser: {
                 icon: "person",
                 title: "Create New User",

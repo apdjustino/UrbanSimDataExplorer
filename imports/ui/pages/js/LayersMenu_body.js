@@ -11,8 +11,6 @@ if(Meteor.isClient){
     Template.LayersMenu_body.events({
         "click .layerBtn": function(event, template){
             event.preventDefault();
-            $('#sidenav-overlay').remove();
-            $('.navLink').sideNav('hide');
             Session.set('spinning', true);
             Session.set('selectedLayer', event.target.id);
             Session.set('selectedZone', []);
@@ -22,6 +20,12 @@ if(Meteor.isClient){
             }
             var mapName = FlowRouter.getRouteName();
             var layer = event.target.id;
+
+            $('.layerBtn').each(function(idx, el){
+                $(el).removeClass('orange');
+            });
+
+            $(event.target).addClass('orange');
 
 
             var leafletParamMap = {
