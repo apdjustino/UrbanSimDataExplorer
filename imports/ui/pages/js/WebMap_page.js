@@ -42,8 +42,8 @@ if(Meteor.isClient){
             return {
                 type: "expandable",
                 data: [
-                    {id: "LayersPane", icon: "layers", headerText: "Geographical Areas", active: "active", body: "LayersMenu_body", bodyData: undefined},
-                    {id: "RegionalForecastPane", icon: "dashboard", headerText: "Regional Forecast", active: "", body: "ResultsControl_body", bodyData: Session.get('selectedData')},
+                    {id: "LayersPane", icon: "layers", headerText: "Geographical Areas", active: "", body: "LayersMenu_body", bodyData: undefined},
+                    {id: "RegionalForecastPane", icon: "dashboard", headerText: "Regional Forecast", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')},
                     {id: "FindGeoPane", icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
                     // {id: "OptionsPane", icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
                     // {id: "ExploreGeoPane", icon: "view_list", headerText: "Explore Area", active: "active", body: "ResultsControl_body", bodyData: Session.get('selectedData')}

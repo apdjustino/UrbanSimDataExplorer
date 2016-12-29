@@ -14,6 +14,13 @@ if(Meteor.isClient){
         }, comment: function(commentId){
             return Comments.getCollection().find({reference_id: commentId}).fetch()
         }
+    });
+
+    Template.CommentModal_header.events({
+        "click .closeModal": function(event, template){
+            event.preventDefault();
+            $('#commentModal').closeModal()
+        }
     })
     
     
