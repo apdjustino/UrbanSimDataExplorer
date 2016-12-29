@@ -61,9 +61,7 @@ if(Meteor.isClient){
             };
 
 
-            if(mapName == 'webMap'){
-                drawMap(leafletParamMap[layer]);
-            }else{
+            if(mapName == '3dmap'){
                 if(viewer){
                     viewer.dataSources.removeAll(true);
                     var promise = Cesium.GeoJsonDataSource.load(leafletParamMap[layer].pathString, {
@@ -90,6 +88,9 @@ if(Meteor.isClient){
                 }else{
                     alert("Cesium Viewer error");
                 }
+            }else{
+
+                drawMap(leafletParamMap[layer]);
             }
         }
     })

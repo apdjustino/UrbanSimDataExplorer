@@ -37,7 +37,7 @@ if(Meteor.isClient){
 
                     $('#sidenav-overlay').remove();
                     $('.navLink').sideNav('hide');
-                    FlowRouter.go('/map');
+                    
                 }
             });
 
