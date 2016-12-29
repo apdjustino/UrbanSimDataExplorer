@@ -158,6 +158,7 @@ if(Meteor.isClient){
             }
 
         }, "click .queryDiffs": function(event, template){
+            event.preventDefault();
             Session.set('spinning', true);
             var mapName = FlowRouter.getRouteName();
             var selectedVar = event.target.id;
