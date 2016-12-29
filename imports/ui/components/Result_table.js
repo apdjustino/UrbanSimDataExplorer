@@ -35,10 +35,10 @@ if(Meteor.isClient){
         }, multiZones: function(){
             var selectedZones = Session.get('selectedZone');
             if(selectedZones){
-                if(selectedZones.length > 1){
-                    return false;
+                if(selectedZones.length == 1){
+                    return true;
                 }else{
-                    return true
+                    return false
                 }
             }
 
