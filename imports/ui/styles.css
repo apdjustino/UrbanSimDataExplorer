@@ -173,7 +173,7 @@ a:hover.toggle {
 
 /* Print Handling */
 @media print {
-    .navbar, .toggle, #sidebar {
+    .navbar, .toggle {
         display: none !important;
     }
 }
