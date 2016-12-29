@@ -1,7 +1,7 @@
 /**
  * Created by jmartinez on 8/15/16.
  */
-import {subscribeToCounty} from '../../components/CesiumMapFunctions';
+import {subscribeToCounty} from '../../components/CesiumMapFunctions'
 if(Meteor.isClient){
 
     Template.OptionsControl_body.helpers({
@@ -29,6 +29,9 @@ if(Meteor.isClient){
                     .attr("class", "entity");
 
                 $('#showCommentZones').prop('checked', false);
+                d3.selectAll(".entity").transition().duration(500)
+                    .style("fill", "");
+                
             }else{
                 var ds = viewer.dataSources.get(0);
                 var entities = ds.entities.values;
@@ -59,6 +62,7 @@ if(Meteor.isClient){
                                         return "red"
                                     }
                                 });
+
                         }
                     });
                 }else{
@@ -89,7 +93,6 @@ if(Meteor.isClient){
                     d3.selectAll(".entity").transition().duration(500)
                         .style("fill", "");
                 }else{
-                    debugger;
                     viewer.entities.removeAll();
                 }
             }
