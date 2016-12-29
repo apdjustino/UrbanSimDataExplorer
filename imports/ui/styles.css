@@ -14,7 +14,7 @@ html, body, #container{
 
 #mapContainer{
     height: 93vh;
-    width: 100vw;
+
 }
 
 #cesiumContainer{
