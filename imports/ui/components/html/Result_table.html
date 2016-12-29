@@ -14,31 +14,37 @@
                 </thead>
                 <tbody>
                 {{#each tableData}}
-                    <tr style="border: solid 1px black; margin: 2px;">
-                        <td>{{measureNameMap this.measure}}</td>
-                        <td>
-                            <a class="queryBtnRound queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map.">
-                                <i id="{{this.measure}}" class="material-icons">language</i>
-                            </a>
-                            <a class="queryBtnRound queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." >
-                                <i id="{{this.measure}}" class="material-icons">dashboard</i>
-                            </a>
-                        </td>
-                        <td>{{formattedValue this.value this.measure}}</td>
-                        <td>{{formattedValue this.diff this.measure}}</td>
-                        <td>
-                            {{#if multiZones}}
-                                {{#if isInRole 'admin, drcog'}}
-                                    <a class="commentLink modal-trigger" href="#commentModal">Comment</a>
-                                    <span>{{commentCount this.measure}}</span>
-                                {{/if}}
-                            {{/if}}
-                        </td>
-                    </tr>
+                    {{>resultTableRow (this)}}
                 {{/each}}
                 </tbody>
             </table>
         </div>
     </div>
 
+</template>
+
+    <template name="resultTableRow">
+    <tr style="border: solid 1px black; margin: 2px;">
+        <td>{{measureNameMap this.measure}}</td>
+        <td>
+            <a class="queryBtnRound queryTotals btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Show variable totals on map.">
+                <i id="{{this.measure}}" class="material-icons">language</i>
+            </a>
+            <a class="queryBtnRound queryDiffs btn-floating tooltipped waves-effect waves-light {{#if is2010}}disabled{{/if}}" data-position="bottom" data-delay="50" data-tooltip="Show variable difference from 2010 on map." >
+                <i id="{{this.measure}}" class="material-icons">dashboard</i>
+            </a>
+        </td>
+        <td>{{formattedValue this.value this.measure}}</td>
+        <td>{{formattedValue this.diff this.measure}}</td>
+        <td>
+            {{#if multiZones}}
+                {{#if isInRole 'admin, drcog'}}
+                    <a class="commentLink modal-trigger btn-floating tooltipped waves-effect waves-light" data-position="bottom" data-delay="50" data-tooltip="Add a Comment">
+                        <i class="material-icons">comment</i>
+                    </a>
+                    <span>Count: {{commentCount this.measure}}</span>
+                {{/if}}
+            {{/if}}
+        </td>
+    </tr>
 </template>

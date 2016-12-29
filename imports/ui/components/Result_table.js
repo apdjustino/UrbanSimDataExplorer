@@ -14,6 +14,33 @@ if(Meteor.isClient){
         $('.tooltipped').tooltip({delay: 50});
     });
 
+    Template.resultTableRow.onRendered(function(){
+        $('.tooltipped').tooltip({delay: 50});
+    });
+    
+    Template.resultTableRow.helpers({
+        multiZones: function(){
+            var selectedZones = Session.get('selectedZone');
+            if(selectedZones){
+                if(selectedZones.length == 1){
+                    return true;
+                }else{
+                    return false
+                }
+            }else{
+                return false;
+            }
+
+        }, is2010: function(){
+            return Session.equals('selectedYear', 2010);
+        }, commentCount: function(measure){
+            var year = Session.get('selectedYear');
+            var zone = Session.get('selectedZone')[0];
+            var id = zone + '-' + measure + '-' + year;
+            return Comments.getCollection().find({referenceId: id}).count();
+        }
+    });
+    
     Template.Result_table.helpers({
         tableData: function(){
             var data = Session.get('selectedData');
@@ -32,23 +59,6 @@ if(Meteor.isClient){
                 modalTitle: selectedYear + ' ' + measureNameMap(measure) + ' Comments for Zone(s): ' + selectedZones,
                 modalData: {measure: measure, year: selectedYear, zone:selectedZones}
             }
-        }, multiZones: function(){
-            var selectedZones = Session.get('selectedZone');
-            if(selectedZones){
-                if(selectedZones.length == 1){
-                    return true;
-                }else{
-                    return false
-                }
-            }
-
-        }, commentCount: function(measure){
-            var year = Session.get('selectedYear');
-            var zone = Session.get('selectedZone')[0];
-            var id = zone + '-' + measure + '-' + year;
-            return Comments.getCollection().find({referenceId: id}).count();
-        }, is2010: function(){
-            return Session.equals('selectedYear', 2010);
         }
     });
 

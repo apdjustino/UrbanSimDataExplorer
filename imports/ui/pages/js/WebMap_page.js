@@ -103,6 +103,8 @@ if(Meteor.isClient){
             var entityId = id.split('.')[1];
             var year = Session.get('selectedYear');
             var layer = Session.get('selectedLayer');
+            $('.tooltipped').tooltip({delay: 50});
+
             if(layer == 'zonesGeo'){
                 findZoneData(entityId, year);
                 if(zoneComments){
