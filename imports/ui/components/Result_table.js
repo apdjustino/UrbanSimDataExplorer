@@ -169,119 +169,122 @@ if(Meteor.isClient){
 
         }, "click .queryDiffs": function(event, template){
             event.preventDefault();
-            Session.set('spinning', true);
-            var mapName = FlowRouter.getRouteName();
-            var selectedVar = event.target.id;
-            var selectedYear = parseInt($('#yearSelect option:selected').val());
-            var selectedLayer = Session.get('selectedLayer');
+            if(!$(event.target).hasClass('disabled')){
+                Session.set('spinning', true);
+                var mapName = FlowRouter.getRouteName();
+                var selectedVar = event.target.id;
+                var selectedYear = parseInt($('#yearSelect option:selected').val());
+                var selectedLayer = Session.get('selectedLayer');
 
-            //add orange color to selected button and remove other
-            $('.queryBtnRound').each(function(idx, el){
-                $(el).removeClass('orange');
-            });
-
-            $(event.target).parent().addClass('orange');
-
-            if(selectedLayer == 'zonesGeo'){
-                Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
-                    onReady: function () {
-                        Session.set('spinning', false);
-                        var fieldObj = {};
-                        fieldObj[selectedVar] = 1;
-                        fieldObj['zone_id'] = 1;
-                        var data = zoneData.find({sim_year: selectedYear}, {sort: {zone_id:1}}).fetch();
-                        
-                        var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
-                        var mappedData = data.map(function(row, idx){
-
-                            var rowData = row;
-                            rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
-                            return rowData
-                        });
-                        
-                        if(mapName == 'webMap'){
-
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
-                            colorCesiumMap(data, selectedVar);
-                        }
-
-                        this.stop();
-                    }
+                //add orange color to selected button and remove other
+                $('.queryBtnRound').each(function(idx, el){
+                    $(el).removeClass('orange');
                 });
-            }else if(selectedLayer == 'municipalities'){
-                Meteor.subscribe("cities_by_year", selectedYear, selectedVar, {
-                    onReady: function () {
-                        Session.set('spinning', false);
-                        var fieldObj = {};
-                        fieldObj[selectedVar] = 1;
-                        fieldObj['city_name'] = 1;
-                        var data = muniSummary.find({sim_year: selectedYear}, {sort: {city_name:1}}).fetch();
-                        var baseData = muniSummary.find({sim_year: 2010}, {sort: {city_name:1}}).fetch();
-                        var mappedData = data.map(function(row, idx){
 
-                            var rowData = row;
-                            rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
-                            return rowData
-                        });
-                        if(mapName == 'webMap'){
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
-                            colorCesiumMap(data, selectedVar);
+                $(event.target).parent().addClass('orange');
+
+                if(selectedLayer == 'zonesGeo'){
+                    Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
+                        onReady: function () {
+                            Session.set('spinning', false);
+                            var fieldObj = {};
+                            fieldObj[selectedVar] = 1;
+                            fieldObj['zone_id'] = 1;
+                            var data = zoneData.find({sim_year: selectedYear}, {sort: {zone_id:1}}).fetch();
+
+                            var baseData = zoneData.find({sim_year: 2010}, {sort: {zone_id:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
+
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+
+                            if(mapName == 'webMap'){
+
+                                colorMap(data, selectedVar, selectedLayer)
+                            }else{
+                                colorCesiumMap(data, selectedVar);
+                            }
+
+                            this.stop();
                         }
+                    });
+                }else if(selectedLayer == 'municipalities'){
+                    Meteor.subscribe("cities_by_year", selectedYear, selectedVar, {
+                        onReady: function () {
+                            Session.set('spinning', false);
+                            var fieldObj = {};
+                            fieldObj[selectedVar] = 1;
+                            fieldObj['city_name'] = 1;
+                            var data = muniSummary.find({sim_year: selectedYear}, {sort: {city_name:1}}).fetch();
+                            var baseData = muniSummary.find({sim_year: 2010}, {sort: {city_name:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
 
-                        this.stop();
-                    }
-                });
-            }else if(selectedLayer == 'county_web'){
-                Meteor.subscribe("counties_by_year", selectedYear, selectedVar, {
-                    onReady: function () {
-                        Session.set('spinning', false);
-                        var fieldObj = {};
-                        fieldObj[selectedVar] = 1;
-                        fieldObj['county_name'] = 1;
-                        var data = countyData.find({sim_year: selectedYear}, {sort: {county_name:1}}).fetch();
-                        var baseData = countyData.find({sim_year: 2010}, {sort: {county_name:1}}).fetch();
-                        var mappedData = data.map(function(row, idx){
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                            if(mapName == 'webMap'){
+                                colorMap(data, selectedVar, selectedLayer)
+                            }else{
+                                colorCesiumMap(data, selectedVar);
+                            }
 
-                            var rowData = row;
-                            rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
-                            return rowData
-                        });
-                        if(mapName == 'webMap'){
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
-                            colorCesiumMap(data, selectedVar);
+                            this.stop();
                         }
+                    });
+                }else if(selectedLayer == 'county_web'){
+                    Meteor.subscribe("counties_by_year", selectedYear, selectedVar, {
+                        onReady: function () {
+                            Session.set('spinning', false);
+                            var fieldObj = {};
+                            fieldObj[selectedVar] = 1;
+                            fieldObj['county_name'] = 1;
+                            var data = countyData.find({sim_year: selectedYear}, {sort: {county_name:1}}).fetch();
+                            var baseData = countyData.find({sim_year: 2010}, {sort: {county_name:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
 
-                        this.stop();
-                    }
-                });
-            }else{
-                Meteor.subscribe("uc_by_year", selectedYear, selectedVar, {
-                    onReady: function () {
-                        Session.set('spinning', false);
-                        var fieldObj = {};
-                        fieldObj[selectedVar] = 1;
-                        fieldObj['NAME'] = 1;
-                        var data = ucSummary.find({sim_year: selectedYear}, {sort: {NAME:1}}).fetch();
-                        var baseData = ucSummary.find({sim_year: 2010}, {sort: {NAME:1}}).fetch();
-                        var mappedData = data.map(function(row, idx){
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                            if(mapName == 'webMap'){
+                                colorMap(data, selectedVar, selectedLayer)
+                            }else{
+                                colorCesiumMap(data, selectedVar);
+                            }
 
-                            var rowData = row;
-                            rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
-                            return rowData
-                        });
-                        if(mapName == 'webMap'){
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
-                            colorCesiumMap(data, selectedVar);
+                            this.stop();
                         }
+                    });
+                }else{
+                    Meteor.subscribe("uc_by_year", selectedYear, selectedVar, {
+                        onReady: function () {
+                            Session.set('spinning', false);
+                            var fieldObj = {};
+                            fieldObj[selectedVar] = 1;
+                            fieldObj['NAME'] = 1;
+                            var data = ucSummary.find({sim_year: selectedYear}, {sort: {NAME:1}}).fetch();
+                            var baseData = ucSummary.find({sim_year: 2010}, {sort: {NAME:1}}).fetch();
+                            var mappedData = data.map(function(row, idx){
 
-                        this.stop();
-                    }
-                });
+                                var rowData = row;
+                                rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
+                                return rowData
+                            });
+                            if(mapName == 'webMap'){
+                                colorMap(data, selectedVar, selectedLayer)
+                            }else{
+                                colorCesiumMap(data, selectedVar);
+                            }
+
+                            this.stop();
+                        }
+                    });
+                }
             }
+
         }
     })
 
