@@ -213,27 +213,27 @@ if(Meteor.isClient){
         L.Icon.Default.imagePath = 'packages/bevanhunt_leaflet/images';
 
         map = L.map("mapContainer").setView([39.75, -104.95], 10);
-        // var streets = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-        //     attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-        //     subdomains: 'abcd',
-        //     id: 'mapbox.outdoors',
-        //     accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
-        // });
-        //
-        // map.addLayer(streets);
+        var streets = L.tileLayer('http://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Imagery from <a href="http://mapbox.com/about/maps/">Mapbox</a> &mdash; Map data &copy <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+            subdomains: 'abcd',
+            id: 'mapbox.outdoors',
+            accessToken: 'pk.eyJ1IjoiZHJjMGciLCJhIjoiY2lvbG44bXR6MDFxbHY0amJ1bTB3bGNqdiJ9.yVn2tfcPeU-adm015g_8xg'
+        });
+
+        map.addLayer(streets);
         
         
         
         
-        // var zoneParams = {
-        //     pathString: "/data/zonesGeo.json",
-        //     obj_name: "zonesGeo",
-        //     label_string: "ZoneId: ",
-        //     geo_property: "ZONE_ID",
-        //     tazId: "TAZ_ID",
-        //     geo_class: "entity"
-        // };
-        // drawMap(zoneParams);
+        var zoneParams = {
+            pathString: "/data/zonesGeo.json",
+            obj_name: "zonesGeo",
+            label_string: "ZoneId: ",
+            geo_property: "ZONE_ID",
+            tazId: "TAZ_ID",
+            geo_class: "entity"
+        };
+        drawMap(zoneParams);
     })
 
 }
