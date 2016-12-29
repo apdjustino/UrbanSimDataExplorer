@@ -5,8 +5,52 @@
         </div>
         <a href="#" class="toggle btn btn-default"><i class="large material-icons">chevron_left</i></a>
         <div class="col s8 m8 l8">
-            <div id="mapContainer">
+            <div id="mapContainer" class="valign-wrapper">
+                {{#if isSpinning}}
+                    <div style="position:relative; z-index:11000; left:33%;" class="valign">
+                        <div class="preloader-wrapper big active">
+                            <div class="spinner-layer spinner-blue">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
 
+                            <div class="spinner-layer spinner-red">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+
+                            <div class="spinner-layer spinner-yellow">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+
+                            <div class="spinner-layer spinner-green">
+                                <div class="circle-clipper left">
+                                    <div class="circle"></div>
+                                </div><div class="gap-patch">
+                                <div class="circle"></div>
+                            </div><div class="circle-clipper right">
+                                <div class="circle"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                {{/if}}
             </div>
             <div id="chartsContainer" class="chartsContainer">
                 <button id="toggleCharts" title="Open/close the charts panel.">Charts & Statistics</button>
@@ -35,6 +79,7 @@
             </label>
         </div>
     </div>
+
 
     {{>Material_modal (CommentModal_args)}}
 </template>

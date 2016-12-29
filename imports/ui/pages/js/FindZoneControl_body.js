@@ -322,6 +322,7 @@ if(Meteor.isClient){
                         if(d.properties.NAME == template.data.name){
                             var lat = d.properties.Lat;
                             var long = d.properties.Long;
+                            console.log(lat + ', ' + long);
                             map.setView(new L.LatLng(lat, long), 11, {animate:true});
                             findUrbanCenterData(template.data.name, Session.get('selectedYear'));
                             if(zoneComments){

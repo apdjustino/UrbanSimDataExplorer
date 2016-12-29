@@ -18,7 +18,6 @@ ecmascript@0.6.1              # Enable ECMAScript2015+ syntax in app code
 d3js:d3
 fortawesome:fontawesome
 bevanhunt:leaflet
-sacha:spin
 accounts-password@1.3.3
 alanning:roles
 themeteorchef:jquery-validation
