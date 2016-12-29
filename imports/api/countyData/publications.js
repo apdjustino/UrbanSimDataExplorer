@@ -30,33 +30,44 @@ if(Meteor.isServer){
 
         var thisUser = Meteor.users.findOne({_id:this.userId});
 
-        console.log(thisUser);
-        console.log(Roles.userIsInRole(thisUser._id, ['admin']));
+        if(thisUser){
+            if(Roles.userIsInRole(thisUser._id, ['admin'])){
+                var adminSimFields = {
+                    _id: 1,
+                    zone_id:1,
+                    sim_year: 1,
+                    hh_sim: 1,
+                    pop_sim: 1,
+                    median_income_sim: 1,
+                    ru_sim: 1,
+                    emp_sim: 1,
+                    emp1_sim: 1,
+                    emp2_sim: 1,
+                    emp3_sim: 1,
+                    emp4_sim: 1,
+                    emp5_sim: 1,
+                    emp6_sim: 1,
+                    nr_sim: 1,
+                    res_price_sim: 1,
+                    non_res_price_sim: 1,
+                    county_name: 1
+                };
+                return countyData.find({county_name:{$in:counties}}, {fields:adminSimFields});
+            }else{
 
-        if(Roles.userIsInRole(thisUser._id, ['admin'])){
-            var adminSimFields = {
-                _id: 1,
-                zone_id:1,
-                sim_year: 1,
-                hh_sim: 1,
-                pop_sim: 1,
-                median_income_sim: 1,
-                ru_sim: 1,
-                emp_sim: 1,
-                emp1_sim: 1,
-                emp2_sim: 1,
-                emp3_sim: 1,
-                emp4_sim: 1,
-                emp5_sim: 1,
-                emp6_sim: 1,
-                nr_sim: 1,
-                res_price_sim: 1,
-                non_res_price_sim: 1,
-                county_name: 1
-            };
-            return countyData.find({county_name:{$in:counties}}, {fields:adminSimFields});
+                var publicSimFields = {
+                    _id: 1,
+                    zone_id:1,
+                    sim_year: 1,
+                    hh_sim: 1,
+                    pop_sim: 1,
+                    emp_sim: 1,
+                    county_name: 1
+                };
+
+                return countyData.find({county_name:{$in:counties}}, {fields:publicSimFields});
+            }
         }else{
-
             var publicSimFields = {
                 _id: 1,
                 zone_id:1,
@@ -69,6 +80,8 @@ if(Meteor.isServer){
 
             return countyData.find({county_name:{$in:counties}}, {fields:publicSimFields});
         }
+
+
     })
     
     

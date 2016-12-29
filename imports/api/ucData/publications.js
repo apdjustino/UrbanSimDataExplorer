@@ -18,20 +18,30 @@ if(Meteor.isServer){
         var fields;
         var thisUser = Meteor.users.findOne({_id:this.userId});
 
-
-
-        if(Roles.userIsInRole(thisUser._id), ['admin']){
-            fields = {
-                _id: 1,
-                NAME:1,
-                sim_year: 1,
-                hh_sim: 1,
-                pop_sim: 1,
-                emp_sim: 1
-            };
-            return ucSummary.find({NAME:{$in:uc}}, {fields:fields});
+        if(thisUser){
+            if(Roles.userIsInRole(thisUser._id), ['admin']){
+                fields = {
+                    _id: 1,
+                    NAME:1,
+                    sim_year: 1,
+                    hh_sim: 1,
+                    pop_sim: 1,
+                    emp_sim: 1
+                };
+                return ucSummary.find({NAME:{$in:uc}}, {fields:fields});
+            }else{
+                //console.log(fields);
+                fields = {
+                    _id: 1,
+                    NAME:1,
+                    sim_year: 1,
+                    hh_sim: 1,
+                    pop_sim: 1,
+                    emp_sim: 1
+                };
+                return ucSummary.find({NAME:{$in:uc}}, {fields:fields});
+            }
         }else{
-            //console.log(fields);
             fields = {
                 _id: 1,
                 NAME:1,
@@ -42,6 +52,9 @@ if(Meteor.isServer){
             };
             return ucSummary.find({NAME:{$in:uc}}, {fields:fields});
         }
+
+
+
 
     });
 

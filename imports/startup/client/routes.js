@@ -96,7 +96,7 @@ FlowRouter.route('/icons', {
 FlowRouter.route('/', {
     name: 'home',
     action: function(){
-        BlazeLayout.render('Home_layout_page', {main: 'Login_page'});
+        BlazeLayout.render('Home_layout_page', {main: 'WebMap_page'});
     }
 });
 

@@ -1,9 +1,5 @@
 <template name="Home_layout_page">
 
-    {{#if isSpinning}}
-        {{>spinner}}
-    {{/if}}
-
     {{#if isInRole 'admin'}}
         {{>adminNavBar}}
     {{/if}}
@@ -16,11 +12,11 @@
         {{>publicNavBar}}
     {{/if}}
 
-    {{#if currentUser}}
-        {{>Template.dynamic template=main}}
-    {{else}}
-        {{>Login_page}}
-    {{/if}}
+
+    {{>Template.dynamic template=main}}
+
+
+
 
 </template>
 
@@ -57,19 +53,13 @@
                         </a>
                     </li>
 
+
                     <li>
-                        <a id="navMap" href="#" class="valign-wrapper dropdown-button" data-activates="MapDropDown">
-                            <i class="correctSize material-icons">language</i>
-                            <span class="valign">Map</span>
+                        <a id="navAdmin" href="#" class="valign-wrapper dropdown-button" data-activates="AdminDropDown">
+                            <i class="correctSize material-icons">work</i>
+                            <span class="valign">Admin</span>
                         </a>
                     </li>
-
-                        <li>
-                            <a id="navAdmin" href="#" class="valign-wrapper dropdown-button" data-activates="AdminDropDown">
-                                <i class="correctSize material-icons">work</i>
-                                <span class="valign">Admin</span>
-                            </a>
-                        </li>
 
 
                     <li>
@@ -107,12 +97,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a id="navMap" href="/map" class="valign-wrapper">
-                            <i class="correctSize material-icons">language</i>
-                            <span class="valign">Map</span>
-                        </a>
-                    </li>
 
                     <li>
                         <a id="navLogOut" href="#" class="valign-wrapper" data-activates="slide-out">
@@ -147,12 +131,7 @@
                             <span class="valign">Info</span>
                         </a>
                     </li>
-                    <li>
-                        <a id="navSignUp" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navSignUp')">
-                            <i class="correctSize material-icons test">input</i>
-                            <span class="valign">Sign Up</span>
-                        </a>
-                    </li>
+
                     <li>
                         <a id="navLogIn" href="#" class="valign-wrapper navLink" data-activates="slide-out" onclick="Session.set('selectedNavItem', 'navLogIn')">
                             <i class="correctSize material-icons">person</i>

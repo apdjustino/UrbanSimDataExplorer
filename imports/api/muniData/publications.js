@@ -14,19 +14,30 @@ if(Meteor.isServer){
         var thisUser = Meteor.users.findOne({_id:this.userId});
 
 
-
-        if(Roles.userIsInRole(thisUser._id), ['admin']){
-            fields = {
-                _id: 1,
-                city_name:1,
-                sim_year: 1,
-                hh_sim: 1,
-                pop_sim: 1,
-                emp_sim: 1
-            };
-            return muniSummary.find({city_name:{$in:city}}, {fields:fields});
+        if(thisUser){
+            if(Roles.userIsInRole(thisUser._id), ['admin']){
+                fields = {
+                    _id: 1,
+                    city_name:1,
+                    sim_year: 1,
+                    hh_sim: 1,
+                    pop_sim: 1,
+                    emp_sim: 1
+                };
+                return muniSummary.find({city_name:{$in:city}}, {fields:fields});
+            }else{
+                //console.log(fields);
+                fields = {
+                    _id: 1,
+                    city_name:1,
+                    sim_year: 1,
+                    hh_sim: 1,
+                    pop_sim: 1,
+                    emp_sim: 1
+                };
+                return muniSummary.find({city_name:{$in:city}}, {fields:fields});
+            }
         }else{
-            //console.log(fields);
             fields = {
                 _id: 1,
                 city_name:1,
@@ -37,6 +48,7 @@ if(Meteor.isServer){
             };
             return muniSummary.find({city_name:{$in:city}}, {fields:fields});
         }
+        
 
     });
     

@@ -71,16 +71,20 @@ if(Meteor.isServer){
         var thisUser = Meteor.users.findOne({_id:this.userId});
         var queryYear = year;
 
-
-
-        if(Roles.userIsInRole(thisUser._id), ['admin']){
-            fields = adminSimFields;
-            return zoneData.find({zone_id:{$in:zones}}, {fields:fields});
+        if(thisUser){
+            if(Roles.userIsInRole(thisUser._id), ['admin']){
+                fields = adminSimFields;
+                return zoneData.find({zone_id:{$in:zones}}, {fields:fields});
+            }else{
+                //console.log(fields);
+                fields = publicSimFields;
+                return zoneData.find({zone_id:{$in:zones}}, {fields:fields});
+            }
         }else{
-            //console.log(fields);
             fields = publicSimFields;
             return zoneData.find({zone_id:{$in:zones}}, {fields:fields});
         }
+        
 
     });
 
