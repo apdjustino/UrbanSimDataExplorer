@@ -122,12 +122,12 @@ FlowRouter.route('/reset-password/:token', {
     }
 });
 
-FlowRouter.route('/map', {
-    name: 'webMap',
-    action: function(){
-        BlazeLayout.render('Home_layout_page', {main: 'WebMap_page'});
-    }
-});
+// FlowRouter.route('/map', {
+//     name: 'webMap',
+//     action: function(){
+//         BlazeLayout.render('Home_layout_page', {main: 'WebMap_page'});
+//     }
+// });
 
 FlowRouter.route('/3dmap', {
     name: '3dmap',
