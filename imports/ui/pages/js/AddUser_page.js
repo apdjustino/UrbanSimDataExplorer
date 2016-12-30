@@ -22,9 +22,9 @@ if(Meteor.isClient){
 
             Meteor.call("addNewUser", dataToSend, function(error){
                 if(error){
-                    sAlert.error(error.reason, {position:'bottom'});
+                    Materialize.toast(error.reason, 5000);
                 }else{
-                    sAlert.success("New user added!", {position: 'bottom'})
+                    Materialize.toast("New user added!", 5000)
                 }
 
             });
@@ -48,9 +48,9 @@ if(Meteor.isClient){
             Meteor.call("sendInvite", dataToSend, function(error){
                 if(error){
                     console.log(error);
-                    sAlert.error(error.reason, {position:'bottom'});
+                    Materialize.toast(error.reason, 5000);
                 }else{
-                    sAlert.success("New user added!", {position: 'bottom'})    
+                    Materialize.toast("New user added!", 5000)
                 }
                 
             });
