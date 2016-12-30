@@ -96,29 +96,54 @@ if(Meteor.isClient){
                 if(isNaN(parseInt(zoneId))){
                     Materialize.toast("Zone: " + zoneId + " not found.", 4000);
                 }else{
-                    if(parseInt(zoneId) > 2804 || parseInt(zoneId) < 1){
-                        Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                    if(zoneId.length == 6){
+                        d3.selectAll('.entity').attr("class", function(d){
+                            if(d.properties.TAZ_ID == zoneId){
+                                var lat = d.properties.Lat;
+                                var long = d.properties.Long;
+                                map.setView(new L.LatLng(lat, long), 13, {animate:true});
+                                var zone4Digit = d.properties.ZONE_ID;
+                                findZoneData(zone4Digit, Session.get('selectedYear'));
+                                if(zoneComments){
+                                    zoneComments.stop();
+                                    zoneComments = Meteor.subscribe('commentsByZone', year);
+                                }else{
+                                    zoneComments = Meteor.subscribe('commentsByZone', year);
+                                }
+                                return "entity selected"
+                            }else{
+                                return "entity"
+                            }
+
+                        });
+                    }else{
+                        if(parseInt(zoneId) > 2804 || parseInt(zoneId) < 1){
+                            Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                        }else{
+                            d3.selectAll('.entity').attr("class", function(d){
+                                if(d.properties.ZONE_ID == zoneId){
+                                    var lat = d.properties.Lat;
+                                    var long = d.properties.Long;
+                                    map.setView(new L.LatLng(lat, long), 13, {animate:true});
+                                    findZoneData(zoneId, Session.get('selectedYear'));
+                                    if(zoneComments){
+                                        zoneComments.stop();
+                                        zoneComments = Meteor.subscribe('commentsByZone', year);
+                                    }else{
+                                        zoneComments = Meteor.subscribe('commentsByZone', year);
+                                    }
+                                    return "entity selected"
+                                }else{
+                                    return "entity"
+                                }
+
+                            });
+                        }
                     }
+
                 }
 
-                d3.selectAll('.entity').attr("class", function(d){
-                    if(d.properties.ZONE_ID == zoneId){
-                        var lat = d.properties.Lat;
-                        var long = d.properties.Long;
-                        map.setView(new L.LatLng(lat, long), 13, {animate:true});
-                        findZoneData(zoneId, Session.get('selectedYear'));
-                        if(zoneComments){
-                            zoneComments.stop();
-                            zoneComments = Meteor.subscribe('commentsByZone', year);
-                        }else{
-                            zoneComments = Meteor.subscribe('commentsByZone', year);
-                        }
-                        return "entity selected"
-                    }else{
-                        return "entity"
-                    }
 
-                });
 
             }
 

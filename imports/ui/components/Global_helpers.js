@@ -111,7 +111,7 @@ if(Meteor.isClient){
     Template.registerHelper('is3dMap', function(){
 
         var mapName = FlowRouter.getRouteName();
-        if(mapName != 'webMap'){
+        if(mapName == '3dmap'){
             return true;
         }else{
             return false;
