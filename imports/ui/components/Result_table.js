@@ -101,11 +101,10 @@ if(Meteor.isClient){
                         fieldObj['zone_id'] = 1;
                         var data = zoneData.find({sim_year: selectedYear}, {sort: {zone_id:1}}).fetch();
                         
-                        if(mapName == 'webMap'){
-
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
+                        if(mapName == '3dmap'){
                             colorCesiumMap(data, selectedVar);
+                        }else{
+                            colorMap(data, selectedVar, selectedLayer)
                         }
 
                         this.stop();
@@ -120,10 +119,10 @@ if(Meteor.isClient){
                         fieldObj['city_name'] = 1;
                         var data = muniSummary.find({sim_year: selectedYear}, {sort: {city_name:1}}).fetch();
                         
-                        if(mapName == 'webMap'){
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
+                        if(mapName == '3dmap'){
                             colorCesiumMap(data, selectedVar);
+                        }else{
+                            colorMap(data, selectedVar, selectedLayer);
                         }
 
                         this.stop();
@@ -138,10 +137,10 @@ if(Meteor.isClient){
                         fieldObj['county_name'] = 1;
                         var data = countyData.find({sim_year: selectedYear}, {sort: {county_name:1}}).fetch();
                         
-                        if(mapName == 'webMap'){
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
+                        if(mapName == '3dmap'){
                             colorCesiumMap(data, selectedVar);
+                        }else{
+                            colorMap(data, selectedVar, selectedLayer);
                         }
 
                         this.stop();
@@ -156,10 +155,11 @@ if(Meteor.isClient){
                         fieldObj['NAME'] = 1;
                         var data = ucSummary.find({sim_year: selectedYear}, {sort: {NAME:1}}).fetch();
                         
-                        if(mapName == 'webMap'){
-                            colorMap(data, selectedVar, selectedLayer)
-                        }else{
+                        if(mapName == '3dmap'){
                             colorCesiumMap(data, selectedVar);
+                        }else{
+                            colorMap(data, selectedVar, selectedLayer)
+
                         }
 
                         this.stop();
@@ -200,11 +200,11 @@ if(Meteor.isClient){
                                 return rowData
                             });
 
-                            if(mapName == 'webMap'){
-
-                                colorMap(data, selectedVar, selectedLayer)
-                            }else{
+                            if(mapName == '3dmap'){
                                 colorCesiumMap(data, selectedVar);
+                            }else{
+                                colorMap(data, selectedVar, selectedLayer);
+
                             }
 
                             this.stop();
@@ -225,10 +225,10 @@ if(Meteor.isClient){
                                 rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
                                 return rowData
                             });
-                            if(mapName == 'webMap'){
-                                colorMap(data, selectedVar, selectedLayer)
-                            }else{
+                            if(mapName == '3dmap'){
                                 colorCesiumMap(data, selectedVar);
+                            }else{
+                                colorMap(data, selectedVar, selectedLayer)
                             }
 
                             this.stop();
@@ -249,10 +249,11 @@ if(Meteor.isClient){
                                 rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
                                 return rowData
                             });
-                            if(mapName == 'webMap'){
-                                colorMap(data, selectedVar, selectedLayer)
-                            }else{
+                            if(mapName == '3dmap'){
                                 colorCesiumMap(data, selectedVar);
+                            }else{
+                                colorMap(data, selectedVar, selectedLayer)
+
                             }
 
                             this.stop();
@@ -273,12 +274,12 @@ if(Meteor.isClient){
                                 rowData[selectedVar] = row[selectedVar] - baseData[idx][selectedVar];
                                 return rowData
                             });
-                            if(mapName == 'webMap'){
-                                colorMap(data, selectedVar, selectedLayer)
-                            }else{
+                            if(mapName == '3dmap'){
                                 colorCesiumMap(data, selectedVar);
-                            }
+                            }else{
+                                colorMap(data, selectedVar, selectedLayer)
 
+                            }
                             this.stop();
                         }
                     });

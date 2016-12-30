@@ -7,6 +7,9 @@
             {{>OptionsControl_body}}
 
             {{>Result_table}}
+            {{#if colorsChosen}}
+                {{>map_legend (Legend_args)}}<br>
+            {{/if}}
 
     </div>
 

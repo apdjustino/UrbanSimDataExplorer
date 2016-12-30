@@ -20,19 +20,13 @@ if(Meteor.isClient){
             var mapName = FlowRouter.getRouteName();
             Session.set('colorData', undefined);
             Session.set('selectedZone', []);
+            Session.set('queryColorRanges', undefined);
 
             var allCounties = ['Boulder', 'Broomfield', 'Denver', 'Adams', 'Arapahoe', 'Douglas', 'Jefferson', 'Weld', 'Gilpin', 'Clear Creek', 'Elbert'];
             subscribeToCounty(2010, allCounties);
 
-            if(mapName == 'webMap'){
-                d3.selectAll('.entity')
-                    .attr("class", "entity");
+            if(mapName == '3dmap'){
 
-                $('#showCommentZones').prop('checked', false);
-                d3.selectAll(".entity").transition().duration(500)
-                    .style("fill", "");
-                
-            }else{
                 var ds = viewer.dataSources.get(0);
                 var entities = ds.entities.values;
                 entities.forEach(function(cv){
@@ -46,6 +40,25 @@ if(Meteor.isClient){
 
                 viewer.entities.removeAll();
                 $('#showCommentZones').prop('checked', false);
+
+
+            }else{
+
+                //remove orange from button if chloropleth selected
+
+                $('.queryBtnRound').each(function(idx, el){
+                    $(el).removeClass('orange');
+                });
+
+
+                //remove map coloring
+
+                d3.selectAll('.entity')
+                    .attr("class", "entity");
+
+                $('#showCommentZones').prop('checked', false);
+                d3.selectAll(".entity").transition().duration(500)
+                    .style("fill", "");
             }
 
         }, "click #showCommentZones": function(event, template){

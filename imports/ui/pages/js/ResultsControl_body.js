@@ -52,6 +52,23 @@ if(Meteor.isClient){
                 urban_centers: "Selected Urban Center(s): "
             };
             return layerDict[layer];
+        }, Legend_args: function(){
+            var ranges = Session.get('queryColorRanges');
+            if(ranges){
+                return {
+                    categories: ranges
+                }
+            }else{
+                return []
+            }
+
+        }, colorsChosen: function(){
+            var colorRange = Session.get('queryColorRanges');
+            if(colorRange){
+                return true;
+            }else{
+                return false;
+            }
         }
     });
 
