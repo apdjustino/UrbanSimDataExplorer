@@ -50,7 +50,40 @@ if(Meteor.isClient){
             var mapName = FlowRouter.getRouteName();
             var zoneId = $('#zoneSearch').val();
             var year = Session.get('selectedYear');
-            if(mapName == 'webMap'){
+            if(mapName == '3dmap'){
+                var ds = viewer.dataSources.get(0);
+
+                var entity = _.find(ds.entities.values, function(x){return x.properties.zone_str == zoneId});
+                if(entity){
+                    viewer.camera.flyTo({
+                        destination: Cesium.Cartesian3.fromDegrees(entity.properties.Long, entity.properties.Lat, 4000),
+                        duration: 4,
+                        complete: function(){
+                            viewer.entities.add({
+                                polygon: {
+                                    hierarchy: entity.polygon.hierarchy,
+                                    material: new Cesium.Color(1,1,0,1, .7)
+                                }
+                            });
+                            findZoneData(zoneId, Session.get('selectedYear'));
+                            if(zoneComments){
+                                zoneComments.stop();
+                                zoneComments = Meteor.subscribe('commentsByZone', year);
+                            }else{
+                                zoneComments = Meteor.subscribe('commentsByZone', year);
+                            }
+                        }
+                    });
+
+                }else{
+                    Materialize.toast("Zone: " + zoneId + " not found.", 4000);
+                }
+
+
+
+
+            }else{
+
                 // var selector = '#id-' + zoneId;
                 // console.log(d3.select(selector).datum(function(d){console.log(d)}))
 
@@ -83,37 +116,6 @@ if(Meteor.isClient){
 
                 });
 
-
-
-
-            }else{
-                var ds = viewer.dataSources.get(0);
-
-                var entity = _.find(ds.entities.values, function(x){return x.properties.zone_str == zoneId});
-                if(entity){
-                    viewer.camera.flyTo({
-                        destination: Cesium.Cartesian3.fromDegrees(entity.properties.Long, entity.properties.Lat, 4000),
-                        duration: 4,
-                        complete: function(){
-                            viewer.entities.add({
-                                polygon: {
-                                    hierarchy: entity.polygon.hierarchy,
-                                    material: new Cesium.Color(1,1,0,1, .7)
-                                }
-                            });
-                            findZoneData(zoneId, Session.get('selectedYear'));
-                            if(zoneComments){
-                                zoneComments.stop();
-                                zoneComments = Meteor.subscribe('commentsByZone', year);
-                            }else{
-                                zoneComments = Meteor.subscribe('commentsByZone', year);
-                            }
-                        }
-                    });
-
-                }else{
-                    Materialize.toast("Zone: " + zoneId + " not found.", 4000);
-                }
             }
 
 

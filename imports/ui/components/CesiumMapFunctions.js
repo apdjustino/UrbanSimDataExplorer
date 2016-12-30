@@ -805,7 +805,7 @@ if(Meteor.isClient){
 
 
                 dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
-                var allYears = _.groupBy(muniSummary.find().fetch(), 'sim_year');
+                var allYears = _.groupBy(muniSummary.find({city_name:{$in:selectedZoneArray}}).fetch(), 'sim_year');
                 var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
 
 
@@ -820,6 +820,7 @@ if(Meteor.isClient){
                                 sim_year: a.sim_year
                             };
                         });
+                        console.log(simData);
                         return simData;
                     });
                 }else{
@@ -831,6 +832,7 @@ if(Meteor.isClient){
                                 sim_year: a.sim_year
                             };
                         });
+
                         return simData;
                     });
                 }
@@ -979,7 +981,7 @@ if(Meteor.isClient){
 
 
                 dataDict["oneYear"] = _.sortBy(dataArr, 'measure').reverse();
-                var allYears = _.groupBy(ucSummary.find().fetch(), 'sim_year');
+                var allYears = _.groupBy(ucSummary.find({NAME:{$in:selectedZoneArray}}).fetch(), 'sim_year');
                 var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
 
 
@@ -1022,6 +1024,7 @@ if(Meteor.isClient){
     }
 
     export function drawChart(data){
+        console.log(data);
         d3.selectAll(".svgChart").remove();
         var margin = {top: 10, right:25, bottom:25, left:90},
             width = 350 - margin.left - margin.right,
