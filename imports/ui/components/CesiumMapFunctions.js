@@ -762,7 +762,6 @@ if(Meteor.isClient){
     export function subscribeToCity(year, selectedZoneArray){
         return Meteor.subscribe('grouped_cities', selectedZoneArray, {
             onReady: function(){
-
                 var data;
                 var baseData;
                 var fieldObj = getDataFields(Roles.userIsInRole(Meteor.userId(), ['admin']));
@@ -820,7 +819,6 @@ if(Meteor.isClient){
                                 sim_year: a.sim_year
                             };
                         });
-                        console.log(simData);
                         return simData;
                     });
                 }else{
@@ -864,7 +862,6 @@ if(Meteor.isClient){
                 }
 
 
-                console.log(data);
 
                 this.stop();
                 var dataArr =[];
@@ -1024,7 +1021,6 @@ if(Meteor.isClient){
     }
 
     export function drawChart(data){
-        console.log(data);
         d3.selectAll(".svgChart").remove();
         var margin = {top: 10, right:25, bottom:25, left:90},
             width = 350 - margin.left - margin.right,
@@ -1174,7 +1170,6 @@ if(Meteor.isClient){
                 var entity = undefined;
                 ds.entities.values.forEach(function(ent){
                     if(ent.properties.NAME == cv.NAME){
-                        console.log(cv)
                         var quantized = quantize(cv[measure]);
                         var color = colorMap[quantized];
                         cv['color'] = color;
@@ -1233,7 +1228,6 @@ if(Meteor.isClient){
             casino: "#59F2A7",
             military: "#0C0202"
         };
-        console.log('test');
 
         for(i=1; i<viewer.dataSources.length; i++){
             //start at index 1 because index 0 is going to be the polygon shapes of the layer
@@ -1375,7 +1369,6 @@ if(Meteor.isClient){
             Session.set('spinning', true);
             var pickedObject = viewer.scene.pick(click.position);
             var entity = pickedObject.id;
-            console.log(entity);
 
             var dataSourcesCount = viewer.dataSources.length - 1;
             for(var i=dataSourcesCount; i> 0; i--){
