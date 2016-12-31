@@ -64,21 +64,8 @@ if(Meteor.isClient){
         }, "click #showCommentZones": function(event, template){
             var mapName = FlowRouter.getRouteName();
             if(event.target.checked){
-                if(mapName == 'webMap'){
-                    Meteor.call("getCommentZones", function(error, result){
-                        if(error){
-                            sAlert.error(error.reason);
-                        }else{
-                            d3.selectAll('.entity').transition().duration(500)
-                                .style("fill", function(d){
-                                    if(_.contains(result, d.properties.ZONE_ID)){
-                                        return "red"
-                                    }
-                                });
+                if(mapName == '3dmap'){
 
-                        }
-                    });
-                }else{
                     Meteor.call("getCommentZones", function(error, result){
                         if(error){
                             sAlert.error(error.reason);
@@ -98,15 +85,30 @@ if(Meteor.isClient){
                         }
                     });
 
+                }else{
+
+                    Meteor.call("getCommentZones", function(error, result){
+                        if(error){
+                            sAlert.error(error.reason);
+                        }else{
+                            d3.selectAll('.entity').transition().duration(500)
+                                .style("fill", function(d){
+                                    if(_.contains(result, d.properties.ZONE_ID)){
+                                        return "red"
+                                    }
+                                });
+
+                        }
+                    });
 
 
                 }
             }else{
-                if(mapName == 'webMap'){
+                if(mapName == '3dmap'){
+                    viewer.entities.removeAll();
+                }else{
                     d3.selectAll(".entity").transition().duration(500)
                         .style("fill", "");
-                }else{
-                    viewer.entities.removeAll();
                 }
             }
         }, "click #showBuildings": function(event, target){

@@ -8,9 +8,7 @@ if(Meteor.isClient){
     
     Template.Home_layout_page.events({
         "click #navLogOut": function(event, template){
-            Object.keys(Session.keys).forEach(function(key){
-                Session.set(key, undefined);
-            });
+            
             Meteor.logout();
         }, "click .toggle": function(event, template){
             event.preventDefault();

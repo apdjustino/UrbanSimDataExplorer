@@ -6,6 +6,7 @@ import {setCityClickEvents} from '../../components/CesiumMapFunctions.js';
 import {setZoneClickEvents} from '../../components/CesiumMapFunctions.js';
 import {setCountyClickEvents} from '../../components/CesiumMapFunctions.js';
 import {setUrbanCenterClickEvents} from '../../components/CesiumMapFunctions.js';
+import {subscribeToCounty} from '../../components/CesiumMapFunctions.js';
 if(Meteor.isClient){
 
     Template.LayersMenu_body.events({
@@ -20,6 +21,10 @@ if(Meteor.isClient){
             }
             var mapName = FlowRouter.getRouteName();
             var layer = event.target.id;
+
+            var allCounties = ['Boulder', 'Broomfield', 'Denver', 'Adams', 'Arapahoe', 'Douglas', 'Jefferson', 'Weld', 'Gilpin', 'Clear Creek', 'Elbert'];
+            subscribeToCounty(2010, allCounties);
+
 
             $('.layerBtn').each(function(idx, el){
                 $(el).removeClass('orange');
