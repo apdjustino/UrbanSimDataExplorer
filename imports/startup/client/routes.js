@@ -58,7 +58,7 @@ import '../../ui/pages/html/Intro_page.html';
 import '../../ui/pages/html/SlideShow_body.html';
 import '../../ui/pages/html/vote_icon.html';
 import '../../ui/pages/html/ScenarioManager_body.html';
-
+import '../../ui/pages/html/Help_page.html';
 //import client page js
 
 import '../../ui/pages/js/AddUser_page.js';

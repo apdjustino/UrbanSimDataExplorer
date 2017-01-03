@@ -77,6 +77,12 @@ if(Meteor.isClient){
                 nodes: [
                     {template: "DeleteUser_page", data: undefined}
                 ]
+            }, help: {
+                icon: "help",
+                title: "Help & FAQs",
+                nodes: [
+                    {template: "Help_page", data: undefined}
+                ]
             }
         };
 
