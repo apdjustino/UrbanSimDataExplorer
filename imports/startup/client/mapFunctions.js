@@ -167,6 +167,8 @@ export function colorMap(data, measure, layer){
         urban_centers: {sim_name: 'NAME', geo_name: 'NAME'}
     };
 
+    var format = d3.format(",.0f");
+
     var max = _.max(data, function (x) {
         return x[measure]
     })[measure];
@@ -221,7 +223,7 @@ export function colorMap(data, measure, layer){
         var obj = {};
         obj["cssClass"] = cv;
         obj["range"] = quantize.invertExtent(cv);
-        obj["name"] = parseInt(quantize.invertExtent(cv)[0]) + " - " + parseInt(quantize.invertExtent(cv)[1]);
+        obj["name"] = format(parseInt(quantize.invertExtent(cv)[0])) + " - " + format(parseInt(quantize.invertExtent(cv)[1]));
         obj["color"] = colorScheme[cv];
         range.push(obj)
     });
