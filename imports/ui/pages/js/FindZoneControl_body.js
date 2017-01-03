@@ -116,6 +116,10 @@ if(Meteor.isClient){
                             }
 
                         });
+                        var selectionSize = d3.selectAll('.selected').size();
+                        if(selectionSize == 0){
+                            Materialize.toast("TAZ ID: " + zoneId + " not found.", 4000);
+                        }
                     }else{
                         if(parseInt(zoneId) > 2804 || parseInt(zoneId) < 1){
                             Materialize.toast("Zone: " + zoneId + " not found.", 4000);
