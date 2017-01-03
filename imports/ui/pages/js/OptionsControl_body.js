@@ -91,9 +91,16 @@ if(Meteor.isClient){
                         if(error){
                             sAlert.error(error.reason);
                         }else{
+                            console.log(result);
                             d3.selectAll('.entity').transition().duration(500)
                                 .style("fill", function(d){
                                     if(_.contains(result, d.properties.ZONE_ID)){
+                                        return "red"
+                                    }else if(_.contains(result, d.properties.COUNTY)){
+                                        return "red"
+                                    }else if(_.contains(result, d.properties.CITY)){
+                                        return "red"
+                                    }else if(_.contains(result, d.properties.NAME)){
                                         return "red"
                                     }
                                 });
