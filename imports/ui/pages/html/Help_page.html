@@ -1,8 +1,149 @@
 <template name="Help_page">
-    <p>
-        FAQs
-    </p>
-    <p>
-        How-To Guides
-    </p>
+    <div class="row">
+        <div class="col s12 m12 l12">
+            {{>Material_collapsible (Help_options_args)}}
+        </div>
+    </div>
+</template>
+
+
+<template name="FAQ_body">
+    <div class="row">
+        <div class="col l12 m12 s12">
+            <h5>What is a land use forecast?</h5>
+            <p class="faq-answer">
+                MPOs and long-run planning organizations like DRCOG forecast land use to inform regional planning and
+                transportation policy. The DRCOG land use forecast consists of a projection of households, employment, and population
+                out to 2040. DRCOG implements a version of UrbanSim, a regional land use forecasting model, to forecast
+                household, population, and employment growth throughout the DRCOG region.
+            </p>
+            <h5>What is a zone?</h5>
+            <p class="faq-answer">
+                A zone is an area of analysis defined by the models used by DRCOG. The boundaries are available in
+                DRCOG's Regional Data Catalog. Download
+                <a href="http://gis.drcog.org/datacatalog/content/traffic-analysis-zone-boundaries" class="help-link">here</a>.
+            </p>
+            <h5>What is an urban center?</h5>
+            <p class="faq-answer">
+                The urban centers element of Metro Vision aspires for the Denver region to become and international model for
+                healthy, livable communities. Vibrant urban centers connected by a robust multi-modal network are central to this vision.
+                Metro Vision will be unique but all will: 1) be active, pedestrian-, bicycle-, transit-friendly places that are more dense
+                and mixed in use than surrounding areas; 2) allow people of all ages, incomes, and abilities to access a range of housing,
+                employment, and service opportunities without sole reliance on having to drive; 3) promote regional sustainability
+                by reducing per capita vehicle miles traveled, air pollution, greenhouse gas emissions and water consumption; 4) respect
+                and support existing neighborhoods.
+            </p>
+            {{#if isInRole 'drcog'}}
+                <h5>What is a Zone ID / TAZ ID?</h5>
+                <p class="faq-answer">
+                    Zone ID and TAZ IDs are unique identifiers for a TAZ. Both are used by DRCOG models, and different
+                    jurisdictions use different identifiers. You can download the TAZ shapefile at the
+                    <a href="http://gis.drcog.org/datacatalog/content/traffic-analysis-zone-boundaries" class="help-link">Regional Data Catalog</a>
+                     where you can find a crosswalk between the two IDs.
+                </p>
+                <h5>Why did links to add comments disappear?</h5>
+                <p class="faq-answer">
+                    Comments can be made on only one geography at a time. The comment link disappears when you have more than one
+                    geography selected, or if you do not have any geographies selected. To comment on a geography, make sure
+                    that you have only selected one geography. Also, comments are specific to the selected year, so be sure to keep
+                    track of which year is selected before you make a comment.
+                </p>
+            {{/if}}
+        </div>
+    </div>
+</template>
+
+<template name="Guide_body">
+    <div class="row">
+        <div class="col l12 m12 s12">
+            <h5>Viewing a forecast:</h5>
+            <p class="faq-answer">
+                To view population, employment, or household projections, first select your geography from the
+                Geographical Areas section. Then select a year from the dropdown in the Regional Forecast section.
+                Next, click on the map to select the desired geography.
+                Results will show up in a table in the Regional Forecast section. If no areas are selected, the table will
+                display aggregate data for the entire region. To view the results on the map,
+                select one of the map buttons next to the variable you want to see displayed. Choose between displaying
+                the totals for the selected year or the change from 2010. The change from 2010 option is only available when
+                a year other than 2010 is selected. Clicking on the map will select areas and update the table with counts specific
+                to that selection. Multiple selections can be made if the checkbox is checked.
+
+            </p>
+            {{#if isInRole 'drcog'}}
+                <h5>Commenting on a geography:</h5>
+                <p class="faq-answer">
+                    To make a comment on a geography, first select your geography from the Geographic Areas section. Then select
+                    a year from the dropdown in the Regional Forecast Section. Next click on the map to select the desired
+                    geography. In the results table, you will see a comment button on the far right. Click on the comment button
+                    to display the comment box. Type your comment and click the "add comment" button. Your comment will display with
+                    other comments for the area. Comments are specific to the selected year and the selected area.
+                </p>
+            {{/if}}
+            <h5>Finding a specific geography:</h5>
+            <p class="faq-answer">
+                If you would like to find a specific geography, first choose the geography from the Geographic Areas section. If you
+                want to find a TAZ, select ZONES from the geography list. Next, click on the Find section (after Regional Forecast).
+                You may type in the Zone ID or the TAZ ID into the text box and click the FIND button. If you entered a valid
+                Zone ID or TAZ ID, the map will zoom to the zone and display the data for the selected zone. If you entered an
+                invalid Zone ID or TAZ ID you will see an error message display. Check your Zone/TAZ ID and try again. If you want to find
+                a county, municipality, or urban center, select the geography from the Geographic Areas section. Next click on the FIND
+                section and you will see a list of the geographies by name. Find the area you want to see and click on the icon on the right
+                side of the list. The map will zoom to the selected geography.
+            </p>
+            <h5>Understanding the Charts & Statistics:</h5>
+            <p class="faq-answer">
+                Click on the Charts & Statistics button at the bottom of the map to show dynamic population and employment graphs
+                that update as selections are made on the map. When no area is selected, the charts will show aggregate data
+                for the entire region.
+            </p>
+            <h5>Downloading data:</h5>
+            <p class="faq-answer">
+                The forecasts are available in DRCOG's <a class="help-link" href="http://gis.drcog.org/datacatalog/content/taz-level-household-population-and-employment-forecasts-2016">Regional Data Catalog</a>.
+            </p>
+            {{#if isInRole 'drcog'}}
+                <h5>Reset my password:</h5>
+                <p class="faq-answer">
+                    If you forgot your password or want to change your password, log out of your account. Next click on the Log In button
+                    on the top right of your screen. Click the Reset Password button. Type your email in and click submit. You will receive
+                    and email from DRCOG with a link to reset your password.
+                </p>
+            {{/if}}
+            {{#if isInRole 'admin'}}
+                <h5>Commenting on a geography:</h5>
+                <p class="faq-answer">
+                    To make a comment on a geography, first select your geography from the Geographic Areas section. Then select
+                    a year from the dropdown in the Regional Forecast Section. Next click on the map to select the desired
+                    geography. In the results table, you will see a comment button on the far right. Click on the comment button
+                    to display the comment box. Type your comment and click the "add comment" button. Your comment will display with
+                    other comments for the area. Comments are specific to the selected year and the selected area.
+                </p>
+                <h5>Creating a new user:</h5>
+                <p class="faq-answer">
+                    To create a new user with commenting or admin abilities, click on the admin menu and select Create New User.
+                    Fill out the form and select the users role. The admin role allows the new user to create, edit, and delete users.
+                    The drcog role allows users to comment on areas. Choose the drcog role for creating accounts for users
+                    in DRCOG member jurisdictions that you want to comment on the results.
+                </p>
+                <h5>Editing existing users:</h5>
+                <p class="faq-answer">
+                    To update a user's account, you can click on the admin menu and select Edit User Roles. Choose the user by email
+                    that you want to edit. Next, delete the users existing roles by checking all of the roles in the User Roles dropdown and
+                    click the Delete Role button. Finally, choose a new role from the New Role dropdown and click Add New Role.
+                    Users should only have one role. Be careful not to delete the roles of your own account, as you will no longer
+                    be able to update roles.
+                </p>
+                <h5>Deleting an existing user:</h5>
+                <p class="faq-answer">
+                    To delete an existing user, click  the admin menu and select Delete User. Next, choose the user by email
+                    that you want to delete. To delete the user, click the Delete User button. Be careful not to delete your own account.
+                </p>
+                <h5>Reset my password:</h5>
+                <p class="faq-answer">
+                    If you forgot your password or want to change your password, log out of your account. Next click on the Log In button
+                    on the top right of your screen. Click the Reset Password button. Type your email in and click submit. You will receive
+                    and email from DRCOG with a link to reset your password.
+                </p>
+            {{/if}}
+        </div>
+    </div>
 </template>

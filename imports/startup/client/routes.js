@@ -82,6 +82,7 @@ import '../../ui/pages/js/Intro_page.js';
 import '../../ui/pages/js/SlideShow_body.js';
 import '../../ui/pages/js/vote_icon.js';
 import '../../ui/pages/js/ScenarioManager_body.js';
+import '../../ui/pages/js/Help_page.js';
 
 //declare routs
 

@@ -63,6 +63,14 @@ if(Meteor.isClient){
                 modalBodyTemplate: "CommentModal_body",
                 data: {measure: measure, year: year, zone: zone}
             }
+        }, ResetPassword_args: function(){
+            return {
+                modalId: "ResetPasswordModal",
+                bottom: "",
+                modalHeaderTemplate: "ResetPasswordModal_header",
+                modalBodyTemplate: "ResetPasswordModal_body"
+
+            }
         }
     });
     
@@ -82,7 +90,6 @@ if(Meteor.isClient){
             var bounds = el.getBoundingClientRect();
             var containerHeight = bounds.bottom - bounds.top;
             var newTop = mapHeight - containerHeight;
-
             
 
             newTop = newTop.toString() + 'px';
@@ -173,32 +180,7 @@ if(Meteor.isClient){
         Session.set('allowMultipleGeo', false);
         this.chartToggle = new ReactiveVar(false);
         this.buildingData = new ReactiveVar(false);
-        var self = this;
-        // this.autorun(function(){
-        //     self.subscribe('counties', {
-        //         onReady: function(){
-        //             var counties = _.groupBy(countyData.find({}).fetch(), 'sim_year');
-        //             var regionalChartData = _.keys(counties).map(function(key){
-        //                 var simData = counties[key].reduce(function(a,b){
-        //                     return {
-        //                         pop_sim: parseInt(a.pop_sim) + parseInt(b.pop_sim),
-        //                         emp_sim: parseInt(a.emp_sim) + parseInt(b.emp_sim),
-        //                         sim_year: a.sim_year
-        //                     };
-        //                 });
-        //                 return simData;
-        //             });
-        //
-        //             console.log(regionalChartData);
-        //
-        //             drawChart(regionalChartData);
-        //
-        //         }
-        //     });
-        // });
 
-        // self.subscribe('counties');
-        //
         var allCounties = ['Boulder', 'Broomfield', 'Denver', 'Adams', 'Arapahoe', 'Douglas', 'Jefferson', 'Weld', 'Gilpin', 'Clear Creek', 'Elbert'];
 
         Session.set('selectedZone', []);
