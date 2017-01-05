@@ -79,7 +79,7 @@ if(Meteor.isClient){
                 ]
             }, help: {
                 icon: "help",
-                title: "Help & FAQs",
+                title: "Help",
                 nodes: [
                     {template: "Help_page", data: undefined}
                 ]
