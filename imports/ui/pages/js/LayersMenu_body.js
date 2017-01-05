@@ -16,6 +16,7 @@ if(Meteor.isClient){
             Session.set('selectedLayer', event.target.id);
             Session.set('selectedZone', []);
             Session.set('selectedData', undefined);
+            Session.set('queryColorRanges', undefined);
             if(viewer){
                 viewer.entities.removeAll();
             }

@@ -78,10 +78,6 @@ if(Meteor.isClient){
             var entity = Session.get('selectedZone');
             Session.set('selectedYear', year);
 
-            //set chloropleth year select to selected year
-            var selector = '#queryYearSelect option[value=' + year + ']';
-            $(selector).prop('selected', true);
-            $('select').material_select();
 
             var mapName = FlowRouter.getRouteName();
             var layerName = Session.get('selectedLayer');
@@ -133,6 +129,19 @@ if(Meteor.isClient){
 
                 }
 
+            }else{
+                $('.queryBtnRound').each(function(idx, el){
+                    $(el).removeClass('orange');
+                });
+
+                d3.selectAll('.entity').attr('class', function(d){
+                    var classes = $(this).attr('class').split(' ');
+                    if(_.contains(classes, 'selected')){
+                        return "entity selected"
+                    }else{
+                        return "entity"
+                    }
+                });
             }
 
         }
