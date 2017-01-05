@@ -29,9 +29,9 @@ if(Meteor.isClient){
             Meteor.loginWithPassword(email, password, function(error){
                 if(error){
                     if(error.error == 403){
-                        sAlert.error("Incorrect Email and/or Password",{position:'bottom'});
+                        Materialize.toast("Incorrect Email and/or Password", 5000);
                     }else{
-                        sAlert.error(error.reason, {position:'bottom'});
+                        Materialize.toast.error(error.reason, 5000);
                     }
                 }else{
 
