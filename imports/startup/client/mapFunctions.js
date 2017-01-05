@@ -195,8 +195,16 @@ export function colorMap(data, measure, layer){
             val = obj[measure]
         }
 
+        var classes = $(this).attr('class').split(' ');
+
+
         try {
-            return quantize(val) + " entity";
+            if(_.contains(classes, 'selected')){
+                return quantize(val) + " entity selected"
+            }else{
+                return quantize(val) + " entity";
+            }
+
         } catch (e) {
             return "entity";
         }
