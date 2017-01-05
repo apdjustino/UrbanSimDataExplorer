@@ -413,6 +413,7 @@ if(Meteor.isClient){
 
                     d3.selectAll('.entity').attr("class", function(d){
                         if(d.properties.COUNTY == template.data.name){
+                            console.log(d.properties);
                             var lat = d.properties.Lat;
                             var long = d.properties.Long;
                             map.setView(new L.LatLng(lat, long), 11, {animate:true});
