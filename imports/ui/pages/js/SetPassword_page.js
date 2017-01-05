@@ -12,7 +12,7 @@ if(Meteor.isClient){
                 if(error){
                     sAlert.error(error.reason, {position: 'bottom'});
                 }else{
-                    FlowRouter.go('/map');
+                    FlowRouter.go('/');
                 }
             })
         }
