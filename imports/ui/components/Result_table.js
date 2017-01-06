@@ -90,7 +90,12 @@ if(Meteor.isClient){
                 $(el).removeClass('orange');
             });
 
-            $(event.target).parent().addClass('orange');
+            if($(event.target).hasClass('material-icons')){
+                $(event.target).parent().addClass('orange');
+            }else{
+                $(event.target).addClass('orange');
+            }
+
 
             if(selectedLayer == 'zonesGeo'){
                 Meteor.subscribe("zones_by_year", selectedYear, selectedVar, {
