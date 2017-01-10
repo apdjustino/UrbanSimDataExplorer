@@ -54,6 +54,12 @@ if(Meteor.isClient){
             var mapName = FlowRouter.getRouteName();
             var zoneId = $('#zoneSearch').val();
             var year = Session.get('selectedYear');
+            //remove orange color in UI and reset legend
+            $('.queryBtnRound').each(function(idx, el){
+                $(el).removeClass('orange');
+            });
+            Session.set('queryColorRanges', undefined);
+
             if(mapName == '3dmap'){
                 var ds = viewer.dataSources.get(0);
 
@@ -201,6 +207,11 @@ if(Meteor.isClient){
             var year = Session.get('selectedYear');
             var selectedZones = Session.get('selectedZone');
 
+            //remove orange color in UI and reset legend
+            $('.queryBtnRound').each(function(idx, el){
+                $(el).removeClass('orange');
+            });
+            Session.set('queryColorRanges', undefined);
 
             if(mapName == '3dmap'){
                 var ds = viewer.dataSources.get(0);
