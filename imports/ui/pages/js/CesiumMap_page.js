@@ -37,6 +37,7 @@ if(Meteor.isClient){
                 type: "accordion",
                 data: [
                     {icon: "dashboard", headerText: "Style Map", active: "", body: "Chloropleth_body", bodyData: undefined},
+                    {id: "LayersPane", icon: "layers", headerText: "Geographical Areas", active: "", body: "LayersMenu_body", bodyData: undefined},
                     {icon: "search", headerText: "Find", active: "", body: "FindZoneControl_body", bodyData: Session.get('selectedLayer')},
                     {icon: "settings", headerText: "Options", active: "", body: "OptionsControl_body", bodyData: undefined},
                     {icon: "view_list", headerText: "Results", active: "", body: "ResultsControl_body", bodyData: Session.get('selectedData')},
