@@ -57,7 +57,7 @@ if(Meteor.isClient){
                     tazId: "",
                     geo_class: "entity"
                 }, urban_centers: {
-                    pathString: "/data/urban_centers.json",
+                    pathString: "/data/urban_centers_v2.json",
                     obj_name: "urban_centers_reg",
                     label_string: "Urban Center: ",
                     geo_property: "NAME",
